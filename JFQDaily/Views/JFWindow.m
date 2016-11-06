@@ -10,12 +10,46 @@
 
 @implementation JFWindow
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self addButton:frame];
+    }
+    return self;
 }
-*/
+
+- (void)addButton:(CGRect)frame {
+    UIViewController *rootVC = [[UIViewController alloc] init];
+    rootVC.view.frame = frame;
+    self.rootViewController = rootVC;
+    UIButton *suspensionButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    [suspensionButton setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
+    [suspensionButton addTarget:self action:@selector(clickSuspensionButton:) forControlEvents:UIControlEventTouchUpInside];
+    [rootVC.view addSubview:suspensionButton];
+}
+
+- (void)clickSuspensionButton:(UIButton *)sender {
+    sender.selected = !sender.selected;
+
+    [UIView animateWithDuration:0.15 animations:^{
+        CGRect tempFrame = self.layer.frame;
+        tempFrame.origin.y += 100;
+        self.layer.frame = tempFrame;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.15 animations:^{
+            
+            CGRect tempFrame = self.layer.frame;
+            tempFrame.origin.y -= 100;
+            self.layer.frame = tempFrame;
+            
+            if (sender.selected) {
+                [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
+            }else {
+                [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
+            }
+        }];
+    }];
+}
 
 @end

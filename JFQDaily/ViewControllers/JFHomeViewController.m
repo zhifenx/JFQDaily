@@ -8,7 +8,13 @@
 
 #import "JFHomeViewController.h"
 
+#import "JFConfigFile.h"
+#import <Masonry.h>
+#import "JFWindow.h"
+
 @interface JFHomeViewController ()
+
+@property (nonatomic, strong) JFWindow *jfWindow;
 
 @end
 
@@ -22,8 +28,23 @@
     [super loadView];
     
     UIView *demo = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    demo.backgroundColor = [UIColor redColor];
+    demo.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:demo];
+    [self addJFWindow];
+}
+
+/// 添加悬浮按钮window
+- (void)addJFWindow {
+    JFWindow *jfWindow = [[JFWindow alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 80, 54, 54)];
+    jfWindow.windowLevel = UIWindowLevelAlert * 2;
+    [jfWindow makeKeyAndVisible];
+    self.jfWindow = jfWindow;
+}
+
+/// 销毁JFWindow
+- (void)destoryJFWindow {
+    self.jfWindow.hidden = YES;
+    self.jfWindow = nil;
 }
 
 - (void)didReceiveMemoryWarning {
