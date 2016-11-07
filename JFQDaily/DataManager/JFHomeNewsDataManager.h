@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^JFHomeNewsDataManagerBlock)(id data);
+
 @interface JFHomeNewsDataManager : NSObject
+
+@property (nonatomic, copy) JFHomeNewsDataManagerBlock newsDataBlock;
+
+//请求新闻数据
+- (void)requestHomeNewsDataWithLastKey:(NSString *)lastKey;
+
+- (void)newsDataBlock:(JFHomeNewsDataManagerBlock)block;
 
 @end

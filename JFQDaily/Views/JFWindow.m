@@ -30,26 +30,35 @@
 }
 
 - (void)clickSuspensionButton:(UIButton *)sender {
+    
     sender.selected = !sender.selected;
 
     [UIView animateWithDuration:0.15 animations:^{
-        CGRect tempFrame = self.layer.frame;
-        tempFrame.origin.y += 100;
-        self.layer.frame = tempFrame;
+        [self suspensionButtonAnimationWithOffsetY:100];
     } completion:^(BOOL finished) {
+        
         [UIView animateWithDuration:0.15 animations:^{
-            
-            CGRect tempFrame = self.layer.frame;
-            tempFrame.origin.y -= 100;
-            self.layer.frame = tempFrame;
-            
+            [self suspensionButtonAnimationWithOffsetY:-105];
             if (sender.selected) {
                 [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
             }else {
                 [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
             }
+        } completion:^(BOOL finished) {
+            
+            [UIView animateWithDuration:0.05 animations:^{
+                [self suspensionButtonAnimationWithOffsetY:5];
+            }];
         }];
     }];
+    
+}
+
+/// 悬浮按钮动画
+- (void)suspensionButtonAnimationWithOffsetY:(CGFloat)offsetY {
+    CGRect tempFrame = self.layer.frame;
+    tempFrame.origin.y += offsetY;
+    self.layer.frame = tempFrame;
 }
 
 @end

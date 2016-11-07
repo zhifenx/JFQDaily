@@ -10,6 +10,7 @@
 
 @interface JFHomeNewsTableViewCell : UITableViewCell
 
+@property (nonatomic, copy) NSString *cellType;
 @property (nonatomic, copy) NSString *newsImageName;
 @property (nonatomic, copy) NSString *newsTitle;
 @property (nonatomic, copy) NSString *subhead;

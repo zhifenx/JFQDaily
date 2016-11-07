@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0BDC4AFF08C5A5B1C19BA9AD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E64FD7C2C849E4062816B /* libPods.a */; };
 		1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED1E1DCEE814002BFDE8 /* JFHomeNewsDataManager.m */; };
+		1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED531DCF88D4002BFDE8 /* JFCategoryModel.m */; };
+		1E5DED5F1DCF88D4002BFDE8 /* JFFeedsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED551DCF88D4002BFDE8 /* JFFeedsModel.m */; };
+		1E5DED621DCF88D4002BFDE8 /* JFPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED5B1DCF88D4002BFDE8 /* JFPostModel.m */; };
+		1E5DED661DD01527002BFDE8 /* JFResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED651DD01527002BFDE8 /* JFResponseModel.m */; };
 		1E6E21B81DCC74C7001C7F08 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E21B71DCC74C7001C7F08 /* main.m */; };
 		1E6E21C41DCC74C7001C7F08 /* JFQDaily.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E21C21DCC74C7001C7F08 /* JFQDaily.xcdatamodeld */; };
 		1E6E21C61DCC74C7001C7F08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E6E21C51DCC74C7001C7F08 /* Assets.xcassets */; };
@@ -44,6 +48,14 @@
 		0C5B8B7DDA796F0DCBF6DA46 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1E5DED1D1DCEE814002BFDE8 /* JFHomeNewsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsDataManager.h; sourceTree = "<group>"; };
 		1E5DED1E1DCEE814002BFDE8 /* JFHomeNewsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeNewsDataManager.m; sourceTree = "<group>"; };
+		1E5DED521DCF88D4002BFDE8 /* JFCategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFCategoryModel.h; sourceTree = "<group>"; };
+		1E5DED531DCF88D4002BFDE8 /* JFCategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFCategoryModel.m; sourceTree = "<group>"; };
+		1E5DED541DCF88D4002BFDE8 /* JFFeedsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFFeedsModel.h; sourceTree = "<group>"; };
+		1E5DED551DCF88D4002BFDE8 /* JFFeedsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFFeedsModel.m; sourceTree = "<group>"; };
+		1E5DED5A1DCF88D4002BFDE8 /* JFPostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFPostModel.h; sourceTree = "<group>"; };
+		1E5DED5B1DCF88D4002BFDE8 /* JFPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFPostModel.m; sourceTree = "<group>"; };
+		1E5DED641DD01527002BFDE8 /* JFResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFResponseModel.h; sourceTree = "<group>"; };
+		1E5DED651DD01527002BFDE8 /* JFResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFResponseModel.m; sourceTree = "<group>"; };
 		1E6E21B31DCC74C7001C7F08 /* JFQDaily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JFQDaily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E6E21B71DCC74C7001C7F08 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1E6E21C31DCC74C7001C7F08 /* JFQDaily.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JFQDaily.xcdatamodel; sourceTree = "<group>"; };
@@ -116,6 +128,21 @@
 			path = DataManager;
 			sourceTree = "<group>";
 		};
+		1E5DED511DCF88D4002BFDE8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1E5DED641DD01527002BFDE8 /* JFResponseModel.h */,
+				1E5DED651DD01527002BFDE8 /* JFResponseModel.m */,
+				1E5DED541DCF88D4002BFDE8 /* JFFeedsModel.h */,
+				1E5DED551DCF88D4002BFDE8 /* JFFeedsModel.m */,
+				1E5DED5A1DCF88D4002BFDE8 /* JFPostModel.h */,
+				1E5DED5B1DCF88D4002BFDE8 /* JFPostModel.m */,
+				1E5DED521DCF88D4002BFDE8 /* JFCategoryModel.h */,
+				1E5DED531DCF88D4002BFDE8 /* JFCategoryModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		1E6E21AA1DCC74C7001C7F08 = {
 			isa = PBXGroup;
 			children = (
@@ -142,10 +169,10 @@
 		1E6E21B51DCC74C7001C7F08 /* JFQDaily */ = {
 			isa = PBXGroup;
 			children = (
-				1E5DED1C1DCEE7EC002BFDE8 /* DataManager */,
 				1E6E21EC1DCC7B8C001C7F08 /* AppDelegate */,
-				1E6E21ED1DCC7B8C001C7F08 /* Models */,
 				1E6E21EE1DCC7B8C001C7F08 /* Tools */,
+				1E5DED511DCF88D4002BFDE8 /* Models */,
+				1E5DED1C1DCEE7EC002BFDE8 /* DataManager */,
 				1E6E21EF1DCC7B8C001C7F08 /* ViewControllers */,
 				1E6E21F01DCC7B8C001C7F08 /* Views */,
 				1E6E21C51DCC74C7001C7F08 /* Assets.xcassets */,
@@ -190,13 +217,6 @@
 				1E6E21F21DCC7BA3001C7F08 /* AppDelegate.m */,
 			);
 			path = AppDelegate;
-			sourceTree = "<group>";
-		};
-		1E6E21ED1DCC7B8C001C7F08 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		1E6E21EE1DCC7B8C001C7F08 /* Tools */ = {
@@ -425,10 +445,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E5DED661DD01527002BFDE8 /* JFResponseModel.m in Sources */,
 				1E6E21C41DCC74C7001C7F08 /* JFQDaily.xcdatamodeld in Sources */,
 				1EFC1CB41DCD763D0087A9C5 /* JFHomeNewsTableView.m in Sources */,
+				1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */,
 				1EFC1CB71DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m in Sources */,
 				1E6E21F61DCC7BDE001C7F08 /* JFHomeViewController.m in Sources */,
+				1E5DED5F1DCF88D4002BFDE8 /* JFFeedsModel.m in Sources */,
+				1E5DED621DCF88D4002BFDE8 /* JFPostModel.m in Sources */,
 				1E6E21B81DCC74C7001C7F08 /* main.m in Sources */,
 				1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */,
 				1E6E22051DCC951A001C7F08 /* JFWindow.m in Sources */,

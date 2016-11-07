@@ -10,11 +10,22 @@
 
 #import "JFConfigFile.h"
 #import <Masonry.h>
+#import "MJExtension.h"
 #import "JFWindow.h"
+#import "JFHomeNewsDataManager.h"
+
+//新闻数据模型相关
+#import "JFResponseModel.h"
+#import "JFFeedsModel.h"
+#import "JFPostModel.h"
+#import "JFCategoryModel.h"
 
 @interface JFHomeViewController ()
 
 @property (nonatomic, strong) JFWindow *jfWindow;
+@property (nonatomic, strong) JFHomeNewsDataManager *manager;
+@property (nonatomic, strong) NSArray *feeds;
+@property (nonatomic, strong) JFResponseModel *response;
 
 @end
 
@@ -22,6 +33,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.manager requestHomeNewsDataWithLastKey:@"0"];
 }
 
 - (void)loadView {
@@ -31,6 +44,28 @@
     demo.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:demo];
     [self addJFWindow];
+}
+
+- (JFHomeNewsDataManager *)manager {
+    if (!_manager) {
+        _manager = [[JFHomeNewsDataManager alloc] init];
+        __weak typeof(self) weakSelf = self;
+        [_manager newsDataBlock:^(id data) {
+            
+            weakSelf.response = [JFResponseModel mj_objectWithKeyValues:data];
+            
+            JFLog(@"has_more---%@",weakSelf.response.has_more);
+            
+            weakSelf.feeds = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
+            
+            for (JFFeedsModel *feed in self.feeds) {
+                JFLog(@"JFFeedsModel---%@",feed.post.category.title);
+            }
+        }];
+        
+        
+    }
+    return _manager;
 }
 
 /// 添加悬浮按钮window
