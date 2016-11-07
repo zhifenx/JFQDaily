@@ -10,8 +10,6 @@
 		0BDC4AFF08C5A5B1C19BA9AD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E64FD7C2C849E4062816B /* libPods.a */; };
 		1E2362BB1DD055DE0054D048 /* NSString+JFMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */; };
 		1E2362BF1DD0579F0054D048 /* JFWeakTimerTargetObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362BE1DD0579F0054D048 /* JFWeakTimerTargetObject.m */; };
-		1E2362C21DD07F890054D048 /* JFHomeSpecialCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362C11DD07F890054D048 /* JFHomeSpecialCell2.m */; };
-		1E2362C51DD07FA00054D048 /* JFHomeSpecialCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362C41DD07FA00054D048 /* JFHomeSpecialCell.m */; };
 		1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED1E1DCEE814002BFDE8 /* JFHomeNewsDataManager.m */; };
 		1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED531DCF88D4002BFDE8 /* JFCategoryModel.m */; };
 		1E5DED5F1DCF88D4002BFDE8 /* JFFeedsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED551DCF88D4002BFDE8 /* JFFeedsModel.m */; };
@@ -57,10 +55,6 @@
 		1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JFMessage.m"; sourceTree = "<group>"; };
 		1E2362BD1DD0579F0054D048 /* JFWeakTimerTargetObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFWeakTimerTargetObject.h; sourceTree = "<group>"; };
 		1E2362BE1DD0579F0054D048 /* JFWeakTimerTargetObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFWeakTimerTargetObject.m; sourceTree = "<group>"; };
-		1E2362C01DD07F890054D048 /* JFHomeSpecialCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeSpecialCell2.h; sourceTree = "<group>"; };
-		1E2362C11DD07F890054D048 /* JFHomeSpecialCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeSpecialCell2.m; sourceTree = "<group>"; };
-		1E2362C31DD07FA00054D048 /* JFHomeSpecialCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeSpecialCell.h; sourceTree = "<group>"; };
-		1E2362C41DD07FA00054D048 /* JFHomeSpecialCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeSpecialCell.m; sourceTree = "<group>"; };
 		1E5DED1D1DCEE814002BFDE8 /* JFHomeNewsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsDataManager.h; sourceTree = "<group>"; };
 		1E5DED1E1DCEE814002BFDE8 /* JFHomeNewsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeNewsDataManager.m; sourceTree = "<group>"; };
 		1E5DED521DCF88D4002BFDE8 /* JFCategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFCategoryModel.h; sourceTree = "<group>"; };
@@ -279,10 +273,6 @@
 				1E6E22041DCC951A001C7F08 /* JFWindow.m */,
 				1EFC1CB51DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.h */,
 				1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */,
-				1E2362C01DD07F890054D048 /* JFHomeSpecialCell2.h */,
-				1E2362C11DD07F890054D048 /* JFHomeSpecialCell2.m */,
-				1E2362C31DD07FA00054D048 /* JFHomeSpecialCell.h */,
-				1E2362C41DD07FA00054D048 /* JFHomeSpecialCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -501,7 +491,6 @@
 				1E2362BB1DD055DE0054D048 /* NSString+JFMessage.m in Sources */,
 				1E6E21C41DCC74C7001C7F08 /* JFQDaily.xcdatamodeld in Sources */,
 				1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */,
-				1E2362C21DD07F890054D048 /* JFHomeSpecialCell2.m in Sources */,
 				1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */,
 				1EFC1CB71DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m in Sources */,
 				1EA75ABB1DD045E900CBB13F /* JFBannersModel.m in Sources */,
@@ -511,7 +500,6 @@
 				1E5DED621DCF88D4002BFDE8 /* JFPostModel.m in Sources */,
 				1E6E21B81DCC74C7001C7F08 /* main.m in Sources */,
 				1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */,
-				1E2362C51DD07FA00054D048 /* JFHomeSpecialCell.m in Sources */,
 				1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */,
 				1E6E22051DCC951A001C7F08 /* JFWindow.m in Sources */,
 				1E6E21F31DCC7BA3001C7F08 /* AppDelegate.m in Sources */,

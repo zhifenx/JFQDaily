@@ -10,12 +10,14 @@
 
 @interface JFHomeNewsTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UIImageView *newsImageView;
-@property (nonatomic, strong) UILabel *newsTitleLabel;
-
+/** cell的类型*/
 @property (nonatomic, copy) NSString *cellType;
+/** 配图*/
 @property (nonatomic, copy) NSString *newsImageName;
+/** 标题*/
 @property (nonatomic, copy) NSString *newsTitle;
+/** 副标题*/
+@property (nonatomic, copy) NSString *subhead;
 
 
 /**

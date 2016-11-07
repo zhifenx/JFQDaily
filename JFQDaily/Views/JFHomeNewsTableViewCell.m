@@ -16,7 +16,9 @@
 
 /** cell分隔线*/
 @property (nonatomic, strong) UIView *cellSeparator;
-
+@property (nonatomic, strong) UIImageView *newsImageView;
+@property (nonatomic, strong) UILabel *newsTitleLabel;
+@property (nonatomic, strong) UILabel *subheadLabel;
 @property (nonatomic, strong) UIImageView *commentImageView;
 @property (nonatomic, strong) UIImageView *praiseImageView;
 
@@ -38,11 +40,11 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self addChildControls];
-        [self customUI];
     }
     return self;
 }
 
+#pragma mark --- 添加子控件
 - (void)addChildControls {
     UIImageView *newsImageView = [[UIImageView alloc] init];
     [self addSubview:newsImageView];
@@ -52,6 +54,12 @@
     newsTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
     newsTitleLabel.numberOfLines = 5;
     [self addSubview:newsTitleLabel];
+    
+    UILabel *subheadLabel = [[UILabel alloc] init];
+    subheadLabel.font = [UIFont fontWithName:@"Helvetica" size:15.0f];
+    subheadLabel.textColor = [UIColor grayColor];
+    subheadLabel.numberOfLines = 3;
+    [self addSubview:subheadLabel];
     
     UILabel *newsTypeLabel = [[UILabel alloc] init];
     newsTypeLabel.font = [UIFont systemFontOfSize:12.0];
@@ -94,11 +102,17 @@
     self.cellSeparator = cellSeparator;
     self.commentImageView = commentImageView;
     self.praiseImageView = praiseImageView;
+    self.subheadLabel = subheadLabel;
 }
 
 #pragma mark --- 重写各属性的set方法
 - (void)setCellType:(NSString *)cellType {
     _cellType = cellType;
+}
+
+- (void)setSubhead:(NSString *)subhead {
+    _subhead = subhead;
+    self.subheadLabel.text = subhead;
 }
 
 - (void)setNewsImageName:(NSString *)newsImageName {
@@ -132,6 +146,12 @@
     self.timeLabel.text = time;
 }
 
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self customUI];
+}
+
 #pragma mark --- 设置子控件的frame
 - (void)customUI {
     [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -140,56 +160,65 @@
         make.left.equalTo(self.mas_left);
         make.top.equalTo(self.mas_top);
     }];
+    if ([_cellType isEqualToString:@"1"]) {
+        [self.newsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset((JFSCREEN_WIDTH / 2) - 40);
+            make.height.offset(80);
+            make.top.equalTo(self.mas_top).offset(20);
+            make.left.equalTo(self.mas_left).offset(20);
+        }];
+        
+        [self.newsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(JFSCREEN_WIDTH / 2);
+            make.height.offset(125);
+            make.top.equalTo(self.mas_top).offset(5);
+            make.right.equalTo(self.mas_right).offset(-1);
+        }];
+    }
     
-    [self.newsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset((JFSCREEN_WIDTH / 2) - 40);
-        make.height.offset(80);
-        make.top.equalTo(self.mas_top).offset(20);
-        make.left.equalTo(self.mas_left).offset(20);
-    }];
+    if (![_cellType isEqualToString:@"0"]) {
+        [self.newsTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(30);
+            make.height.offset(21);
+            make.left.equalTo(self.newsTitleLabel.mas_left);
+            make.bottom.equalTo(self.mas_bottom).offset(-3);
+        }];
+        
+        [self.commentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(12.5);
+            make.height.offset(11.5);
+            make.left.equalTo(self.newsTypeLabel.mas_right).offset(3);
+            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
+        }];
+        
+        [self.commentlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(30);
+            make.height.offset(21);
+            make.left.equalTo(self.commentImageView.mas_right).offset(0);
+            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
+        }];
+        
+        [self.praiseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(13);
+            make.height.offset(11.5);
+            make.left.equalTo(self.commentlabel.mas_right).offset(3);
+            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
+        }];
+        
+        [self.praiseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(30);
+            make.height.offset(21);
+            make.left.equalTo(self.praiseImageView.mas_right).offset(0);
+            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
+        }];
+    }
     
-    [self.newsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset(JFSCREEN_WIDTH / 2);
-        make.height.offset(125);
-        make.top.equalTo(self.mas_top).offset(5);
-        make.right.equalTo(self.mas_right).offset(-1);
-    }];
     
-    [self.newsTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset(30);
-        make.height.offset(21);
-        make.left.equalTo(self.newsTitleLabel.mas_left);
-        make.bottom.equalTo(self.mas_bottom).offset(-3);
-    }];
-    
-    [self.commentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset(12.5);
-        make.height.offset(11.5);
-        make.left.equalTo(self.newsTypeLabel.mas_right).offset(3);
-        make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-    }];
-    
-    [self.commentlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset(30);
-        make.height.offset(21);
-        make.left.equalTo(self.commentImageView.mas_right).offset(0);
-        make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-    }];
-    
-    [self.praiseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset(13);
-        make.height.offset(11.5);
-        make.left.equalTo(self.commentlabel.mas_right).offset(3);
-        make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-    }];
-    
-    [self.praiseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset(30);
-        make.height.offset(21);
-        make.left.equalTo(self.praiseImageView.mas_right).offset(0);
-        make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-    }];
-    
+    if (![_cellType isEqualToString:@"1"]) {
+        self.newsImageView.frame = CGRectMake(0, 5, JFSCREEN_WIDTH, 220);
+        self.newsTitleLabel.frame = CGRectMake(20, 230, JFSCREEN_WIDTH - 40, 60);
+        self.subheadLabel.frame = CGRectMake(20, 290, JFSCREEN_WIDTH - 40, 40);
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
