@@ -19,13 +19,15 @@
 #import "JFFeedsModel.h"
 #import "JFPostModel.h"
 #import "JFCategoryModel.h"
+#import "JFBannersModel.h"
 
 @interface JFHomeViewController ()
 
 @property (nonatomic, strong) JFWindow *jfWindow;
 @property (nonatomic, strong) JFHomeNewsDataManager *manager;
-@property (nonatomic, strong) NSArray *feeds;
 @property (nonatomic, strong) JFResponseModel *response;
+@property (nonatomic, strong) NSArray *feedsArray;
+@property (nonatomic, strong) NSArray *bannersArray;
 
 @end
 
@@ -56,9 +58,14 @@
             
             JFLog(@"has_more---%@",weakSelf.response.has_more);
             
-            weakSelf.feeds = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
+            weakSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
+            weakSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
             
-            for (JFFeedsModel *feed in self.feeds) {
+            for (JFBannersModel *banner in self.bannersArray) {
+                JFLog(@"JFBannersModel---%@",banner.post.category.title);
+            }
+            
+            for (JFFeedsModel *feed in self.feedsArray) {
                 JFLog(@"JFFeedsModel---%@",feed.post.category.title);
             }
         }];
