@@ -8,7 +8,6 @@
 
 #import "JFLoopViewCell.h"
 
-
 #import <UIImageView+WebCache.h>
 
 @interface JFLoopViewCell ()
@@ -26,8 +25,7 @@
         [self addSubview:iconView];
         
         UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20.0f];;
+        titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20.0f];
         titleLabel.textColor = [UIColor whiteColor];
         titleLabel.numberOfLines = 3;
         [self addSubview:titleLabel];

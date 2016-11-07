@@ -34,6 +34,7 @@ static NSString *ID = @"newsCell";
 @property (nonatomic, strong) JFResponseModel *response;
 @property (nonatomic, strong) NSMutableArray *feedsArray;
 @property (nonatomic, strong) NSMutableArray *bannersArray;
+@property (nonatomic, strong) NSMutableArray *imageMutableArray;
 
 @end
 
@@ -41,7 +42,7 @@ static NSString *ID = @"newsCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.imageMutableArray = [[NSMutableArray alloc] init];
     [self.manager requestHomeNewsDataWithLastKey:@"0"];
 }
 
@@ -68,11 +69,36 @@ static NSString *ID = @"newsCell";
     self.homeNewsTableView.tableHeaderView = loopView;
 }
 
+
+/// 数据管理器
+- (JFHomeNewsDataManager *)manager {
+    if (!_manager) {
+        _manager = [[JFHomeNewsDataManager alloc] init];
+        __weak typeof(self) weakSelf = self;
+        [_manager newsDataBlock:^(id data) {
+            weakSelf.response = [JFResponseModel mj_objectWithKeyValues:data];
+            weakSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
+            weakSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
+            
+//            for (JFFeedsModel *feed in weakSelf.feedsArray) {
+//                [weakSelf.imageMutableArray addObject:feed.post.image];
+//            }
+            
+#warning 不应该在这里添加，需要优化
+            [self addLoopView];
+            [self.homeNewsTableView reloadData];
+        }];
+        
+    }
+    return _manager;
+}
+
 /// 懒加载JFHomeNewsTableView（首页根view）
 - (UITableView *)homeNewsTableView {
     if (!_homeNewsTableView) {
         _homeNewsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
         [_homeNewsTableView registerClass:[JFHomeNewsTableViewCell class] forCellReuseIdentifier:ID];
+        _homeNewsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _homeNewsTableView.delegate = self;
         _homeNewsTableView.dataSource = self;
     }
@@ -85,43 +111,22 @@ static NSString *ID = @"newsCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    JFFeedsModel *feed = self.feedsArray[indexPath.row];
     JFHomeNewsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell == nil) {
         cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        
+        cell.newsImageName = feed.post.image;
+        cell.newsTitle = feed.post.title;
+        cell.newsType = feed.post.category.title;
+        cell.commentCount = [NSString stringWithFormat:@"%ld",(long)feed.post.comment_count];
+        cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
     }
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
-}
-
-/// 数据管理器
-- (JFHomeNewsDataManager *)manager {
-    if (!_manager) {
-        _manager = [[JFHomeNewsDataManager alloc] init];
-        __weak typeof(self) weakSelf = self;
-        [_manager newsDataBlock:^(id data) {
-            
-            weakSelf.response = [JFResponseModel mj_objectWithKeyValues:data];
-            
-            JFLog(@"has_more---%@",weakSelf.response.has_more);
-            
-            weakSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
-            weakSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
-            
-            for (JFBannersModel *banner in self.bannersArray) {
-                JFLog(@"JFBannersModel---%@",banner.post.category.title);
-            }
-            
-            
-            [self addLoopView];
-            [self.homeNewsTableView reloadData];
-        }];
-        
-        
-    }
-    return _manager;
+    return 130;
 }
 
 /// 添加悬浮按钮window
