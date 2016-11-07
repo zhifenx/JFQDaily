@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0BDC4AFF08C5A5B1C19BA9AD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E64FD7C2C849E4062816B /* libPods.a */; };
+		1E2362BB1DD055DE0054D048 /* NSString+JFMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */; };
+		1E2362BF1DD0579F0054D048 /* JFWeakTimerTargetObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362BE1DD0579F0054D048 /* JFWeakTimerTargetObject.m */; };
 		1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED1E1DCEE814002BFDE8 /* JFHomeNewsDataManager.m */; };
 		1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED531DCF88D4002BFDE8 /* JFCategoryModel.m */; };
 		1E5DED5F1DCF88D4002BFDE8 /* JFFeedsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED551DCF88D4002BFDE8 /* JFFeedsModel.m */; };
@@ -24,7 +26,9 @@
 		1E6E21F81DCC7D32001C7F08 /* PodFile in Resources */ = {isa = PBXBuildFile; fileRef = 1E6E21F71DCC7D32001C7F08 /* PodFile */; };
 		1E6E22051DCC951A001C7F08 /* JFWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E22041DCC951A001C7F08 /* JFWindow.m */; };
 		1EA75ABB1DD045E900CBB13F /* JFBannersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ABA1DD045E900CBB13F /* JFBannersModel.m */; };
-		1EFC1CB41DCD763D0087A9C5 /* JFHomeNewsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFC1CB31DCD763D0087A9C5 /* JFHomeNewsTableView.m */; };
+		1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACA1DD04EBF00CBB13F /* JFLoopView.m */; };
+		1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */; };
+		1EA75AD11DD04EBF00CBB13F /* JFLoopViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */; };
 		1EFC1CB71DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +51,10 @@
 
 /* Begin PBXFileReference section */
 		0C5B8B7DDA796F0DCBF6DA46 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		1E2362B91DD055DE0054D048 /* NSString+JFMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JFMessage.h"; sourceTree = "<group>"; };
+		1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JFMessage.m"; sourceTree = "<group>"; };
+		1E2362BD1DD0579F0054D048 /* JFWeakTimerTargetObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFWeakTimerTargetObject.h; sourceTree = "<group>"; };
+		1E2362BE1DD0579F0054D048 /* JFWeakTimerTargetObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFWeakTimerTargetObject.m; sourceTree = "<group>"; };
 		1E5DED1D1DCEE814002BFDE8 /* JFHomeNewsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsDataManager.h; sourceTree = "<group>"; };
 		1E5DED1E1DCEE814002BFDE8 /* JFHomeNewsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeNewsDataManager.m; sourceTree = "<group>"; };
 		1E5DED521DCF88D4002BFDE8 /* JFCategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFCategoryModel.h; sourceTree = "<group>"; };
@@ -79,8 +87,12 @@
 		1E6E22041DCC951A001C7F08 /* JFWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFWindow.m; sourceTree = "<group>"; };
 		1EA75AB91DD045E900CBB13F /* JFBannersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFBannersModel.h; sourceTree = "<group>"; };
 		1EA75ABA1DD045E900CBB13F /* JFBannersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFBannersModel.m; sourceTree = "<group>"; };
-		1EFC1CB21DCD763D0087A9C5 /* JFHomeNewsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsTableView.h; sourceTree = "<group>"; };
-		1EFC1CB31DCD763D0087A9C5 /* JFHomeNewsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeNewsTableView.m; sourceTree = "<group>"; };
+		1EA75AC91DD04EBF00CBB13F /* JFLoopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFLoopView.h; sourceTree = "<group>"; };
+		1EA75ACA1DD04EBF00CBB13F /* JFLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFLoopView.m; sourceTree = "<group>"; };
+		1EA75ACB1DD04EBF00CBB13F /* JFLoopViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFLoopViewCell.h; sourceTree = "<group>"; };
+		1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFLoopViewCell.m; sourceTree = "<group>"; };
+		1EA75ACD1DD04EBF00CBB13F /* JFLoopViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFLoopViewLayout.h; sourceTree = "<group>"; };
+		1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFLoopViewLayout.m; sourceTree = "<group>"; };
 		1EFC1CB51DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsTableViewCell.h; sourceTree = "<group>"; };
 		1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeNewsTableViewCell.m; sourceTree = "<group>"; };
 		300E64FD7C2C849E4062816B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +132,15 @@
 				0C5B8B7DDA796F0DCBF6DA46 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		1E2362BC1DD0579F0054D048 /* JFTimer */ = {
+			isa = PBXGroup;
+			children = (
+				1E2362BD1DD0579F0054D048 /* JFWeakTimerTargetObject.h */,
+				1E2362BE1DD0579F0054D048 /* JFWeakTimerTargetObject.m */,
+			);
+			path = JFTimer;
 			sourceTree = "<group>";
 		};
 		1E5DED1C1DCEE7EC002BFDE8 /* DataManager */ = {
@@ -227,6 +248,10 @@
 		1E6E21EE1DCC7B8C001C7F08 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				1E2362BC1DD0579F0054D048 /* JFTimer */,
+				1E2362B91DD055DE0054D048 /* NSString+JFMessage.h */,
+				1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */,
+				1EA75AC81DD04EBF00CBB13F /* JFLoopView */,
 				1E6E21FF1DCC9329001C7F08 /* JFConfigFile.h */,
 			);
 			path = Tools;
@@ -246,12 +271,23 @@
 			children = (
 				1E6E22031DCC951A001C7F08 /* JFWindow.h */,
 				1E6E22041DCC951A001C7F08 /* JFWindow.m */,
-				1EFC1CB21DCD763D0087A9C5 /* JFHomeNewsTableView.h */,
-				1EFC1CB31DCD763D0087A9C5 /* JFHomeNewsTableView.m */,
 				1EFC1CB51DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.h */,
 				1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1EA75AC81DD04EBF00CBB13F /* JFLoopView */ = {
+			isa = PBXGroup;
+			children = (
+				1EA75AC91DD04EBF00CBB13F /* JFLoopView.h */,
+				1EA75ACA1DD04EBF00CBB13F /* JFLoopView.m */,
+				1EA75ACB1DD04EBF00CBB13F /* JFLoopViewCell.h */,
+				1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */,
+				1EA75ACD1DD04EBF00CBB13F /* JFLoopViewLayout.h */,
+				1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */,
+			);
+			path = JFLoopView;
 			sourceTree = "<group>";
 		};
 		308DAD7001CF9988851F7519 /* Frameworks */ = {
@@ -450,16 +486,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EA75AD11DD04EBF00CBB13F /* JFLoopViewLayout.m in Sources */,
 				1E5DED661DD01527002BFDE8 /* JFResponseModel.m in Sources */,
+				1E2362BB1DD055DE0054D048 /* NSString+JFMessage.m in Sources */,
 				1E6E21C41DCC74C7001C7F08 /* JFQDaily.xcdatamodeld in Sources */,
-				1EFC1CB41DCD763D0087A9C5 /* JFHomeNewsTableView.m in Sources */,
 				1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */,
+				1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */,
 				1EFC1CB71DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m in Sources */,
 				1EA75ABB1DD045E900CBB13F /* JFBannersModel.m in Sources */,
+				1E2362BF1DD0579F0054D048 /* JFWeakTimerTargetObject.m in Sources */,
 				1E6E21F61DCC7BDE001C7F08 /* JFHomeViewController.m in Sources */,
 				1E5DED5F1DCF88D4002BFDE8 /* JFFeedsModel.m in Sources */,
 				1E5DED621DCF88D4002BFDE8 /* JFPostModel.m in Sources */,
 				1E6E21B81DCC74C7001C7F08 /* main.m in Sources */,
+				1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */,
 				1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */,
 				1E6E22051DCC951A001C7F08 /* JFWindow.m in Sources */,
 				1E6E21F31DCC7BA3001C7F08 /* AppDelegate.m in Sources */,

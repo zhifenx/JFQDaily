@@ -13,6 +13,8 @@
 #import "MJExtension.h"
 #import "JFWindow.h"
 #import "JFHomeNewsDataManager.h"
+#import "JFHomeNewsTableViewCell.h"
+#import "JFLoopView.h"
 
 //新闻数据模型相关
 #import "JFResponseModel.h"
@@ -21,13 +23,17 @@
 #import "JFCategoryModel.h"
 #import "JFBannersModel.h"
 
-@interface JFHomeViewController ()
 
+static NSString *ID = @"newsCell";
+
+@interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *homeNewsTableView;
 @property (nonatomic, strong) JFWindow *jfWindow;
 @property (nonatomic, strong) JFHomeNewsDataManager *manager;
 @property (nonatomic, strong) JFResponseModel *response;
-@property (nonatomic, strong) NSArray *feedsArray;
-@property (nonatomic, strong) NSArray *bannersArray;
+@property (nonatomic, strong) NSMutableArray *feedsArray;
+@property (nonatomic, strong) NSMutableArray *bannersArray;
 
 @end
 
@@ -42,12 +48,55 @@
 - (void)loadView {
     [super loadView];
     
-    UIView *demo = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    demo.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:demo];
+    [self.view addSubview:self.homeNewsTableView];
     [self addJFWindow];
 }
 
+/// 添加图片轮播器
+- (void)addLoopView {
+    
+    NSMutableArray *imageMuatableArray = [[NSMutableArray alloc] init];
+    NSMutableArray *titleMutableArray = [[NSMutableArray alloc] init];
+    for (JFBannersModel *banner in self.bannersArray) {
+        JFLog(@"JFFeedsModel---%@",banner.post.image);
+        [imageMuatableArray addObject:banner.post.image];
+        [titleMutableArray addObject:banner.post.title];
+    }
+    
+    JFLoopView *loopView = [[JFLoopView alloc] initWithImageMutableArray:imageMuatableArray titleMutableArray:titleMutableArray];
+    loopView.frame = CGRectMake(0, 0, JFSCREEN_WIDTH, 300);
+    self.homeNewsTableView.tableHeaderView = loopView;
+}
+
+/// 懒加载JFHomeNewsTableView（首页根view）
+- (UITableView *)homeNewsTableView {
+    if (!_homeNewsTableView) {
+        _homeNewsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
+        [_homeNewsTableView registerClass:[JFHomeNewsTableViewCell class] forCellReuseIdentifier:ID];
+        _homeNewsTableView.delegate = self;
+        _homeNewsTableView.dataSource = self;
+    }
+    return _homeNewsTableView;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    JFLog(@"feedsArray个数：%lu",(unsigned long)self.feedsArray.count);
+    return self.feedsArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    JFHomeNewsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell == nil) {
+        cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+    }
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
+}
+
+/// 数据管理器
 - (JFHomeNewsDataManager *)manager {
     if (!_manager) {
         _manager = [[JFHomeNewsDataManager alloc] init];
@@ -65,9 +114,9 @@
                 JFLog(@"JFBannersModel---%@",banner.post.category.title);
             }
             
-            for (JFFeedsModel *feed in self.feedsArray) {
-                JFLog(@"JFFeedsModel---%@",feed.post.category.title);
-            }
+            
+            [self addLoopView];
+            [self.homeNewsTableView reloadData];
         }];
         
         

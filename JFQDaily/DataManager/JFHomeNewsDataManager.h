@@ -12,9 +12,10 @@ typedef void(^JFHomeNewsDataManagerBlock)(id data);
 
 @interface JFHomeNewsDataManager : NSObject
 
+//  请求数据成功后返回新闻数据回调的block
 @property (nonatomic, copy) JFHomeNewsDataManagerBlock newsDataBlock;
 
-//请求新闻数据
+//  请求新闻数据
 - (void)requestHomeNewsDataWithLastKey:(NSString *)lastKey;
 
 - (void)newsDataBlock:(JFHomeNewsDataManagerBlock)block;

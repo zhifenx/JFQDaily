@@ -31,7 +31,7 @@
     return manager;
 }
 
-//请求新闻数据
+#pragma mark - GET方式请求新闻数据
 - (void)requestHomeNewsDataWithLastKey:(NSString *)lastKey {
     AFHTTPSessionManager *manager = [self manager];
     //拼接URL
