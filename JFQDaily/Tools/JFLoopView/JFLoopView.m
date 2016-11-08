@@ -11,6 +11,7 @@
 #import "JFLoopViewLayout.h"
 #import "JFLoopViewCell.h"
 #import "JFWeakTimerTargetObject.h"
+#import "JFReaderViewController.h"
 
 @interface JFLoopView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -65,6 +66,12 @@ static NSString *ID = @"loopViewCell";
     return _pageControl;
 }
 
+
+/// 重写newsUrl属性的set方法
+- (void)setNewsUrlMutableArray:(NSMutableArray *)newsUrlMutableArray {
+    _newsUrlMutableArray = newsUrlMutableArray;
+}
+
 #pragma mark UICollectionViewDataSource 数据源方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.imageMutableArray.count * 3;
@@ -75,6 +82,16 @@ static NSString *ID = @"loopViewCell";
     cell.imageName = self.imageMutableArray[indexPath.item % self.imageMutableArray.count];
     cell.title = self.titleMutableArray[indexPath.item % self.titleMutableArray.count];
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.didSelectCollectionItemBlock) {
+        self.didSelectCollectionItemBlock(_newsUrlMutableArray[indexPath.row % _newsUrlMutableArray.count]);
+    }
+}
+
+- (void)didSelectCollectionItemBlock:(JFLoopViewBlock)block {
+    self.didSelectCollectionItemBlock = block;
 }
 
 #pragma mark ---- UICollectionViewDelegate

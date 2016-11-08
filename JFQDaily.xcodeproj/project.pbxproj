@@ -29,6 +29,7 @@
 		1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACA1DD04EBF00CBB13F /* JFLoopView.m */; };
 		1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */; };
 		1EA75AD11DD04EBF00CBB13F /* JFLoopViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */; };
+		1EB263511DD1838300813DE3 /* JFReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB263501DD1838300813DE3 /* JFReaderViewController.m */; };
 		1EFC1CB71DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +94,8 @@
 		1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFLoopViewCell.m; sourceTree = "<group>"; };
 		1EA75ACD1DD04EBF00CBB13F /* JFLoopViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFLoopViewLayout.h; sourceTree = "<group>"; };
 		1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFLoopViewLayout.m; sourceTree = "<group>"; };
+		1EB2634F1DD1838300813DE3 /* JFReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFReaderViewController.h; sourceTree = "<group>"; };
+		1EB263501DD1838300813DE3 /* JFReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFReaderViewController.m; sourceTree = "<group>"; };
 		1EFC1CB51DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsTableViewCell.h; sourceTree = "<group>"; };
 		1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeNewsTableViewCell.m; sourceTree = "<group>"; };
 		300E64FD7C2C849E4062816B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -262,6 +265,8 @@
 			children = (
 				1E6E21F41DCC7BDE001C7F08 /* JFHomeViewController.h */,
 				1E6E21F51DCC7BDE001C7F08 /* JFHomeViewController.m */,
+				1EB2634F1DD1838300813DE3 /* JFReaderViewController.h */,
+				1EB263501DD1838300813DE3 /* JFReaderViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -503,6 +508,7 @@
 				1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */,
 				1E6E22051DCC951A001C7F08 /* JFWindow.m in Sources */,
 				1E6E21F31DCC7BA3001C7F08 /* AppDelegate.m in Sources */,
+				1EB263511DD1838300813DE3 /* JFReaderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

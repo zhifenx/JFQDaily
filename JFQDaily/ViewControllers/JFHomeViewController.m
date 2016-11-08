@@ -16,6 +16,7 @@
 #import "JFHomeNewsDataManager.h"
 #import "JFHomeNewsTableViewCell.h"
 #import "JFLoopView.h"
+#import "JFReaderViewController.h"
 //新闻数据模型相关
 #import "JFResponseModel.h"
 #import "JFFeedsModel.h"
@@ -96,7 +97,13 @@ static NSString *ID = @"newsCell";
     [super loadView];
     
     [self.view addSubview:self.homeNewsTableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self addJFWindow];
+    self.navigationController.navigationBarHidden = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 /// 添加图片轮播器
@@ -105,12 +112,19 @@ static NSString *ID = @"newsCell";
     if (!self.homeNewsTableView.tableHeaderView) {
         NSMutableArray *imageMuatableArray = [[NSMutableArray alloc] init];
         NSMutableArray *titleMutableArray = [[NSMutableArray alloc] init];
+        NSMutableArray *newsUrlMuatbleArray = [[NSMutableArray alloc] init];
         for (JFBannersModel *banner in self.bannersArray) {
             [imageMuatableArray addObject:banner.post.image];
             [titleMutableArray addObject:banner.post.title];
+            [newsUrlMuatbleArray addObject:banner.post.appview];
         }
         JFLoopView *loopView = [[JFLoopView alloc] initWithImageMutableArray:imageMuatableArray titleMutableArray:titleMutableArray];
         loopView.frame = CGRectMake(0, 0, JFSCREEN_WIDTH, 300);
+        loopView.newsUrlMutableArray = newsUrlMuatbleArray;
+        
+        [loopView didSelectCollectionItemBlock:^(NSString *Url) {
+            [self pushToJFReaderViewControllerWithNewsUrl:Url];
+        }];
         self.homeNewsTableView.tableHeaderView = loopView;
     }
 }
@@ -192,12 +206,30 @@ static NSString *ID = @"newsCell";
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
+    if (![feed.type isEqualToString:@"0"]) {
+        [self pushToJFReaderViewControllerWithNewsUrl:feed.post.appview];
+        //销毁JFWindow
+        [self destoryJFWindow];
+    }
+}
+
+/// push到JFReaderViewController
+- (void)pushToJFReaderViewControllerWithNewsUrl:(NSString *)newsUrl {
+    JFReaderViewController *readerVC = [[JFReaderViewController alloc] init];
+    readerVC.newsUrl = newsUrl;
+    [self.navigationController pushViewController:readerVC animated:YES];
+}
+
 /// 添加悬浮按钮window
 - (void)addJFWindow {
-    JFWindow *jfWindow = [[JFWindow alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 80, 54, 54)];
-    jfWindow.windowLevel = UIWindowLevelAlert * 2;
-    [jfWindow makeKeyAndVisible];
-    self.jfWindow = jfWindow;
+    if (!self.jfWindow) {
+        JFWindow *jfWindow = [[JFWindow alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 80, 54, 54)];
+        jfWindow.windowLevel = UIWindowLevelAlert * 2;
+        [jfWindow makeKeyAndVisible];
+        self.jfWindow = jfWindow;
+    }
 }
 
 /// 销毁JFWindow
