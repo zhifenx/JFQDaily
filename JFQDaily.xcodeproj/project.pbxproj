@@ -24,7 +24,7 @@
 		1E6E21F31DCC7BA3001C7F08 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E21F21DCC7BA3001C7F08 /* AppDelegate.m */; };
 		1E6E21F61DCC7BDE001C7F08 /* JFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E21F51DCC7BDE001C7F08 /* JFHomeViewController.m */; };
 		1E6E21F81DCC7D32001C7F08 /* PodFile in Resources */ = {isa = PBXBuildFile; fileRef = 1E6E21F71DCC7D32001C7F08 /* PodFile */; };
-		1E6E22051DCC951A001C7F08 /* JFWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E22041DCC951A001C7F08 /* JFWindow.m */; };
+		1E6E22051DCC951A001C7F08 /* JFSuspensionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E22041DCC951A001C7F08 /* JFSuspensionView.m */; };
 		1EA75ABB1DD045E900CBB13F /* JFBannersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ABA1DD045E900CBB13F /* JFBannersModel.m */; };
 		1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACA1DD04EBF00CBB13F /* JFLoopView.m */; };
 		1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */; };
@@ -84,8 +84,8 @@
 		1E6E21F51DCC7BDE001C7F08 /* JFHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeViewController.m; sourceTree = "<group>"; };
 		1E6E21F71DCC7D32001C7F08 /* PodFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PodFile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1E6E21FF1DCC9329001C7F08 /* JFConfigFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JFConfigFile.h; sourceTree = "<group>"; };
-		1E6E22031DCC951A001C7F08 /* JFWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFWindow.h; sourceTree = "<group>"; };
-		1E6E22041DCC951A001C7F08 /* JFWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFWindow.m; sourceTree = "<group>"; };
+		1E6E22031DCC951A001C7F08 /* JFSuspensionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFSuspensionView.h; sourceTree = "<group>"; };
+		1E6E22041DCC951A001C7F08 /* JFSuspensionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFSuspensionView.m; sourceTree = "<group>"; };
 		1EA75AB91DD045E900CBB13F /* JFBannersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFBannersModel.h; sourceTree = "<group>"; };
 		1EA75ABA1DD045E900CBB13F /* JFBannersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFBannersModel.m; sourceTree = "<group>"; };
 		1EA75AC91DD04EBF00CBB13F /* JFLoopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFLoopView.h; sourceTree = "<group>"; };
@@ -274,8 +274,8 @@
 		1E6E21F01DCC7B8C001C7F08 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1E6E22031DCC951A001C7F08 /* JFWindow.h */,
-				1E6E22041DCC951A001C7F08 /* JFWindow.m */,
+				1E6E22031DCC951A001C7F08 /* JFSuspensionView.h */,
+				1E6E22041DCC951A001C7F08 /* JFSuspensionView.m */,
 				1EFC1CB51DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.h */,
 				1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */,
 			);
@@ -506,7 +506,7 @@
 				1E6E21B81DCC74C7001C7F08 /* main.m in Sources */,
 				1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */,
 				1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */,
-				1E6E22051DCC951A001C7F08 /* JFWindow.m in Sources */,
+				1E6E22051DCC951A001C7F08 /* JFSuspensionView.m in Sources */,
 				1E6E21F31DCC7BA3001C7F08 /* AppDelegate.m in Sources */,
 				1EB263511DD1838300813DE3 /* JFReaderViewController.m in Sources */,
 			);

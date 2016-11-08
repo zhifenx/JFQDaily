@@ -1,5 +1,5 @@
 //
-//  JFWindow.h
+//  JFSuspensionView.h
 //  JFQDaily
 //
 //  Created by 张志峰 on 2016/11/4.
@@ -8,33 +8,33 @@
 
 #import <UIKit/UIKit.h>
 
-/// 悬浮按钮种类枚举
+/// 悬浮按钮种类（tag）枚举
 typedef NS_ENUM(NSInteger, JFSuspensionButtonStyle) {
     JFSuspensionButtonStyleQType = 1,   //  Qlogo样式
     JFSuspensionButtonStyleCloseType,   //  关闭样式
     JFSuspensionButtonStyleBackType,    //  返回样式
 };
 
-typedef void(^JFWindowBlock)();
+typedef void(^JFSuspensionViewBlock)();
 
-@interface JFWindow : UIWindow
+@interface JFSuspensionView : UIView
 
-/** 悬浮按钮tag，设置按钮样式*/
+/** 悬浮按钮，设置按钮样式（tag）*/
 @property (nonatomic, assign) NSInteger JFSuspensionButtonStyle;
 
 /** 弹出菜单界面*/
-@property (nonatomic, copy) JFWindowBlock popupMenuBlock;
+@property (nonatomic, copy) JFSuspensionViewBlock popupMenuBlock;
 
 /** 关闭菜单界面*/
-@property (nonatomic, copy) JFWindowBlock closeMenuBlock;
+@property (nonatomic, copy) JFSuspensionViewBlock closeMenuBlock;
 
 /** 返回到homeNewsViewController*/
-@property (nonatomic, copy) JFWindowBlock backBlock;
+@property (nonatomic, copy) JFSuspensionViewBlock backBlock;
 
-- (void)popupOrCloseMenuBlock:(JFWindowBlock)block;
+- (void)popupMenuBlock:(JFSuspensionViewBlock)block;
 
-- (void)closeMenuBlock:(JFWindowBlock)block;
+- (void)closeMenuBlock:(JFSuspensionViewBlock)block;
 
-- (void)backBlock:(JFWindowBlock)block;
+- (void)backBlock:(JFSuspensionViewBlock)block;
 
 @end

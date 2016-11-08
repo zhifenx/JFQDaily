@@ -12,14 +12,18 @@
 #import <WebKit/WebKit.h>
 #import "JFConfigFile.h"
 #import "Masonry.h"
-#import "JFWindow.h"
+#import "JFSuspensionView.h"
 
-@interface JFReaderViewController ()<WKNavigationDelegate>
+@interface JFReaderViewController ()<WKNavigationDelegate, UIScrollViewDelegate>
+{
+    CGFloat _contentOffset_Y;   //WKWebView滑动后Y轴偏移量
+}
 
 /** 加载动画view*/
 @property (nonatomic, strong) UIView *loadingView;
 @property (nonatomic, strong) UIImageView *loadingImageView;
-@property (nonatomic, strong) JFWindow *jfWindow;
+/** 悬浮按钮父view*/
+@property (nonatomic, strong) JFSuspensionView *jfSuspensionView;
 
 @end
 
@@ -34,12 +38,14 @@
     
     WKWebView *readerWebView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     readerWebView.navigationDelegate = self;
+    readerWebView.scrollView.delegate = self;
     [readerWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_newsUrl]]];
     [self.view addSubview:readerWebView];
     [self.view addSubview:self.loadingView];
     [self.loadingView addSubview:self.loadingImageView];
     [self customUI];
-    [self addJFWindow];
+    
+    [self.view addSubview:self.jfSuspensionView];
 }
 
 /// 懒加载，加载动画界面
@@ -85,30 +91,27 @@
 }
 
 - (void)setNewsUrl:(NSString *)newsUrl {
-    JFLog(@"newsUrl--%@",newsUrl);
     _newsUrl = newsUrl;
 }
 
-/// 添加悬浮按钮window
-- (void)addJFWindow {
-    if (!self.jfWindow) {
-        JFWindow *jfWindow = [[JFWindow alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 80, 54, 54)];
-        jfWindow.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType;
-        jfWindow.windowLevel = UIWindowLevelAlert * 2;
-        [jfWindow makeKeyAndVisible];
-        self.jfWindow = jfWindow;
-        
+/// 悬浮按钮父view
+- (JFSuspensionView *)jfSuspensionView {
+    if (!_jfSuspensionView) {
+        _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 60, 61, 61)];
+        //设置按钮样式（tag）
+        _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType;
         __weak typeof(self) weakSelf = self;
-        [jfWindow backBlock:^{
+        [_jfSuspensionView backBlock:^{
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }];
     }
+    return _jfSuspensionView;
 }
 
-/// 销毁JFWindow
-- (void)destoryJFWindow {
-    self.jfWindow.hidden = YES;
-    self.jfWindow = nil;
+/// 销毁JFSuspensionView
+- (void)destoryJFSuspensionView {
+    self.jfSuspensionView.hidden = YES;
+    self.jfSuspensionView = nil;
 }
 
 #pragma mark --- WKNavigationDelegate
@@ -128,6 +131,41 @@
 /// WXWebView加载失败时调用
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     JFLog(@"加载失败");
+}
+
+#pragma mark - UIScrollDelegate
+/// 滚动时调用
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y > _contentOffset_Y + 80) {
+        [self hideSuspenstionButton];
+    } else if (scrollView.contentOffset.y < _contentOffset_Y) {
+        [self showSuspenstionButton];
+    }
+}
+
+/// 停止滚动时调用
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    _contentOffset_Y = scrollView.contentOffset.y;
+}
+
+/// 显示悬浮按钮
+- (void)showSuspenstionButton {
+    if (self.jfSuspensionView.layer.frame.origin.y == JFSCREENH_HEIGHT - 60) return;
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect tempFrame = self.jfSuspensionView.layer.frame;
+        tempFrame.origin.y -= 60;
+        self.jfSuspensionView.layer.frame = tempFrame;
+    }];
+}
+
+/// 隐藏悬浮按钮
+- (void)hideSuspenstionButton {
+    if (self.jfSuspensionView.layer.frame.origin.y == JFSCREENH_HEIGHT) return;
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect tempFrame = self.jfSuspensionView.layer.frame;
+        tempFrame.origin.y += 60;
+        self.jfSuspensionView.layer.frame = tempFrame;
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

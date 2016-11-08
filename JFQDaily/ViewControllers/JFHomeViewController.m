@@ -12,7 +12,7 @@
 #import <Masonry.h>
 #import <MJRefresh.h>
 #import "MJExtension.h"
-#import "JFWindow.h"
+#import "JFSuspensionView.h"
 #import "JFHomeNewsDataManager.h"
 #import "JFHomeNewsTableViewCell.h"
 #import "JFLoopView.h"
@@ -29,13 +29,15 @@ static NSString *ID = @"newsCell";
 
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 {
-    NSString *_last_key;//上拉加载时传入的key
-    NSString *_has_more;//是否还有未加载的文章
+    NSString *_last_key;        //上拉加载时传入的key
+    NSString *_has_more;        //是否还有未加载的文章
+    CGFloat _contentOffset_Y;   //homeNewsTableView滑动后Y轴偏移量
 }
 
 @property (nonatomic, strong) UITableView *homeNewsTableView;
 @property (nonatomic, strong) JFHomeNewsTableViewCell *cell;
-@property (nonatomic, strong) JFWindow *jfWindow;
+/** 悬浮按钮父view*/
+@property (nonatomic, strong) JFSuspensionView *jfSuspensionView;
 @property (nonatomic, strong) JFHomeNewsDataManager *manager;
 @property (nonatomic, strong) JFResponseModel *response;
 @property (nonatomic, strong) NSArray *feedsArray;
@@ -97,13 +99,23 @@ static NSString *ID = @"newsCell";
     [super loadView];
     
     [self.view addSubview:self.homeNewsTableView];
+    [self.view addSubview:self.jfSuspensionView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self addJFWindow];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
+}
+
+/// 悬浮按钮父view
+- (JFSuspensionView *)jfSuspensionView {
+    if (!_jfSuspensionView) {
+        _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 70, 54, 54)];
+        //设置按钮样式（tag）
+        _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleQType;
+    }
+    return _jfSuspensionView;
 }
 
 /// 添加图片轮播器
@@ -210,8 +222,6 @@ static NSString *ID = @"newsCell";
     JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
     if (![feed.type isEqualToString:@"0"]) {
         [self pushToJFReaderViewControllerWithNewsUrl:feed.post.appview];
-        //销毁JFWindow
-        [self destoryJFWindow];
     }
 }
 
@@ -222,21 +232,26 @@ static NSString *ID = @"newsCell";
     [self.navigationController pushViewController:readerVC animated:YES];
 }
 
-/// 添加悬浮按钮window
-- (void)addJFWindow {
-    if (!self.jfWindow) {
-        JFWindow *jfWindow = [[JFWindow alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 80, 54, 54)];
-        jfWindow.JFSuspensionButtonStyle = JFSuspensionButtonStyleQType;
-        jfWindow.windowLevel = UIWindowLevelAlert * 2;
-        [jfWindow makeKeyAndVisible];
-        self.jfWindow = jfWindow;
+#pragma mark - UIScrollDelegate
+/// 滚动时调用
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y > _contentOffset_Y + 80) {
+        [self suspensionWithAlpha:0];
+    } else if (scrollView.contentOffset.y < _contentOffset_Y) {
+        [self suspensionWithAlpha:1];
     }
 }
 
-/// 销毁JFWindow
-- (void)destoryJFWindow {
-    self.jfWindow.hidden = YES;
-    self.jfWindow = nil;
+/// 停止滚动时调用
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    _contentOffset_Y = scrollView.contentOffset.y;
+}
+
+/// 设置悬浮按钮view透明度，以此显示和隐藏悬浮按钮
+- (void)suspensionWithAlpha:(CGFloat)alpha {
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.jfSuspensionView setAlpha:alpha];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

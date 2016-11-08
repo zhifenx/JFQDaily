@@ -1,20 +1,20 @@
 //
-//  JFWindow.m
+//  JFSuspensionView.m
 //  JFQDaily
 //
 //  Created by 张志峰 on 2016/11/4.
 //  Copyright © 2016年 zhifenx. All rights reserved.
 //
 
-#import "JFWindow.h"
+#import "JFSuspensionView.h"
 
-@interface JFWindow ()
+@interface JFSuspensionView ()
 
 @property (nonatomic, strong) UIButton *suspensionButton;
 
 @end
 
-@implementation JFWindow
+@implementation JFSuspensionView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -35,12 +35,9 @@
 }
 
 - (void)addButton:(CGRect)frame {
-    UIViewController *rootVC = [[UIViewController alloc] init];
-    rootVC.view.frame = frame;
-    self.rootViewController = rootVC;
     UIButton *suspensionButton = [[UIButton alloc] init];
     [suspensionButton addTarget:self action:@selector(clickSuspensionButton:) forControlEvents:UIControlEventTouchUpInside];
-    [rootVC.view addSubview:suspensionButton];
+    [self addSubview:suspensionButton];
     self.suspensionButton = suspensionButton;
 }
 
@@ -61,29 +58,32 @@
 - (void)clickSuspensionButton:(UIButton *)sender {
     sender.selected = !sender.selected;
     
-    [UIView animateWithDuration:0.15 animations:^{
-        [self suspensionButtonAnimationWithOffsetY:100];
-    } completion:^(BOOL finished) {
+    if (_suspensionButton.tag == JFSuspensionButtonStyleQType || _suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
+        
         [UIView animateWithDuration:0.15 animations:^{
-            [self suspensionButtonAnimationWithOffsetY:-105];
-            if (sender.selected) {
-                [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
-                
-                //重新设置设置悬浮按钮的tag
-                self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
-            }else {
-                [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
-            }
+            [self suspensionButtonAnimationWithOffsetY:80];
         } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.15 animations:^{
+                [self suspensionButtonAnimationWithOffsetY:-85];
+                if (sender.selected) {
+                    [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
             
-            [UIView animateWithDuration:0.05 animations:^{
-                [self suspensionButtonAnimationWithOffsetY:5];
+                    //重新设置设置悬浮按钮的tag
+                    self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
+                }else {
+                    [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
+                }
+            } completion:^(BOOL finished) {
+                
+                [UIView animateWithDuration:0.05 animations:^{
+                    [self suspensionButtonAnimationWithOffsetY:5];
+                }];
             }];
         }];
-    }];
-    
+    }
     //弹出菜单界面
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType) {
+        
         if (self.popupMenuBlock) {
             self.popupMenuBlock();
         }
@@ -104,15 +104,15 @@
     }
 }
 
-- (void)popupMenuBlock:(JFWindowBlock)block {
+- (void)popupMenuBlock:(JFSuspensionViewBlock)block {
     self.popupMenuBlock = block;
 }
 
-- (void)closeMenuBlock:(JFWindowBlock)block {
+- (void)closeMenuBlock:(JFSuspensionViewBlock)block {
     self.closeMenuBlock = block;
 }
 
-- (void)backBlock:(JFWindowBlock)block {
+- (void)backBlock:(JFSuspensionViewBlock)block {
     self.backBlock = block;
 }
 
