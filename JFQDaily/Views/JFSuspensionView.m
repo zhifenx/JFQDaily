@@ -71,6 +71,9 @@
                     //重新设置设置悬浮按钮的tag
                     self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
                 }else {
+                    
+                    //重新设置设置悬浮按钮的tag
+                    self.suspensionButton.tag = JFSuspensionButtonStyleQType;
                     [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
                 }
             } completion:^(BOOL finished) {

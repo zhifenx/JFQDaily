@@ -31,6 +31,7 @@
 		1EA75AD11DD04EBF00CBB13F /* JFLoopViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */; };
 		1EB263511DD1838300813DE3 /* JFReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB263501DD1838300813DE3 /* JFReaderViewController.m */; };
 		1EFC1CB71DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */; };
+		1EFE66571DD20E860037FA05 /* JFMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFE66561DD20E860037FA05 /* JFMenuView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,8 @@
 		1EB263501DD1838300813DE3 /* JFReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFReaderViewController.m; sourceTree = "<group>"; };
 		1EFC1CB51DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsTableViewCell.h; sourceTree = "<group>"; };
 		1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFHomeNewsTableViewCell.m; sourceTree = "<group>"; };
+		1EFE66551DD20E860037FA05 /* JFMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFMenuView.h; sourceTree = "<group>"; };
+		1EFE66561DD20E860037FA05 /* JFMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFMenuView.m; sourceTree = "<group>"; };
 		300E64FD7C2C849E4062816B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B96B3DA035918818E0C7AE60 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -278,6 +281,8 @@
 				1E6E22041DCC951A001C7F08 /* JFSuspensionView.m */,
 				1EFC1CB51DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.h */,
 				1EFC1CB61DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m */,
+				1EFE66551DD20E860037FA05 /* JFMenuView.h */,
+				1EFE66561DD20E860037FA05 /* JFMenuView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -509,6 +514,7 @@
 				1E6E22051DCC951A001C7F08 /* JFSuspensionView.m in Sources */,
 				1E6E21F31DCC7BA3001C7F08 /* AppDelegate.m in Sources */,
 				1EB263511DD1838300813DE3 /* JFReaderViewController.m in Sources */,
+				1EFE66571DD20E860037FA05 /* JFMenuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

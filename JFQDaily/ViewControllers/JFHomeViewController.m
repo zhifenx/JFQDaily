@@ -17,6 +17,7 @@
 #import "JFHomeNewsTableViewCell.h"
 #import "JFLoopView.h"
 #import "JFReaderViewController.h"
+#import "JFMenuView.h"
 //新闻数据模型相关
 #import "JFResponseModel.h"
 #import "JFFeedsModel.h"
@@ -36,6 +37,7 @@ static NSString *ID = @"newsCell";
 
 @property (nonatomic, strong) UITableView *homeNewsTableView;
 @property (nonatomic, strong) JFHomeNewsTableViewCell *cell;
+@property (nonatomic, strong) JFMenuView *menuView;
 /** 悬浮按钮父view*/
 @property (nonatomic, strong) JFSuspensionView *jfSuspensionView;
 @property (nonatomic, strong) JFHomeNewsDataManager *manager;
@@ -111,9 +113,19 @@ static NSString *ID = @"newsCell";
 /// 悬浮按钮父view
 - (JFSuspensionView *)jfSuspensionView {
     if (!_jfSuspensionView) {
-        _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 70, 54, 54)];
+        _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(10, JFSCREENH_HEIGHT - 70, 54, 54)];
         //设置按钮样式（tag）
         _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleQType;
+        
+        __weak typeof(self) weakSelf = self;
+        [_jfSuspensionView popupMenuBlock:^{
+            [weakSelf.view insertSubview:weakSelf.menuView belowSubview:weakSelf.jfSuspensionView];
+            [weakSelf.menuView setHidden:NO];
+        }];
+        
+        [_jfSuspensionView closeMenuBlock:^{
+            [weakSelf.menuView setHidden:YES];
+        }];
     }
     return _jfSuspensionView;
 }
@@ -252,6 +264,15 @@ static NSString *ID = @"newsCell";
     [UIView animateWithDuration:0.3 animations:^{
         [self.jfSuspensionView setAlpha:alpha];
     }];
+}
+
+/// 菜单
+- (JFMenuView *)menuView {
+    if (!_menuView) {
+        _menuView = [[JFMenuView alloc] initWithFrame:self.view.bounds];
+        _menuView.backgroundColor = [UIColor grayColor];
+    }
+    return _menuView;
 }
 
 - (void)didReceiveMemoryWarning {
