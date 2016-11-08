@@ -12,12 +12,14 @@
 #import <WebKit/WebKit.h>
 #import "JFConfigFile.h"
 #import "Masonry.h"
+#import "JFWindow.h"
 
 @interface JFReaderViewController ()<WKNavigationDelegate>
 
 /** 加载动画view*/
 @property (nonatomic, strong) UIView *loadingView;
 @property (nonatomic, strong) UIImageView *loadingImageView;
+@property (nonatomic, strong) JFWindow *jfWindow;
 
 @end
 
@@ -37,6 +39,7 @@
     [self.view addSubview:self.loadingView];
     [self.loadingView addSubview:self.loadingImageView];
     [self customUI];
+    [self addJFWindow];
 }
 
 /// 懒加载，加载动画界面
@@ -77,13 +80,35 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)setNewsUrl:(NSString *)newsUrl {
     JFLog(@"newsUrl--%@",newsUrl);
     _newsUrl = newsUrl;
+}
+
+/// 添加悬浮按钮window
+- (void)addJFWindow {
+    if (!self.jfWindow) {
+        JFWindow *jfWindow = [[JFWindow alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 80, 54, 54)];
+        jfWindow.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType;
+        jfWindow.windowLevel = UIWindowLevelAlert * 2;
+        [jfWindow makeKeyAndVisible];
+        self.jfWindow = jfWindow;
+        
+        __weak typeof(self) weakSelf = self;
+        [jfWindow backBlock:^{
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
+    }
+}
+
+/// 销毁JFWindow
+- (void)destoryJFWindow {
+    self.jfWindow.hidden = YES;
+    self.jfWindow = nil;
 }
 
 #pragma mark --- WKNavigationDelegate

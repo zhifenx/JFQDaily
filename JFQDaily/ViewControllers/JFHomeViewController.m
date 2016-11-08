@@ -226,6 +226,7 @@ static NSString *ID = @"newsCell";
 - (void)addJFWindow {
     if (!self.jfWindow) {
         JFWindow *jfWindow = [[JFWindow alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 80, 54, 54)];
+        jfWindow.JFSuspensionButtonStyle = JFSuspensionButtonStyleQType;
         jfWindow.windowLevel = UIWindowLevelAlert * 2;
         [jfWindow makeKeyAndVisible];
         self.jfWindow = jfWindow;
