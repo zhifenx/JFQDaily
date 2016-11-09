@@ -49,15 +49,15 @@
         imageName = @"c_Qdaily button_54x54_";
     }else if (_JFSuspensionButtonStyle == JFSuspensionButtonStyleCloseType) {
         imageName = @"c_close button_54x54_";
-    }else {
+    }else if (_JFSuspensionButtonStyle == JFSuspensionButtonStyleBackType) {
         imageName = @"navigation_back_round_normal";
+    }else {
+        imageName = @"homeBackButton";
     }
     [_suspensionButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
 
 - (void)clickSuspensionButton:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType || _suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
         
         [UIView animateWithDuration:0.15 animations:^{
@@ -65,17 +65,6 @@
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.15 animations:^{
                 [self suspensionButtonAnimationWithOffsetY:-88];
-                if (sender.selected) {
-                    [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
-            
-                    //重新设置设置悬浮按钮的tag
-                    self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
-                }else {
-                    
-                    //重新设置设置悬浮按钮的tag
-                    self.suspensionButton.tag = JFSuspensionButtonStyleQType;
-                    [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
-                }
             } completion:^(BOOL finished) {
                 
                 [UIView animateWithDuration:0.1 animations:^{
@@ -84,26 +73,46 @@
             }];
         }];
     }
+    
     //弹出菜单界面
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType) {
         
+        //重新设置悬浮按钮的tag
+        self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
+        [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
         if (self.popupMenuBlock) {
             self.popupMenuBlock();
         }
+        return;
     }
     
     //关闭菜单界面
     if (_suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
+        //重新设置悬浮按钮的tag
+        self.suspensionButton.tag = JFSuspensionButtonStyleQType;
+        [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
         if (self.closeMenuBlock) {
             self.closeMenuBlock();
         }
+        return;
     }
     
     //返回到homeNewsViewController
     if (_suspensionButton.tag == JFSuspensionButtonStyleBackType) {
+        //重新设置悬浮按钮的tag
+        self.suspensionButton.tag = JFSuspensionButtonStyleQType;
         if (self.backBlock) {
             self.backBlock();
         }
+        return;
+    }
+    
+    //返回到JFMenuView
+    if (_suspensionButton.tag == JFSuspensionButtonStyleBackType2) {
+        if (self.backToMenuViewBlock) {
+            self.backToMenuViewBlock();
+        }
+        return;
     }
 }
 
@@ -117,6 +126,10 @@
 
 - (void)backBlock:(JFSuspensionViewBlock)block {
     self.backBlock = block;
+}
+
+- (void)backToMenuViewBlock:(JFSuspensionViewBlock)block {
+    self.backToMenuViewBlock = block;
 }
 
 /// 悬浮按钮动画

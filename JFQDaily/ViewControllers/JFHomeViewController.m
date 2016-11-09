@@ -120,14 +120,21 @@ static NSString *ID = @"newsCell";
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView popupMenuBlock:^{
             [weakSelf.view insertSubview:weakSelf.menuView belowSubview:weakSelf.jfSuspensionView];
-            [weakSelf.menuView setHidden:NO];
+            [weakSelf.menuView popupMenuViewAnimation];
         }];
         
         [_jfSuspensionView closeMenuBlock:^{
-            [weakSelf.menuView setHidden:YES];
+            [weakSelf.menuView hideMenuViewAnimation];
         }];
     }
     return _jfSuspensionView;
+}
+
+/// 改变悬浮按钮的X值
+- (void)suspensionViewOffsetX:(CGFloat)offsetX {
+    CGRect tempFrame = self.jfSuspensionView.frame;
+    tempFrame.origin.x = offsetX;
+    self.jfSuspensionView.frame = tempFrame;
 }
 
 /// 添加图片轮播器
@@ -271,6 +278,30 @@ static NSString *ID = @"newsCell";
     if (!_menuView) {
         _menuView = [[JFMenuView alloc] initWithFrame:self.view.bounds];
         _menuView.backgroundColor = [UIColor clearColor];
+        
+        __weak typeof(self) weakSelf = self;
+        [_menuView popupNewsClassificationViewBlock:^{
+            //重置悬浮按钮的Tag
+            weakSelf.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
+            [self suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
+        }];
+        
+        [_menuView hideNewsClassificationViewBlock:^{
+            
+            //隐藏新闻分类菜单
+            [weakSelf.menuView hideJFNewsClassificationViewAnimation];
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self suspensionViewOffsetX:15];
+                } completion:^(BOOL finished) {
+                    [UIView animateWithDuration:0.15 animations:^{
+                        [self suspensionViewOffsetX:5];
+                    } completion:^(BOOL finished) {
+                        [UIView animateWithDuration:0.1 animations:^{
+                            [self suspensionViewOffsetX:10];
+                        }];
+                    }];
+                }];
+            }];
     }
     return _menuView;
 }

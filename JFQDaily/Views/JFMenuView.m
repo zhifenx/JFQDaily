@@ -8,6 +8,7 @@
 
 #import "JFMenuView.h"
 
+#import "JFNewsClassificationView.h"
 #import "JFConfigFile.h"
 #import "Masonry.h"
 
@@ -25,6 +26,8 @@ static NSString *ID = @"menuCell";
 /** 下半部分菜单按钮的父view*/
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) UITableView *menuTableView;
+/** 新闻分类菜单界面*/
+@property (nonatomic, strong) JFNewsClassificationView *jfNewsClassificationView;
 
 /** 菜单cell按钮图片数组*/
 @property (nonatomic, strong) NSArray *imageArray;
@@ -41,6 +44,7 @@ static NSString *ID = @"menuCell";
         [self addSubview:self.headerView];
         [self addSubview:self.footerView];
         [self.footerView addSubview:self.menuTableView];
+        [self addSubview:self.jfNewsClassificationView];
         [self addHeaderViewButtonAndLabel];
     }
     return self;
@@ -57,7 +61,7 @@ static NSString *ID = @"menuCell";
 
 - (UIView *)headerView {
     if (!_headerView) {
-        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JFSCREEN_WIDTH, KHeaderViewH)];
+        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, -KHeaderViewH, JFSCREEN_WIDTH, KHeaderViewH)];
         _headerView.backgroundColor = [UIColor clearColor];
     }
     return _headerView;
@@ -65,10 +69,133 @@ static NSString *ID = @"menuCell";
 
 - (UIView *)footerView {
     if (!_footerView) {
-        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KHeaderViewH, JFSCREEN_WIDTH, JFSCREENH_HEIGHT - KHeaderViewH)];
+        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, JFSCREENH_HEIGHT, JFSCREEN_WIDTH, JFSCREENH_HEIGHT - KHeaderViewH)];
         _footerView.backgroundColor = [UIColor clearColor];
     }
     return _footerView;
+}
+
+/// 弹出headerView和footerView
+- (void)popupMenuViewAnimation {
+    //显示JFMenuView
+    [self setHidden:NO];
+    [UIView animateWithDuration:0.2 animations:^{
+        [self headerViewOffsetY:7];
+        [self footerViewOffsetY:KHeaderViewH - 7];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.15 animations:^{
+            [self headerViewOffsetY:-3];
+            [self footerViewOffsetY:KHeaderViewH + 3];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.15 animations:^{
+                [self headerViewOffsetY:0];
+                [self footerViewOffsetY:KHeaderViewH];
+            }];
+        }];
+    }];
+}
+
+/// 动画隐藏headerView和footerView
+- (void)hideMenuViewAnimation {
+    [UIView animateWithDuration:0.1 animations:^{
+        [self headerViewOffsetY:-KHeaderViewH];
+        [self footerViewOffsetY:JFSCREENH_HEIGHT];
+    } completion:^(BOOL finished) {
+        //隐藏JFMenuView
+        [self setHidden:YES];
+    }];
+}
+
+/// 改变headerView的Y值
+- (void)headerViewOffsetY:(CGFloat)offsetY {
+    CGRect headerTempFrame = self.headerView.frame;
+    headerTempFrame.origin.y = offsetY;
+    self.headerView.frame = headerTempFrame;
+}
+
+/// 改变footerView的Y值
+- (void)footerViewOffsetY:(CGFloat)offsetY {
+    CGRect footerTempFrame = self.footerView.frame;
+    footerTempFrame.origin.y = offsetY;
+    self.footerView.frame = footerTempFrame;
+}
+
+- (JFNewsClassificationView *)jfNewsClassificationView {
+    if (!_jfNewsClassificationView) {
+        _jfNewsClassificationView = [[JFNewsClassificationView alloc] initWithFrame:CGRectMake(JFSCREEN_WIDTH, KHeaderViewH, JFSCREEN_WIDTH, JFSCREENH_HEIGHT - KHeaderViewH)];
+        
+        //隐藏自己，返回到menuView
+        __weak typeof(self) weakSelf = self;
+        [_jfNewsClassificationView backBlock:^{
+            
+            if (weakSelf.hideNewsClassificationViewBlock) {
+                weakSelf.hideNewsClassificationViewBlock();
+            }
+        }];
+    }
+    return _jfNewsClassificationView;
+}
+
+///弹出新闻分类菜单
+- (void)popupJFNewsClassificationViewAnimation {
+    [UIView animateWithDuration:0.15 animations:^{
+        [self menuTableViewOffsetX:-JFSCREEN_WIDTH];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.15 animations:^{
+            
+            [self jfNewsClassificationViewOffsetX:-10];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.15 animations:^{
+                
+                [self jfNewsClassificationViewOffsetX:5];
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.1 animations:^{
+                    
+                    [self jfNewsClassificationViewOffsetX:0];
+                }];
+            }];
+        }];
+    }];
+}
+
+///隐藏新闻分类菜单
+- (void)hideJFNewsClassificationViewAnimation {
+    
+    [self.jfNewsClassificationView hideSuspensionView];
+    
+    [UIView animateWithDuration:0.15 animations:^{
+        [UIView animateWithDuration:0.15 animations:^{
+            [self jfNewsClassificationViewOffsetX:JFSCREEN_WIDTH];
+        }];
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:0.15 animations:^{
+            
+            [self menuTableViewOffsetX:10];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.15 animations:^{
+                [self menuTableViewOffsetX:-5];
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.1 animations:^{
+                    [self menuTableViewOffsetX:0];
+                }];
+            }];
+        }];
+    }];
+}
+
+/// 改变menuTableView的X值
+- (void)menuTableViewOffsetX:(CGFloat)offsetX {
+    CGRect footerTempFrame = self.menuTableView.frame;
+    footerTempFrame.origin.x = offsetX;
+    self.menuTableView.frame = footerTempFrame;
+}
+
+/// 改变JFNewsClassificationView的X值
+- (void)jfNewsClassificationViewOffsetX:(CGFloat)offsetX {
+    CGRect tempFrame = self.jfNewsClassificationView.frame;
+    tempFrame.origin.x = offsetX;
+    self.jfNewsClassificationView.frame = tempFrame;
 }
 
 - (UITableView *)menuTableView {
@@ -89,7 +216,7 @@ static NSString *ID = @"menuCell";
     sign.text = @"zhifenx仿好奇心日报";
     sign.textAlignment = NSTextAlignmentCenter;
     sign.textColor = [UIColor whiteColor];
-    [self addSubview:sign];
+    [self.headerView addSubview:sign];
     
     [sign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.offset(200);
@@ -169,12 +296,24 @@ static NSString *ID = @"menuCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.textLabel.text isEqualToString:@"新闻分类"]) {
-        NSLog(@"你点击了新闻分类");
+        [self popupJFNewsClassificationViewAnimation];
+        [self.jfNewsClassificationView popupSuspensionView];
+        if (self.popupNewsClassificationViewBlock) {
+            self.popupNewsClassificationViewBlock();
+        }
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return (JFSCREENH_HEIGHT - KHeaderViewH - 80) / _imageArray.count;
+}
+
+- (void)popupNewsClassificationViewBlock:(JFMenuViewBlock)block {
+    self.popupNewsClassificationViewBlock = block;
+}
+
+- (void)hideNewsClassificationViewBlock:(JFMenuViewBlock)block {
+    self.hideNewsClassificationViewBlock = block;
 }
 
 @end
