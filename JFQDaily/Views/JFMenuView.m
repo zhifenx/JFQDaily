@@ -9,6 +9,7 @@
 #import "JFMenuView.h"
 
 #import "JFConfigFile.h"
+#import "Masonry.h"
 
 #define KHeaderViewH 200
 
@@ -40,6 +41,7 @@ static NSString *ID = @"menuCell";
         [self addSubview:self.headerView];
         [self addSubview:self.footerView];
         [self.footerView addSubview:self.menuTableView];
+        [self addHeaderViewButtonAndLabel];
     }
     return self;
 }
@@ -79,6 +81,41 @@ static NSString *ID = @"menuCell";
         _menuTableView.dataSource = self;
     }
     return _menuTableView;
+}
+
+/// headerViewButon
+- (void)addHeaderViewButtonAndLabel {
+    UILabel *sign = [[UILabel alloc] init];
+    sign.text = @"zhifenx仿好奇心日报";
+    sign.textAlignment = NSTextAlignmentCenter;
+    sign.textColor = [UIColor whiteColor];
+    [self addSubview:sign];
+    
+    [sign mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.offset(200);
+        make.height.offset(21);
+        make.top.equalTo(self.headerView.mas_top).offset(KHeaderViewH * 0.2);
+        make.centerX.equalTo(self.headerView.mas_centerX);
+    }];
+    
+    NSArray *iconNameArray = @[@"setting_icon",
+                               @"github_icon",
+                               @"off_line_icon",
+                               @"share_icon"];
+    for (int i = 0; i < iconNameArray.count; i ++) {
+        UIButton *headerViewButton = [[UIButton alloc] init];
+        headerViewButton.tag = i;
+        NSString *imageName = iconNameArray[i];
+        [headerViewButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        [self.headerView addSubview:headerViewButton];
+        //添加Masonry自动布局
+        [headerViewButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(38);
+            make.height.offset(57);
+            make.top.equalTo(self.headerView.mas_top).offset(KHeaderViewH * 0.4);
+            make.right.equalTo(self.headerView.mas_left).offset(((JFSCREEN_WIDTH - 4 * 38) / 5 + 38) * (i + 1));
+        }];
+    }
 }
 
 - (NSArray *)imageArray {
