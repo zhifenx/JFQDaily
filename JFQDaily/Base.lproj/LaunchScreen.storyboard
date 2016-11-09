@@ -1,7 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,12 +20,52 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-1_80x80_" translatesAutoresizingMaskIntoConstraints="NO" id="HTJ-GB-z3A">
+                                <rect key="frame" x="147" y="174" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="8zg-6y-fId"/>
+                                    <constraint firstAttribute="width" constant="80" id="D0b-GE-iPy"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="zhifenx仿好奇心日报" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3h-T9-crU">
+                                <rect key="frame" x="16" y="271" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="ewl-Ir-5vk"/>
+                                    <constraint firstAttribute="width" constant="343" id="sWh-66-iPf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一个酷爱足球与摄影的iOS程序猿！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISp-aZ-wkH">
+                                <rect key="frame" x="16" y="626" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="2Vl-RZ-slw"/>
+                                    <constraint firstAttribute="width" constant="343" id="zuk-EM-tni"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <constraints>
+                            <constraint firstItem="c3h-T9-crU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="MXx-kN-Evo"/>
+                            <constraint firstItem="HTJ-GB-z3A" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="154" id="WXc-hW-bWx"/>
+                            <constraint firstItem="HTJ-GB-z3A" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="by7-UD-2eo"/>
+                            <constraint firstItem="c3h-T9-crU" firstAttribute="top" secondItem="HTJ-GB-z3A" secondAttribute="bottom" constant="17" id="f9G-Vs-UPn"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="ISp-aZ-wkH" secondAttribute="bottom" constant="20" id="gJw-F2-6Zy"/>
+                            <constraint firstItem="ISp-aZ-wkH" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="m7i-GZ-UFy"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo-1_80x80_" width="80" height="80"/>
+    </resources>
 </document>
