@@ -16,6 +16,9 @@ static NSString *ID = @"menuCell";
 
 @interface JFMenuView ()<UITableViewDelegate, UITableViewDataSource>
 
+/** 模糊效果View*/
+@property (nonatomic, strong) UIVisualEffectView *blurEffectView;
+
 /** 上半部分设置按钮的父view*/
 @property (nonatomic, strong) UIView *headerView;
 /** 下半部分菜单按钮的父view*/
@@ -33,11 +36,21 @@ static NSString *ID = @"menuCell";
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        [self addSubview:self.blurEffectView];
         [self addSubview:self.headerView];
         [self addSubview:self.footerView];
         [self.footerView addSubview:self.menuTableView];
     }
     return self;
+}
+
+- (UIVisualEffectView *)blurEffectView {
+    if (!_blurEffectView) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        _blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _blurEffectView.frame = self.frame;
+    }
+    return _blurEffectView;
 }
 
 - (UIView *)headerView {

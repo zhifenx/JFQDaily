@@ -64,7 +64,7 @@
             [self suspensionButtonAnimationWithOffsetY:80];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.15 animations:^{
-                [self suspensionButtonAnimationWithOffsetY:-85];
+                [self suspensionButtonAnimationWithOffsetY:-88];
                 if (sender.selected) {
                     [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
             
@@ -78,8 +78,8 @@
                 }
             } completion:^(BOOL finished) {
                 
-                [UIView animateWithDuration:0.05 animations:^{
-                    [self suspensionButtonAnimationWithOffsetY:5];
+                [UIView animateWithDuration:0.1 animations:^{
+                    [self suspensionButtonAnimationWithOffsetY:8];
                 }];
             }];
         }];

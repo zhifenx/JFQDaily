@@ -270,7 +270,7 @@ static NSString *ID = @"newsCell";
 - (JFMenuView *)menuView {
     if (!_menuView) {
         _menuView = [[JFMenuView alloc] initWithFrame:self.view.bounds];
-        _menuView.backgroundColor = [UIColor grayColor];
+        _menuView.backgroundColor = [UIColor clearColor];
     }
     return _menuView;
 }
