@@ -10,6 +10,7 @@
 
 #import "Masonry.h"
 #import <UIImageView+WebCache.h>
+#import "NSString+JFMessage.h"
 #import "JFConfigFile.h"
 
 @interface JFHomeNewsTableViewCell ()
@@ -79,6 +80,9 @@
     [self addSubview:praiseLabel];
     
     UILabel *timeLabel = [[UILabel alloc] init];
+    timeLabel.textAlignment = NSTextAlignmentCenter;
+    timeLabel.font = [UIFont systemFontOfSize:13.0];
+    timeLabel.textColor = [UIColor grayColor];
     [self addSubview:timeLabel];
     
     UIView *cellSeparator = [[UIView alloc] init];
@@ -141,11 +145,12 @@
     self.praiseLabel.text = praiseCount;
 }
 
-- (void)setTime:(NSString *)time {
+- (void)setTime:(NSInteger)time {
     _time = time;
-    self.timeLabel.text = time;
+    //时间转换有问题
+//    NSString *timeString = [NSString getShowDateWithTime:[NSString stringWithFormat:@"%lu",time]];
+//    self.timeLabel.text = timeString;
 }
-
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -153,6 +158,8 @@
 }
 
 #pragma mark --- 设置子控件的frame
+
+/// 根据cellType(0、1、2)设置cell的frame
 - (void)customUI {
     [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.offset(JFSCREEN_WIDTH);
@@ -160,6 +167,7 @@
         make.left.equalTo(self.mas_left);
         make.top.equalTo(self.mas_top);
     }];
+    
     if ([_cellType isEqualToString:@"1"]) {
         [self.newsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.offset((JFSCREEN_WIDTH / 2) - 40);
@@ -211,8 +219,14 @@
             make.left.equalTo(self.praiseImageView.mas_right).offset(0);
             make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
         }];
+        
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(40);
+            make.height.offset(21);
+            make.left.equalTo(self.praiseLabel.mas_right).offset(0);
+            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
+        }];
     }
-    
     
     if (![_cellType isEqualToString:@"1"]) {
         self.newsImageView.frame = CGRectMake(0, 5, JFSCREEN_WIDTH, 220);

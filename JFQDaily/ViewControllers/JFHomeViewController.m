@@ -4,7 +4,8 @@
 //
 //  Created by 张志峰 on 2016/11/4.
 //  Copyright © 2016年 zhifenx. All rights reserved.
-//
+//  代码地址：https://github.com/zhifenx/JFQDaily
+//  简书地址：http://www.jianshu.com/users/aef0f8eebe6d/latest_articles
 
 #import "JFHomeViewController.h"
 
@@ -12,6 +13,7 @@
 #import <Masonry.h>
 #import <MJRefresh.h>
 #import "MJExtension.h"
+#import "MBProgressHUD+JFProgressHUD.h"
 #import "JFSuspensionView.h"
 #import "JFHomeNewsDataManager.h"
 #import "JFHomeNewsTableViewCell.h"
@@ -30,15 +32,15 @@ static NSString *ID = @"newsCell";
 
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 {
-    NSString *_last_key;        //上拉加载时传入的key
-    NSString *_has_more;        //是否还有未加载的文章
+    NSString *_last_key;        //上拉加载请求数据时需要拼接到URL中的last_key
+    NSString *_has_more;        //是否还有未加载的文章（0：没有 1：有）
     CGFloat _contentOffset_Y;   //homeNewsTableView滑动后Y轴偏移量
 }
 
 @property (nonatomic, strong) UITableView *homeNewsTableView;
 @property (nonatomic, strong) JFHomeNewsTableViewCell *cell;
 @property (nonatomic, strong) JFMenuView *menuView;
-/** 悬浮按钮父view*/
+/** 悬浮按钮view*/
 @property (nonatomic, strong) JFSuspensionView *jfSuspensionView;
 @property (nonatomic, strong) JFHomeNewsDataManager *manager;
 @property (nonatomic, strong) JFResponseModel *response;
@@ -111,7 +113,7 @@ static NSString *ID = @"newsCell";
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
-/// 悬浮按钮父view
+/// 悬浮按钮view
 - (JFSuspensionView *)jfSuspensionView {
     if (!_jfSuspensionView) {
         _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(10, JFSCREENH_HEIGHT - 70, 54, 54)];
@@ -138,7 +140,7 @@ static NSString *ID = @"newsCell";
     self.jfSuspensionView.frame = tempFrame;
 }
 
-/// 添加图片轮播器
+#pragma mark --- 图片轮播器
 - (void)addLoopView {
     //这里做判断是不免上拉加载时出现数据错误（如果轮播器已经存在就不再添加）
     if (!self.homeNewsTableView.tableHeaderView) {
@@ -162,7 +164,7 @@ static NSString *ID = @"newsCell";
 }
 
 
-/// 数据管理器
+#pragma mark --- 数据管理器
 - (JFHomeNewsDataManager *)manager {
     if (!_manager) {
         _manager = [[JFHomeNewsDataManager alloc] init];
@@ -191,7 +193,7 @@ static NSString *ID = @"newsCell";
     return _manager;
 }
 
-/// 懒加载JFHomeNewsTableView（首页根view）
+#pragma mark --- JFHomeNewsTableView（首页根view）
 - (UITableView *)homeNewsTableView {
     if (!_homeNewsTableView) {
         _homeNewsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
@@ -216,6 +218,7 @@ static NSString *ID = @"newsCell";
         self.cell.newsImageName = feed.post.image;
         self.cell.newsTitle = feed.post.title;
         self.cell.newsType = feed.post.category.title;
+        self.cell.time = feed.post.publish_time;
         self.cell.commentCount = [NSString stringWithFormat:@"%ld",(long)feed.post.comment_count];
         self.cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
     }
@@ -241,6 +244,8 @@ static NSString *ID = @"newsCell";
     JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
     if (![feed.type isEqualToString:@"0"]) {
         [self pushToJFReaderViewControllerWithNewsUrl:feed.post.appview];
+    }else {
+        [MBProgressHUD promptHudWithShowHUDAddedTo:self.view message:@"抱歉，未抓取到相关链接！"];
     }
 }
 
@@ -251,7 +256,7 @@ static NSString *ID = @"newsCell";
     [self.navigationController pushViewController:readerVC animated:YES];
 }
 
-#pragma mark - UIScrollDelegate
+#pragma mark --- UIScrollDelegate
 /// 滚动时调用
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView.contentOffset.y > _contentOffset_Y + 80) {
@@ -273,7 +278,7 @@ static NSString *ID = @"newsCell";
     }];
 }
 
-/// 菜单
+#pragma mark --- 菜单
 - (JFMenuView *)menuView {
     if (!_menuView) {
         _menuView = [[JFMenuView alloc] initWithFrame:self.view.bounds];

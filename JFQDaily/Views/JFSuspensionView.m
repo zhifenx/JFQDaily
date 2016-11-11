@@ -30,6 +30,7 @@
     [self customUI];
 }
 
+/// 重写JFSuspensionButtonStyle的set方法
 - (void)setJFSuspensionButtonStyle:(NSInteger)JFSuspensionButtonStyle {
     _JFSuspensionButtonStyle = JFSuspensionButtonStyle;
 }
@@ -76,7 +77,6 @@
     
     //弹出菜单界面
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType) {
-        
         //重新设置悬浮按钮的tag
         self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
         [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
@@ -132,7 +132,7 @@
     self.backToMenuViewBlock = block;
 }
 
-/// 悬浮按钮动画
+/// 改变悬浮按钮Y值
 - (void)suspensionButtonAnimationWithOffsetY:(CGFloat)offsetY {
     CGRect tempFrame = self.layer.frame;
     tempFrame.origin.y += offsetY;

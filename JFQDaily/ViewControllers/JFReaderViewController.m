@@ -4,7 +4,8 @@
 //
 //  Created by 张志峰 on 2016/11/8.
 //  Copyright © 2016年 zhifenx. All rights reserved.
-//
+//  代码地址：https://github.com/zhifenx/JFQDaily
+//  简书地址：http://www.jianshu.com/users/aef0f8eebe6d/latest_articles
 
 #import "JFReaderViewController.h"
 
@@ -13,6 +14,7 @@
 #import "JFConfigFile.h"
 #import "Masonry.h"
 #import "JFSuspensionView.h"
+#import "MBProgressHUD+JFProgressHUD.h"
 
 @interface JFReaderViewController ()<WKNavigationDelegate, UIScrollViewDelegate>
 {
@@ -39,7 +41,7 @@
     WKWebView *readerWebView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     readerWebView.navigationDelegate = self;
     readerWebView.scrollView.delegate = self;
-    [readerWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_newsUrl]]];
+    [readerWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_newsUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:7.0]];
     [self.view addSubview:readerWebView];
     [self.view addSubview:self.loadingView];
     [self.loadingView addSubview:self.loadingImageView];
@@ -135,12 +137,16 @@
 
 /// WXWebView加载失败时调用
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    JFLog(@"加载失败");
+    [self.loadingImageView stopAnimating];
+    [MBProgressHUD promptHudWithShowHUDAddedTo:self.view message:@"加载失败，请检查网络"];
+    [NSThread sleepForTimeInterval:1.3];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UIScrollDelegate
 /// 滚动时调用
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    //_contentOffset_Y + 80（隐藏悬浮按钮的阀值）
     if (scrollView.contentOffset.y > _contentOffset_Y + 80) {
         [self hideSuspenstionButton];
     } else if (scrollView.contentOffset.y < _contentOffset_Y) {

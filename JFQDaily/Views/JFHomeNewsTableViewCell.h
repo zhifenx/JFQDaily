@@ -10,7 +10,7 @@
 
 @interface JFHomeNewsTableViewCell : UITableViewCell
 
-/** cell的类型*/
+/** cell的类型（0、1、2）*/
 @property (nonatomic, copy) NSString *cellType;
 /** 配图*/
 @property (nonatomic, copy) NSString *newsImageName;
@@ -29,6 +29,6 @@
 /** 点赞数*/
 @property (nonatomic, copy) NSString *praiseCount;
 /** 新闻发布时间*/
-@property (nonatomic, copy) NSString *time;
+@property (nonatomic, assign) NSInteger time;
 
 @end
