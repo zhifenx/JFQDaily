@@ -174,18 +174,21 @@ static NSString *ID = @"newsCell";
             _last_key = weakSelf.response.last_key;
             _has_more = weakSelf.response.has_more;
             
-            
+            //使用MJExtension讲josn数据转成数组
             weakSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
             
             //在contentMutableArray后面添加一个数组
             [weakSelf.contentMutableArray addObjectsFromArray:weakSelf.feedsArray];
             
+            //使用MJExtension讲josn数据转成数组
             weakSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
             
             //停止刷新
             [self.refreshHeader endRefreshing];
             [self.refreshFooter endRefreshing];
+            //添加轮播器
             [self addLoopView];
+            //刷新homeNewsTableView数据
             [self.homeNewsTableView reloadData];
         }];
         
@@ -223,12 +226,15 @@ static NSString *ID = @"newsCell";
         self.cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
     }
     self.cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    //不是1类型的cell才有副标题
     if (![feed.type isEqualToString:@"1"]) {
         self.cell.subhead = feed.post.subhead;
     }
     return self.cell;
 }
 
+/// 根据cell类型返回cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     JFHomeNewsTableViewCell *cell = self.cell;
     if ([cell.cellType isEqualToString:@"0"]) {

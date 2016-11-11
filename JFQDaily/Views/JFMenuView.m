@@ -19,7 +19,7 @@ static NSString *ID = @"menuCell";
 
 @interface JFMenuView ()<UITableViewDelegate, UITableViewDataSource>
 
-/** 模糊效果View*/
+/** 模糊效果层*/
 @property (nonatomic, strong) UIVisualEffectView *blurEffectView;
 
 /** 上半部分设置按钮的父view*/

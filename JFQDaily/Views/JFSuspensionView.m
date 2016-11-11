@@ -83,7 +83,7 @@
         if (self.popupMenuBlock) {
             self.popupMenuBlock();
         }
-        return;
+        return;//因为上面已经对点击事件做处理了，且更改了suspensionButton的tag，此处如果return就会继续执行下面的方法，导致逻辑错误。
     }
     
     //关闭菜单界面
@@ -94,7 +94,7 @@
         if (self.closeMenuBlock) {
             self.closeMenuBlock();
         }
-        return;
+        return;//作用同上
     }
     
     //返回到homeNewsViewController
@@ -104,7 +104,7 @@
         if (self.backBlock) {
             self.backBlock();
         }
-        return;
+        return;//作用同上
     }
     
     //返回到JFMenuView
@@ -112,7 +112,6 @@
         if (self.backToMenuViewBlock) {
             self.backToMenuViewBlock();
         }
-        return;
     }
 }
 
