@@ -19,6 +19,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    /// 模拟数据加载耗时，延长启动页的停留时间
+    [NSThread sleepForTimeInterval:2.0];
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     JFHomeViewController *homeViewController = [[JFHomeViewController alloc] init];
     

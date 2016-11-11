@@ -21,42 +21,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-1_80x80_" translatesAutoresizingMaskIntoConstraints="NO" id="HTJ-GB-z3A">
-                                <rect key="frame" x="147" y="174" width="80" height="80"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-1_80x80_" translatesAutoresizingMaskIntoConstraints="NO" id="N9j-lg-9Uo">
+                                <rect key="frame" x="147" y="147" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="8zg-6y-fId"/>
-                                    <constraint firstAttribute="width" constant="80" id="D0b-GE-iPy"/>
+                                    <constraint firstAttribute="width" constant="80" id="jko-Hr-loC"/>
+                                    <constraint firstAttribute="height" constant="80" id="yKC-ob-L2B"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="zhifenx仿好奇心日报" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3h-T9-crU">
-                                <rect key="frame" x="16" y="271" width="343" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="zhifenx仿好奇心日报" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dn1-Hn-EGm">
+                                <rect key="frame" x="95" y="271" width="185" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="ewl-Ir-5vk"/>
-                                    <constraint firstAttribute="width" constant="343" id="sWh-66-iPf"/>
+                                    <constraint firstAttribute="height" constant="21" id="WDA-Nd-lj4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一个酷爱足球与摄影的iOS程序猿！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISp-aZ-wkH">
-                                <rect key="frame" x="16" y="626" width="343" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="2Vl-RZ-slw"/>
-                                    <constraint firstAttribute="width" constant="343" id="zuk-EM-tni"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一个酷爱足球和摄影的iOS程序猿" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mL-jZ-USA">
+                                <rect key="frame" x="76" y="619" width="223.5" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="c3h-T9-crU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="MXx-kN-Evo"/>
-                            <constraint firstItem="HTJ-GB-z3A" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="154" id="WXc-hW-bWx"/>
-                            <constraint firstItem="HTJ-GB-z3A" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="by7-UD-2eo"/>
-                            <constraint firstItem="c3h-T9-crU" firstAttribute="top" secondItem="HTJ-GB-z3A" secondAttribute="bottom" constant="17" id="f9G-Vs-UPn"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="ISp-aZ-wkH" secondAttribute="bottom" constant="20" id="gJw-F2-6Zy"/>
-                            <constraint firstItem="ISp-aZ-wkH" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="m7i-GZ-UFy"/>
+                            <constraint firstItem="6mL-jZ-USA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Agc-aQ-0PF"/>
+                            <constraint firstItem="dn1-Hn-EGm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="HRO-30-ZXe"/>
+                            <constraint firstItem="dn1-Hn-EGm" firstAttribute="top" secondItem="N9j-lg-9Uo" secondAttribute="bottom" constant="44" id="Ufz-1G-QkY"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6mL-jZ-USA" secondAttribute="bottom" constant="30" id="UqB-gk-kja"/>
+                            <constraint firstItem="N9j-lg-9Uo" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="127" id="u42-Rg-5NS"/>
+                            <constraint firstItem="N9j-lg-9Uo" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vxI-zd-wXa"/>
                         </constraints>
                     </view>
                 </viewController>

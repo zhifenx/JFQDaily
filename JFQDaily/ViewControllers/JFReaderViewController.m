@@ -123,9 +123,14 @@
 
 /// WXWebView加载完成时调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    [self.loadingImageView stopAnimating];
-    [self.loadingView removeFromSuperview];
-    self.loadingView = nil;
+    //渐隐加载动画
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.loadingView setAlpha:0];
+    } completion:^(BOOL finished) {
+        [self.loadingImageView stopAnimating];
+        [self.loadingView removeFromSuperview];
+        self.loadingView = nil;
+    }];
 }
 
 /// WXWebView加载失败时调用

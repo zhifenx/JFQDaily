@@ -56,6 +56,7 @@ static NSString *ID = @"newsCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.contentMutableArray = [[NSMutableArray alloc] init];
     self.imageArray = [[NSArray alloc] init];
     [self.manager requestHomeNewsDataWithLastKey:@"0"];
@@ -182,7 +183,6 @@ static NSString *ID = @"newsCell";
             //停止刷新
             [self.refreshHeader endRefreshing];
             [self.refreshFooter endRefreshing];
-            
             [self addLoopView];
             [self.homeNewsTableView reloadData];
         }];
