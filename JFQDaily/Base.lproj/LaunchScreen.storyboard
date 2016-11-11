@@ -28,18 +28,18 @@
                                     <constraint firstAttribute="height" constant="80" id="yKC-ob-L2B"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="zhifenx仿好奇心日报" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dn1-Hn-EGm">
-                                <rect key="frame" x="95" y="271" width="185" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="WDA-Nd-lj4"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一个酷爱足球和摄影的iOS程序猿" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mL-jZ-USA">
                                 <rect key="frame" x="76" y="619" width="223.5" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="zhifenx仿好奇心日报" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dn1-Hn-EGm">
+                                <rect key="frame" x="108" y="235" width="158.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="WDA-Nd-lj4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -48,7 +48,7 @@
                         <constraints>
                             <constraint firstItem="6mL-jZ-USA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Agc-aQ-0PF"/>
                             <constraint firstItem="dn1-Hn-EGm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="HRO-30-ZXe"/>
-                            <constraint firstItem="dn1-Hn-EGm" firstAttribute="top" secondItem="N9j-lg-9Uo" secondAttribute="bottom" constant="44" id="Ufz-1G-QkY"/>
+                            <constraint firstItem="dn1-Hn-EGm" firstAttribute="top" secondItem="N9j-lg-9Uo" secondAttribute="bottom" constant="8" id="Ufz-1G-QkY"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6mL-jZ-USA" secondAttribute="bottom" constant="30" id="UqB-gk-kja"/>
                             <constraint firstItem="N9j-lg-9Uo" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="127" id="u42-Rg-5NS"/>
                             <constraint firstItem="N9j-lg-9Uo" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vxI-zd-wXa"/>

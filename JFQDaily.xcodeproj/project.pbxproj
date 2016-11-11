@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0BDC4AFF08C5A5B1C19BA9AD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E64FD7C2C849E4062816B /* libPods.a */; };
 		1E1E5C9A1DD2ED8D00102489 /* JFNewsClassificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E1E5C991DD2ED8D00102489 /* JFNewsClassificationView.m */; };
-		1E2362BB1DD055DE0054D048 /* NSString+JFMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */; };
 		1E2362BF1DD0579F0054D048 /* JFWeakTimerTargetObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2362BE1DD0579F0054D048 /* JFWeakTimerTargetObject.m */; };
 		1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED1E1DCEE814002BFDE8 /* JFHomeNewsDataManager.m */; };
 		1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DED531DCF88D4002BFDE8 /* JFCategoryModel.m */; };
@@ -26,6 +25,8 @@
 		1E6E21F61DCC7BDE001C7F08 /* JFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E21F51DCC7BDE001C7F08 /* JFHomeViewController.m */; };
 		1E6E21F81DCC7D32001C7F08 /* PodFile in Resources */ = {isa = PBXBuildFile; fileRef = 1E6E21F71DCC7D32001C7F08 /* PodFile */; };
 		1E6E22051DCC951A001C7F08 /* JFSuspensionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E22041DCC951A001C7F08 /* JFSuspensionView.m */; };
+		1EA3C9E01DD572A000B31F2F /* MBProgressHUD+JFProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA3C9DF1DD572A000B31F2F /* MBProgressHUD+JFProgressHUD.m */; };
+		1EA3C9E41DD58E8100B31F2F /* NSString+JFMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA3C9E31DD58E8100B31F2F /* NSString+JFMessage.m */; };
 		1EA75ABB1DD045E900CBB13F /* JFBannersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ABA1DD045E900CBB13F /* JFBannersModel.m */; };
 		1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACA1DD04EBF00CBB13F /* JFLoopView.m */; };
 		1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */; };
@@ -56,8 +57,6 @@
 		0C5B8B7DDA796F0DCBF6DA46 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1E1E5C981DD2ED8D00102489 /* JFNewsClassificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFNewsClassificationView.h; sourceTree = "<group>"; };
 		1E1E5C991DD2ED8D00102489 /* JFNewsClassificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFNewsClassificationView.m; sourceTree = "<group>"; };
-		1E2362B91DD055DE0054D048 /* NSString+JFMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JFMessage.h"; sourceTree = "<group>"; };
-		1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JFMessage.m"; sourceTree = "<group>"; };
 		1E2362BD1DD0579F0054D048 /* JFWeakTimerTargetObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFWeakTimerTargetObject.h; sourceTree = "<group>"; };
 		1E2362BE1DD0579F0054D048 /* JFWeakTimerTargetObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFWeakTimerTargetObject.m; sourceTree = "<group>"; };
 		1E5DED1D1DCEE814002BFDE8 /* JFHomeNewsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFHomeNewsDataManager.h; sourceTree = "<group>"; };
@@ -90,6 +89,10 @@
 		1E6E21FF1DCC9329001C7F08 /* JFConfigFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JFConfigFile.h; sourceTree = "<group>"; };
 		1E6E22031DCC951A001C7F08 /* JFSuspensionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFSuspensionView.h; sourceTree = "<group>"; };
 		1E6E22041DCC951A001C7F08 /* JFSuspensionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFSuspensionView.m; sourceTree = "<group>"; };
+		1EA3C9DE1DD572A000B31F2F /* MBProgressHUD+JFProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+JFProgressHUD.h"; sourceTree = "<group>"; };
+		1EA3C9DF1DD572A000B31F2F /* MBProgressHUD+JFProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+JFProgressHUD.m"; sourceTree = "<group>"; };
+		1EA3C9E21DD58E8100B31F2F /* NSString+JFMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JFMessage.h"; sourceTree = "<group>"; };
+		1EA3C9E31DD58E8100B31F2F /* NSString+JFMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JFMessage.m"; sourceTree = "<group>"; };
 		1EA75AB91DD045E900CBB13F /* JFBannersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFBannersModel.h; sourceTree = "<group>"; };
 		1EA75ABA1DD045E900CBB13F /* JFBannersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFBannersModel.m; sourceTree = "<group>"; };
 		1EA75AC91DD04EBF00CBB13F /* JFLoopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFLoopView.h; sourceTree = "<group>"; };
@@ -257,10 +260,10 @@
 		1E6E21EE1DCC7B8C001C7F08 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				1E2362BC1DD0579F0054D048 /* JFTimer */,
-				1E2362B91DD055DE0054D048 /* NSString+JFMessage.h */,
-				1E2362BA1DD055DE0054D048 /* NSString+JFMessage.m */,
+				1EA3C9E11DD58E8100B31F2F /* NSString+JFMessage */,
 				1EA75AC81DD04EBF00CBB13F /* JFLoopView */,
+				1EA3C9DD1DD572A000B31F2F /* MBProgressHUD+JFProgressHUD */,
+				1E2362BC1DD0579F0054D048 /* JFTimer */,
 				1E6E21FF1DCC9329001C7F08 /* JFConfigFile.h */,
 			);
 			path = Tools;
@@ -290,6 +293,24 @@
 				1E1E5C991DD2ED8D00102489 /* JFNewsClassificationView.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1EA3C9DD1DD572A000B31F2F /* MBProgressHUD+JFProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				1EA3C9DE1DD572A000B31F2F /* MBProgressHUD+JFProgressHUD.h */,
+				1EA3C9DF1DD572A000B31F2F /* MBProgressHUD+JFProgressHUD.m */,
+			);
+			path = "MBProgressHUD+JFProgressHUD";
+			sourceTree = "<group>";
+		};
+		1EA3C9E11DD58E8100B31F2F /* NSString+JFMessage */ = {
+			isa = PBXGroup;
+			children = (
+				1EA3C9E21DD58E8100B31F2F /* NSString+JFMessage.h */,
+				1EA3C9E31DD58E8100B31F2F /* NSString+JFMessage.m */,
+			);
+			path = "NSString+JFMessage";
 			sourceTree = "<group>";
 		};
 		1EA75AC81DD04EBF00CBB13F /* JFLoopView */ = {
@@ -503,13 +524,14 @@
 			files = (
 				1EA75AD11DD04EBF00CBB13F /* JFLoopViewLayout.m in Sources */,
 				1E5DED661DD01527002BFDE8 /* JFResponseModel.m in Sources */,
-				1E2362BB1DD055DE0054D048 /* NSString+JFMessage.m in Sources */,
 				1E6E21C41DCC74C7001C7F08 /* JFQDaily.xcdatamodeld in Sources */,
 				1E5DED5E1DCF88D4002BFDE8 /* JFCategoryModel.m in Sources */,
 				1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */,
+				1EA3C9E01DD572A000B31F2F /* MBProgressHUD+JFProgressHUD.m in Sources */,
 				1EFC1CB71DCD78DF0087A9C5 /* JFHomeNewsTableViewCell.m in Sources */,
 				1EA75ABB1DD045E900CBB13F /* JFBannersModel.m in Sources */,
 				1E2362BF1DD0579F0054D048 /* JFWeakTimerTargetObject.m in Sources */,
+				1EA3C9E41DD58E8100B31F2F /* NSString+JFMessage.m in Sources */,
 				1E6E21F61DCC7BDE001C7F08 /* JFHomeViewController.m in Sources */,
 				1E5DED5F1DCF88D4002BFDE8 /* JFFeedsModel.m in Sources */,
 				1E5DED621DCF88D4002BFDE8 /* JFPostModel.m in Sources */,

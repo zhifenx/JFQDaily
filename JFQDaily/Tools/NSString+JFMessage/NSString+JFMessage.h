@@ -4,7 +4,8 @@
 //
 //  Created by 张志峰 on 16/9/9.
 //  Copyright © 2016年 zhifenx. All rights reserved.
-//
+//  代码地址：https://github.com/zhifenx/JFQDaily
+//  简书地址：http://www.jianshu.com/users/aef0f8eebe6d/latest_articles
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

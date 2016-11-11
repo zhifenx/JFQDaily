@@ -153,6 +153,8 @@
 }
 
 #pragma mark --- 设置子控件的frame
+
+/// 根据cellType(0、1、2)设置cell的frame
 - (void)customUI {
     [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.offset(JFSCREEN_WIDTH);
@@ -160,6 +162,7 @@
         make.left.equalTo(self.mas_left);
         make.top.equalTo(self.mas_top);
     }];
+    
     if ([_cellType isEqualToString:@"1"]) {
         [self.newsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.offset((JFSCREEN_WIDTH / 2) - 40);
@@ -212,7 +215,6 @@
             make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
         }];
     }
-    
     
     if (![_cellType isEqualToString:@"1"]) {
         self.newsImageView.frame = CGRectMake(0, 5, JFSCREEN_WIDTH, 220);

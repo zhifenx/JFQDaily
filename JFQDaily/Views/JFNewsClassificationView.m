@@ -10,6 +10,7 @@
 
 #import "JFConfigFile.h"
 #import "JFSuspensionView.h"
+#import "MBProgressHUD+JFProgressHUD.h"
 
 static NSString *ID = @"nwesClassificationCell";
 
@@ -112,6 +113,10 @@ static NSString *ID = @"nwesClassificationCell";
 #pragma mark --- UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return (JFSCREENH_HEIGHT - 280) / _imageArray.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [MBProgressHUD promptHudWithShowHUDAddedTo:self.superview message:@"待完善，您的支持是我最大的动力！"];
 }
 
 

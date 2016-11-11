@@ -11,6 +11,7 @@
 #import "JFNewsClassificationView.h"
 #import "JFConfigFile.h"
 #import "Masonry.h"
+#import "MBProgressHUD+JFProgressHUD.h"
 
 #define KHeaderViewH 200
 
@@ -198,19 +199,7 @@ static NSString *ID = @"menuCell";
     self.jfNewsClassificationView.frame = tempFrame;
 }
 
-- (UITableView *)menuTableView {
-    if (!_menuTableView) {
-        _menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 190, JFSCREENH_HEIGHT - KHeaderViewH - 80) style:UITableViewStylePlain];
-        [_menuTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ID];
-        _menuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _menuTableView.backgroundColor = [UIColor clearColor];
-        _menuTableView.delegate = self;
-        _menuTableView.dataSource = self;
-    }
-    return _menuTableView;
-}
-
-/// headerViewButon
+/// headerViewButon（设置、开源、离线、分享）
 - (void)addHeaderViewButtonAndLabel {
     UILabel *sign = [[UILabel alloc] init];
     sign.text = @"zhifenx仿好奇心日报";
@@ -231,6 +220,7 @@ static NSString *ID = @"menuCell";
                                @"share_icon"];
     for (int i = 0; i < iconNameArray.count; i ++) {
         UIButton *headerViewButton = [[UIButton alloc] init];
+        [headerViewButton addTarget:self action:@selector(headerViewButtonEvents:) forControlEvents:UIControlEventTouchDown];
         headerViewButton.tag = i;
         NSString *imageName = iconNameArray[i];
         [headerViewButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
@@ -243,6 +233,10 @@ static NSString *ID = @"menuCell";
             make.right.equalTo(self.headerView.mas_left).offset(((JFSCREEN_WIDTH - 4 * 38) / 5 + 38) * (i + 1));
         }];
     }
+}
+
+- (void)headerViewButtonEvents:(UIButton *)sender {
+    [MBProgressHUD promptHudWithShowHUDAddedTo:self message:@"待完善，您的支持是我最大的动力!"];
 }
 
 - (NSArray *)imageArray {
@@ -269,6 +263,20 @@ static NSString *ID = @"menuCell";
                         @"首页"];
     }
     return _titleArray;
+}
+
+#pragma mark --- menuTableView
+
+- (UITableView *)menuTableView {
+    if (!_menuTableView) {
+        _menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 190, JFSCREENH_HEIGHT - KHeaderViewH - 80) style:UITableViewStylePlain];
+        [_menuTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ID];
+        _menuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _menuTableView.backgroundColor = [UIColor clearColor];
+        _menuTableView.delegate = self;
+        _menuTableView.dataSource = self;
+    }
+    return _menuTableView;
 }
 
 #pragma mark --- UITableViewDataSource
@@ -301,6 +309,8 @@ static NSString *ID = @"menuCell";
         if (self.popupNewsClassificationViewBlock) {
             self.popupNewsClassificationViewBlock();
         }
+    }else {
+        [MBProgressHUD promptHudWithShowHUDAddedTo:self message:@"待完善，您的支持是我最大的动力！"];
     }
 }
 

@@ -4,7 +4,8 @@
 //
 //  Created by 张志峰 on 16/8/25.
 //  Copyright © 2016年 zhifenx. All rights reserved.
-//
+//  代码地址：https://github.com/zhifenx/JFQDaily
+//  简书地址：http://www.jianshu.com/users/aef0f8eebe6d/latest_articles
 
 #ifndef JFConfigFile_h
 #define JFConfigFile_h
@@ -21,6 +22,7 @@
 #define JFRGBAColor(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(r)/255.0 blue:(r)/255.0 alpha:a]
 
 #define JFClearColor [UIColor clearColor]// clear背景颜色
+
 /** 自定义Log */
 #ifdef DEBUG
 #define JFLog(...) NSLog(@"%s 第%d行 \n %@\n\n",__func__,__LINE__,[NSString stringWithFormat:__VA_ARGS__])
