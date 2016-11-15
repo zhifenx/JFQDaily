@@ -1,6 +1,9 @@
+target 'JFQDaily' do
 pod 'Masonry'
 pod 'AFNetworking'
 pod 'MJRefresh'
 pod 'SDWebImage'
 pod 'MJExtension'
 pod 'MBProgressHUD'
+pod 'pop'
+end
