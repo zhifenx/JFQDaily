@@ -8,6 +8,8 @@
 
 #import "JFSuspensionView.h"
 
+#import <pop/POP.h>
+
 @interface JFSuspensionView ()
 
 @property (nonatomic, strong) UIButton *suspensionButton;
@@ -59,27 +61,27 @@
 }
 
 - (void)clickSuspensionButton:(UIButton *)sender {
+    sender.selected = !sender.selected;
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType || _suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
         
-        [UIView animateWithDuration:0.15 animations:^{
+        [UIView animateWithDuration:0.05 animations:^{
             [self suspensionButtonAnimationWithOffsetY:80];
         } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^{
-                [self suspensionButtonAnimationWithOffsetY:-88];
-            } completion:^(BOOL finished) {
-                
-                [UIView animateWithDuration:0.1 animations:^{
-                    [self suspensionButtonAnimationWithOffsetY:8];
-                }];
-            }];
+            [self popAnimationWithOffset:-80 beginTime:0];
+            if (sender.selected) {
+                [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
+            }else {
+                [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
+            }
         }];
+        
+        
     }
     
     //弹出菜单界面
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType) {
         //重新设置悬浮按钮的tag
         self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
-        [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
         if (self.popupMenuBlock) {
             self.popupMenuBlock();
         }
@@ -90,7 +92,6 @@
     if (_suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
         //重新设置悬浮按钮的tag
         self.suspensionButton.tag = JFSuspensionButtonStyleQType;
-        [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
         if (self.closeMenuBlock) {
             self.closeMenuBlock();
         }
@@ -131,11 +132,28 @@
     self.backToMenuViewBlock = block;
 }
 
+/** pop动画
+ *  POPPropertyAnimation    动画属性
+ *  springBounciness:4.0    [0-20] 弹力 越大则震动幅度越大
+ *  springSpeed     :12.0   [0-20] 速度 越大则动画结束越快
+ *  dynamicsTension :0      拉力  接下来三个都跟物理力学模拟相关 数值调整起来比较麻烦、费时
+ *  dynamicsFriction:0      摩擦力
+ *  dynamicsMass    :0      质量
+ */
+- (void)popAnimationWithOffset:(CGFloat)offset beginTime:(CGFloat)beginTime {
+    POPSpringAnimation *popSpring = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+    popSpring.toValue = @(self.suspensionButton.center.y + offset);
+    popSpring.beginTime = CACurrentMediaTime() + beginTime;
+    popSpring.springBounciness = 10.0f;
+    popSpring.springSpeed = 18;
+    [self.suspensionButton pop_addAnimation:popSpring forKey:@"positionY"];
+}
+
 /// 改变悬浮按钮Y值
 - (void)suspensionButtonAnimationWithOffsetY:(CGFloat)offsetY {
-    CGRect tempFrame = self.layer.frame;
+    CGRect tempFrame = self.suspensionButton.layer.frame;
     tempFrame.origin.y += offsetY;
-    self.layer.frame = tempFrame;
+    self.suspensionButton.layer.frame = tempFrame;
 }
 
 @end

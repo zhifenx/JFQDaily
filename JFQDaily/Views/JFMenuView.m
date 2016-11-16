@@ -12,6 +12,7 @@
 #import "JFConfigFile.h"
 #import "Masonry.h"
 #import "MBProgressHUD+JFProgressHUD.h"
+#import <pop/POP.h>
 
 #define KHeaderViewH 200
 
@@ -76,24 +77,27 @@ static NSString *ID = @"menuCell";
     return _footerView;
 }
 
+/** pop动画
+ *  POPPropertyAnimation    动画属性
+ *  view                    动画对象
+ *  offset                  偏移量
+ *  speed                   动画速度
+ */
+- (void)popAnimationWithView:(UIView *)view Offset:(CGFloat)offset speed:(CGFloat)speed {
+    POPSpringAnimation *popSpring = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+    popSpring.toValue = @(view.center.y + offset);
+    popSpring.beginTime = CACurrentMediaTime();
+    popSpring.springBounciness = 11.0f;
+    popSpring.springSpeed = speed;
+    [view pop_addAnimation:popSpring forKey:@"positionY"];
+}
+
 /// 弹出headerView和footerView
 - (void)popupMenuViewAnimation {
     //显示JFMenuView
     [self setHidden:NO];
-    [UIView animateWithDuration:0.2 animations:^{
-        [self headerViewOffsetY:7];
-        [self footerViewOffsetY:KHeaderViewH - 7];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.15 animations:^{
-            [self headerViewOffsetY:-3];
-            [self footerViewOffsetY:KHeaderViewH + 3];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^{
-                [self headerViewOffsetY:0];
-                [self footerViewOffsetY:KHeaderViewH];
-            }];
-        }];
-    }];
+    [self popAnimationWithView:self.headerView Offset:KHeaderViewH speed:15];
+    [self popAnimationWithView:self.footerView Offset:-(JFSCREENH_HEIGHT - KHeaderViewH) speed:12];
 }
 
 /// 动画隐藏headerView和footerView
@@ -142,20 +146,12 @@ static NSString *ID = @"menuCell";
     [UIView animateWithDuration:0.15 animations:^{
         [self menuTableViewOffsetX:-JFSCREEN_WIDTH];
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.15 animations:^{
-            
-            [self jfNewsClassificationViewOffsetX:-10];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^{
-                
-                [self jfNewsClassificationViewOffsetX:5];
-            } completion:^(BOOL finished) {
-                [UIView animateWithDuration:0.1 animations:^{
-                    
-                    [self jfNewsClassificationViewOffsetX:0];
-                }];
-            }];
-        }];
+        POPSpringAnimation *popSpring = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+        popSpring.toValue = @(self.jfNewsClassificationView.center.x - JFSCREEN_WIDTH);
+        popSpring.beginTime = CACurrentMediaTime();
+        popSpring.springBounciness = 8.0f;
+        popSpring.springSpeed = 15.0f;
+        [self.jfNewsClassificationView pop_addAnimation:popSpring forKey:@"positionX"];
     }];
 }
 

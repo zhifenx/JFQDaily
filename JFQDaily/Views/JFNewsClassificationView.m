@@ -11,6 +11,7 @@
 #import "JFConfigFile.h"
 #import "JFSuspensionView.h"
 #import "MBProgressHUD+JFProgressHUD.h"
+#import <pop/POP.h>
 
 static NSString *ID = @"nwesClassificationCell";
 
@@ -119,29 +120,30 @@ static NSString *ID = @"nwesClassificationCell";
     [MBProgressHUD promptHudWithShowHUDAddedTo:self.superview message:@"待完善，您的支持是我最大的动力！"];
 }
 
+/** pop动画
+ *  POPPropertyAnimation    动画属性
+ *  view                    动画对象
+ *  offset                  偏移量
+ *  speed                   动画速度
+ */
+- (void)popAnimationWithView:(UIView *)view Offset:(CGFloat)offset speed:(CGFloat)speed {
+    POPSpringAnimation *popSpring = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    popSpring.toValue = @(view.center.x + offset);
+    popSpring.beginTime = CACurrentMediaTime() + 0.2;
+    popSpring.springBounciness = 8.0f;
+    popSpring.springSpeed = speed;
+    [view pop_addAnimation:popSpring forKey:@"positionX"];
+}
 
 ///弹出悬浮按钮
 - (void)popupSuspensionView {
-    [UIView animateWithDuration:0.5 animations:^{
-        
-        [self suspensionViewOffsetX:0];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.15 animations:^{
-            
-            [self suspensionViewOffsetX:15];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.1 animations:^{
-                
-                [self suspensionViewOffsetX:10];
-            }];
-        }];
-    }];
+    [self popAnimationWithView:self.jfSuspensionView Offset:-JFSCREEN_WIDTH + 10 speed:20];
 }
 
 ///隐藏悬浮按钮
 - (void)hideSuspensionView {
     [UIView animateWithDuration:0.15 animations:^{
-        [self suspensionViewOffsetX:JFSCREEN_WIDTH + 100];
+        [self suspensionViewOffsetX:JFSCREEN_WIDTH];
     }];
 }
 
