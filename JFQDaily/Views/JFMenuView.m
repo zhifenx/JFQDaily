@@ -96,19 +96,25 @@ static NSString *ID = @"menuCell";
 - (void)popupMenuViewAnimation {
     //显示JFMenuView
     [self setHidden:NO];
-    [self popAnimationWithView:self.headerView Offset:KHeaderViewH speed:15];
-    [self popAnimationWithView:self.footerView Offset:-(JFSCREENH_HEIGHT - KHeaderViewH) speed:12];
+    
+    //加判断，防止连击悬浮按钮时出现界面逻辑交互混乱的情况（下同）
+    if (-KHeaderViewH == self.headerView.layer.frame.origin.y) {
+        [self popAnimationWithView:self.headerView Offset:KHeaderViewH speed:15];
+    }
+    if (JFSCREENH_HEIGHT == self.footerView.layer.frame.origin.y) {
+        [self popAnimationWithView:self.footerView Offset:-(JFSCREENH_HEIGHT - KHeaderViewH) speed:15];
+    }
 }
 
 /// 动画隐藏headerView和footerView
 - (void)hideMenuViewAnimation {
-    [UIView animateWithDuration:0.1 animations:^{
-        [self headerViewOffsetY:-KHeaderViewH];
-        [self footerViewOffsetY:JFSCREENH_HEIGHT];
-    } completion:^(BOOL finished) {
-        //隐藏JFMenuView
-        [self setHidden:YES];
-    }];
+        [UIView animateWithDuration:0.1 animations:^{
+            [self headerViewOffsetY:-KHeaderViewH];
+            [self footerViewOffsetY:JFSCREENH_HEIGHT];
+        } completion:^(BOOL finished) {
+            //隐藏JFMenuView
+            [self setHidden:YES];
+        }];
 }
 
 /// 改变headerView的Y值
