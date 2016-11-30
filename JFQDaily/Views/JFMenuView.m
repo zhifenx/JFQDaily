@@ -108,13 +108,13 @@ static NSString *ID = @"menuCell";
 
 /// 动画隐藏headerView和footerView
 - (void)hideMenuViewAnimation {
-        [UIView animateWithDuration:0.1 animations:^{
-            [self headerViewOffsetY:-KHeaderViewH];
-            [self footerViewOffsetY:JFSCREENH_HEIGHT];
-        } completion:^(BOOL finished) {
-            //隐藏JFMenuView
-            [self setHidden:YES];
-        }];
+    [UIView animateWithDuration:0.1 animations:^{
+        [self headerViewOffsetY:-KHeaderViewH];
+        [self footerViewOffsetY:JFSCREENH_HEIGHT];
+    } completion:^(BOOL finished) {
+        //隐藏JFMenuView
+        [self setHidden:YES];
+    }];
 }
 
 /// 改变headerView的Y值
@@ -165,7 +165,6 @@ static NSString *ID = @"menuCell";
 - (void)hideJFNewsClassificationViewAnimation {
     
     [self.jfNewsClassificationView hideSuspensionView];
-    
     [UIView animateWithDuration:0.15 animations:^{
         [UIView animateWithDuration:0.15 animations:^{
             [self jfNewsClassificationViewOffsetX:JFSCREEN_WIDTH];

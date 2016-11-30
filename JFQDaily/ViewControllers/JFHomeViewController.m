@@ -142,7 +142,7 @@ static NSString *ID = @"newsCell";
 
 #pragma mark --- 图片轮播器
 - (void)addLoopView {
-    //这里做判断是不免上拉加载时出现数据错误（如果轮播器已经存在就不再添加）
+    //这里做判断是避免上拉加载时出现数据错误（如果轮播器已经存在就不再添加）
     if (!self.homeNewsTableView.tableHeaderView) {
         NSMutableArray *imageMuatableArray = [[NSMutableArray alloc] init];
         NSMutableArray *titleMutableArray = [[NSMutableArray alloc] init];
@@ -156,8 +156,9 @@ static NSString *ID = @"newsCell";
         loopView.frame = CGRectMake(0, 0, JFSCREEN_WIDTH, 300);
         loopView.newsUrlMutableArray = newsUrlMuatbleArray;
         
+        __weak typeof(self) weakSelf = self;
         [loopView didSelectCollectionItemBlock:^(NSString *Url) {
-            [self pushToJFReaderViewControllerWithNewsUrl:Url];
+            [weakSelf pushToJFReaderViewControllerWithNewsUrl:Url];
         }];
         self.homeNewsTableView.tableHeaderView = loopView;
     }
@@ -184,12 +185,12 @@ static NSString *ID = @"newsCell";
             weakSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
             
             //停止刷新
-            [self.refreshHeader endRefreshing];
-            [self.refreshFooter endRefreshing];
+            [weakSelf.refreshHeader endRefreshing];
+            [weakSelf.refreshFooter endRefreshing];
             //添加轮播器
-            [self addLoopView];
+            [weakSelf addLoopView];
             //刷新homeNewsTableView数据
-            [self.homeNewsTableView reloadData];
+            [weakSelf.homeNewsTableView reloadData];
         }];
         
     }
@@ -200,7 +201,6 @@ static NSString *ID = @"newsCell";
 - (UITableView *)homeNewsTableView {
     if (!_homeNewsTableView) {
         _homeNewsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
-        [_homeNewsTableView registerClass:[JFHomeNewsTableViewCell class] forCellReuseIdentifier:ID];
         _homeNewsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _homeNewsTableView.delegate = self;
         _homeNewsTableView.dataSource = self;
@@ -294,7 +294,7 @@ static NSString *ID = @"newsCell";
         [_menuView popupNewsClassificationViewBlock:^{
             //重置悬浮按钮的Tag
             weakSelf.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
-            [self suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
+            [weakSelf suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
         }];
         
         [_menuView hideNewsClassificationViewBlock:^{

@@ -36,7 +36,7 @@
     AFHTTPSessionManager *manager = [self manager];
     //拼接URL
     NSString *urlString = [NSString stringWithFormat:@"http://app3.qdaily.com/app3/homes/index/%@.json?",lastKey];
-    
+    __weak typeof(self) weakSelf = self;
     [manager GET:urlString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -44,8 +44,8 @@
         //  JSON数据转字典
         NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         
-        if (self.newsDataBlock) {
-            self.newsDataBlock([dataDictionary valueForKey:@"response"]);
+        if (weakSelf.newsDataBlock) {
+            weakSelf.newsDataBlock([dataDictionary valueForKey:@"response"]);
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

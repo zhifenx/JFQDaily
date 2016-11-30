@@ -105,6 +105,10 @@
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView backBlock:^{
             [weakSelf.navigationController popViewControllerAnimated:YES];
+            
+#warning 这里如果使用weakSelf，在iOS 9系统中进入JFReaderViewController再返回首页时会崩溃，目前还没找到原因！
+//            [weakSelf destoryJFSuspensionView];
+            [self destoryJFSuspensionView];
         }];
     }
     return _jfSuspensionView;

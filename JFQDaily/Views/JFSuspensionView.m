@@ -63,7 +63,6 @@
 - (void)clickSuspensionButton:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType || _suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
-        
         //加判断，防止连击悬浮按钮时出现界面逻辑交互混乱的情况
         if (0 == sender.layer.frame.origin.y) {
         [UIView animateWithDuration:0.05 animations:^{
