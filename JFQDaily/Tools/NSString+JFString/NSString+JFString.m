@@ -1,5 +1,5 @@
 //
-//  NSString+JFMessage.m
+//  NSString+JFString.m
 //  JFLive
 //
 //  Created by 张志峰 on 16/9/9.
@@ -7,7 +7,7 @@
 //  代码地址：https://github.com/zhifenx/JFQDaily
 //  简书地址：http://www.jianshu.com/users/aef0f8eebe6d/latest_articles
 
-#import "NSString+JFMessage.h"
+#import "NSString+JFString.h"
 
 @implementation NSString (JFMessage)
 

@@ -43,8 +43,11 @@ static NSString *ID = @"nwesClassificationCell";
         ///返回到nenuViewBlock回调
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView backToMenuViewBlock:^{
-            if (weakSelf.backBlock) {
-                weakSelf.backBlock();
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                if (strongSelf.backBlock) {
+                    strongSelf.backBlock();
+                }
             }
         }];
     }
@@ -142,9 +145,10 @@ static NSString *ID = @"nwesClassificationCell";
 
 ///隐藏悬浮按钮
 - (void)hideSuspensionView {
-    [UIView animateWithDuration:0.15 animations:^{
-        [self suspensionViewOffsetX:JFSCREEN_WIDTH];
-    }];
+    [UIView animateWithDuration:0.15
+                     animations:^{
+                         [self suspensionViewOffsetX:JFSCREEN_WIDTH];
+                     }];
 }
 
 ///改变悬浮按钮的X值

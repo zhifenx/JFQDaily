@@ -1,5 +1,5 @@
 //
-//  NSString+JFMessage.h
+//  NSString+JFString.h
 //  JFLive
 //
 //  Created by 张志峰 on 16/9/9.

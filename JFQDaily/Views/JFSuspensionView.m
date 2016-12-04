@@ -65,37 +65,36 @@
     if (_suspensionButton.tag == JFSuspensionButtonStyleQType || _suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
         //加判断，防止连击悬浮按钮时出现界面逻辑交互混乱的情况
         if (0 == sender.layer.frame.origin.y) {
-        [UIView animateWithDuration:0.05 animations:^{
-            
-            [self suspensionButtonAnimationWithOffsetY:80];
-            
-        } completion:^(BOOL finished) {
-            
-            [self popAnimationWithOffset:-80 beginTime:0];
-                //弹出菜单界面
-                if (_suspensionButton.tag == JFSuspensionButtonStyleQType) {
-                    [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
-                    //重新设置悬浮按钮的tag
-                    self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
-                    if (self.popupMenuBlock) {
-                        self.popupMenuBlock();
-                    }
-                    return;//因为上面已经对点击事件做处理了，且更改了suspensionButton的tag，此处如果return就会继续执行下面的方法，导致逻辑错误。
-                }
+        [UIView animateWithDuration:0.05
+                         animations:^{
+                             [self suspensionButtonAnimationWithOffsetY:80];
+                         } completion:^(BOOL finished) {
+                             [self popAnimationWithOffset:-80 beginTime:0];
+                            //弹出菜单界面
+                            if (_suspensionButton.tag == JFSuspensionButtonStyleQType) {
+                                [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
+                                //重新设置悬浮按钮的tag
+                                self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
+                                if (self.popupMenuBlock) {
+                                    self.popupMenuBlock();
+                                }
+                                return;//因为上面已经对点击事件做处理了，且更改了suspensionButton的tag，此处如果return就会继续执行下面的方法，导致逻辑错误。
+                            }
                 
-                //关闭菜单界面
-            if (_suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
-                [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
-                    //重新设置悬浮按钮的tag
-                    self.suspensionButton.tag = JFSuspensionButtonStyleQType;
-                    if (self.closeMenuBlock) {
-                        self.closeMenuBlock();
-                    }
-                    return;//作用同上
-                }
-        }];
-        
-    }
+                            //关闭菜单界面
+
+                             if (_suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
+                                [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
+                                    //重新设置悬浮按钮的tag
+                                    self.suspensionButton.tag = JFSuspensionButtonStyleQType;
+                                    if (self.closeMenuBlock) {
+                                        self.closeMenuBlock();
+                                    }
+                                    return;//作用同上
+                                }
+                                    }];
+                                    
+        }
     }
     //返回到homeNewsViewController
     if (_suspensionButton.tag == JFSuspensionButtonStyleBackType) {

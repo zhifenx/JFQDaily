@@ -104,10 +104,15 @@
         _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType;
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView backBlock:^{
-            [weakSelf.navigationController popViewControllerAnimated:YES];
             
-#warning 这里如果使用weakSelf，在iOS 9系统中进入JFReaderViewController再返回首页时会崩溃，目前还没找到原因！
-//            [weakSelf destoryJFSuspensionView];
+//            __strong typeof(self) strongSelf = weakSelf;
+//            if (strongSelf) {
+//                [strongSelf.navigationController popViewControllerAnimated:YES];
+//                [strongSelf destoryJFSuspensionView];
+//            }
+            
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+#warning 这里如果使用strongSelf，在iOS 9系统中进入JFReaderViewController再返回首页时会崩溃，目前还没找到原因！
             [self destoryJFSuspensionView];
         }];
     }
@@ -130,13 +135,14 @@
 /// WXWebView加载完成时调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     //渐隐加载动画
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.loadingView setAlpha:0];
-    } completion:^(BOOL finished) {
-        [self.loadingImageView stopAnimating];
-        [self.loadingView removeFromSuperview];
-        self.loadingView = nil;
-    }];
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         [self.loadingView setAlpha:0];
+                     } completion:^(BOOL finished) {
+                         [self.loadingImageView stopAnimating];
+                         [self.loadingView removeFromSuperview];
+                                 self.loadingView = nil;
+                     }];
 }
 
 /// WXWebView加载失败时调用
@@ -166,21 +172,23 @@
 /// 显示悬浮按钮
 - (void)showSuspenstionButton {
     if (self.jfSuspensionView.layer.frame.origin.y == JFSCREENH_HEIGHT - 60) return;
-    [UIView animateWithDuration:0.2 animations:^{
-        CGRect tempFrame = self.jfSuspensionView.layer.frame;
-        tempFrame.origin.y -= 60;
-        self.jfSuspensionView.layer.frame = tempFrame;
-    }];
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         CGRect tempFrame = self.jfSuspensionView.layer.frame;
+                         tempFrame.origin.y -= 60;
+                         self.jfSuspensionView.layer.frame = tempFrame;
+                     }];
 }
 
 /// 隐藏悬浮按钮
 - (void)hideSuspenstionButton {
     if (self.jfSuspensionView.layer.frame.origin.y == JFSCREENH_HEIGHT) return;
-    [UIView animateWithDuration:0.2 animations:^{
-        CGRect tempFrame = self.jfSuspensionView.layer.frame;
-        tempFrame.origin.y += 60;
-        self.jfSuspensionView.layer.frame = tempFrame;
-    }];
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         CGRect tempFrame = self.jfSuspensionView.layer.frame;
+                         tempFrame.origin.y += 60;
+                         self.jfSuspensionView.layer.frame = tempFrame;
+                     }];
 }
 
 - (void)didReceiveMemoryWarning {

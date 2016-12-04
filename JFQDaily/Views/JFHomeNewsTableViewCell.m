@@ -10,7 +10,7 @@
 
 #import "Masonry.h"
 #import <UIImageView+WebCache.h>
-#import "NSString+JFMessage.h"
+#import "NSString+JFString.h"
 #import "JFConfigFile.h"
 
 @interface JFHomeNewsTableViewCell ()

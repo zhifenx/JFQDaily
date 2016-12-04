@@ -122,8 +122,12 @@ static NSString *ID = @"newsCell";
         
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView popupMenuBlock:^{
-            [weakSelf.view insertSubview:weakSelf.menuView belowSubview:weakSelf.jfSuspensionView];
-            [weakSelf.menuView popupMenuViewAnimation];
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.view insertSubview:strongSelf.menuView
+                                  belowSubview:strongSelf.jfSuspensionView];
+                [strongSelf.menuView popupMenuViewAnimation];
+            }
         }];
         
         [_jfSuspensionView closeMenuBlock:^{
@@ -171,26 +175,30 @@ static NSString *ID = @"newsCell";
         _manager = [[JFHomeNewsDataManager alloc] init];
         __weak typeof(self) weakSelf = self;
         [_manager newsDataBlock:^(id data) {
-            weakSelf.response = [JFResponseModel mj_objectWithKeyValues:data];
-            _last_key = weakSelf.response.last_key;
-            _has_more = weakSelf.response.has_more;
-            
-            //使用MJExtension讲josn数据转成数组
-            weakSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
-            
-            //在contentMutableArray后面添加一个数组
-            [weakSelf.contentMutableArray addObjectsFromArray:weakSelf.feedsArray];
-            
-            //使用MJExtension讲josn数据转成数组
-            weakSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
-            
-            //停止刷新
-            [weakSelf.refreshHeader endRefreshing];
-            [weakSelf.refreshFooter endRefreshing];
-            //添加轮播器
-            [weakSelf addLoopView];
-            //刷新homeNewsTableView数据
-            [weakSelf.homeNewsTableView reloadData];
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                
+                strongSelf.response = [JFResponseModel mj_objectWithKeyValues:data];
+                _last_key = strongSelf.response.last_key;
+                _has_more = strongSelf.response.has_more;
+                
+                //使用MJExtension讲josn数据转成数组
+                strongSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
+                
+                //在contentMutableArray后面添加一个数组
+                [strongSelf.contentMutableArray addObjectsFromArray:strongSelf.feedsArray];
+                
+                //使用MJExtension讲josn数据转成数组
+                strongSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
+                
+                //停止刷新
+                [strongSelf.refreshHeader endRefreshing];
+                [strongSelf.refreshFooter endRefreshing];
+                //添加轮播器
+                [strongSelf addLoopView];
+                //刷新homeNewsTableView数据
+                [strongSelf.homeNewsTableView reloadData];
+            }
         }];
         
     }
@@ -279,9 +287,10 @@ static NSString *ID = @"newsCell";
 
 /// 设置悬浮按钮view透明度，以此显示和隐藏悬浮按钮
 - (void)suspensionWithAlpha:(CGFloat)alpha {
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.jfSuspensionView setAlpha:alpha];
-    }];
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         [self.jfSuspensionView setAlpha:alpha];
+                     }];
 }
 
 #pragma mark --- 菜单
@@ -292,27 +301,33 @@ static NSString *ID = @"newsCell";
         
         __weak typeof(self) weakSelf = self;
         [_menuView popupNewsClassificationViewBlock:^{
-            //重置悬浮按钮的Tag
-            weakSelf.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
-            [weakSelf suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                //重置悬浮按钮的Tag
+                strongSelf.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
+                [strongSelf suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
+            }
         }];
         
         [_menuView hideNewsClassificationViewBlock:^{
             
             //隐藏新闻分类菜单
             [weakSelf.menuView hideJFNewsClassificationViewAnimation];
-                [UIView animateWithDuration:0.3 animations:^{
-                    [self suspensionViewOffsetX:15];
-                } completion:^(BOOL finished) {
-                    [UIView animateWithDuration:0.15 animations:^{
-                        [self suspensionViewOffsetX:5];
-                    } completion:^(BOOL finished) {
-                        [UIView animateWithDuration:0.1 animations:^{
-                            [self suspensionViewOffsetX:10];
-                        }];
-                    }];
-                }];
-            }];
+                [UIView animateWithDuration:0.3
+                                 animations:^{
+                                     [self suspensionViewOffsetX:15];
+                                 }completion:^(BOOL finished) {
+                                     [UIView animateWithDuration:0.15
+                                                      animations:^{
+                                                          [self suspensionViewOffsetX:5];
+                                                      }completion:^(BOOL finished) {
+                                                          [UIView animateWithDuration:0.1
+                                                                           animations:^{
+                                                                               [self suspensionViewOffsetX:10];
+                                                                           }];
+                                                      }];
+                                 }];
+        }];
     }
     return _menuView;
 }

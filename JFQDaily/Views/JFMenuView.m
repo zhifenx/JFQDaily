@@ -108,13 +108,14 @@ static NSString *ID = @"menuCell";
 
 /// 动画隐藏headerView和footerView
 - (void)hideMenuViewAnimation {
-    [UIView animateWithDuration:0.1 animations:^{
-        [self headerViewOffsetY:-KHeaderViewH];
-        [self footerViewOffsetY:JFSCREENH_HEIGHT];
-    } completion:^(BOOL finished) {
-        //隐藏JFMenuView
-        [self setHidden:YES];
-    }];
+    [UIView animateWithDuration:0.1
+                     animations:^{
+                         [self headerViewOffsetY:-KHeaderViewH];
+                         [self footerViewOffsetY:JFSCREENH_HEIGHT];
+                     } completion:^(BOOL finished) {
+                         //隐藏JFMenuView
+                         [self setHidden:YES];
+                     }];
 }
 
 /// 改变headerView的Y值
@@ -138,9 +139,11 @@ static NSString *ID = @"menuCell";
         //隐藏自己，返回到menuView
         __weak typeof(self) weakSelf = self;
         [_jfNewsClassificationView backBlock:^{
-            
-            if (weakSelf.hideNewsClassificationViewBlock) {
-                weakSelf.hideNewsClassificationViewBlock();
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                if (strongSelf.hideNewsClassificationViewBlock) {
+                    strongSelf.hideNewsClassificationViewBlock();
+                }
             }
         }];
     }
@@ -149,41 +152,45 @@ static NSString *ID = @"menuCell";
 
 ///弹出新闻分类菜单
 - (void)popupJFNewsClassificationViewAnimation {
-    [UIView animateWithDuration:0.15 animations:^{
-        [self menuTableViewOffsetX:-JFSCREEN_WIDTH];
-    } completion:^(BOOL finished) {
-        POPSpringAnimation *popSpring = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-        popSpring.toValue = @(self.jfNewsClassificationView.center.x - JFSCREEN_WIDTH);
-        popSpring.beginTime = CACurrentMediaTime();
-        popSpring.springBounciness = 8.0f;
-        popSpring.springSpeed = 15.0f;
-        [self.jfNewsClassificationView pop_addAnimation:popSpring forKey:@"positionX"];
-    }];
+    [UIView animateWithDuration:0.15
+                     animations:^{
+                         [self menuTableViewOffsetX:-JFSCREEN_WIDTH];
+                     } completion:^(BOOL finished) {
+                        POPSpringAnimation *popSpring = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+                        popSpring.toValue = @(self.jfNewsClassificationView.center.x - JFSCREEN_WIDTH);
+                        popSpring.beginTime = CACurrentMediaTime();
+                        popSpring.springBounciness = 8.0f;
+                        popSpring.springSpeed = 15.0f;
+                        [self.jfNewsClassificationView pop_addAnimation:popSpring forKey:@"positionX"];
+                     }];
 }
 
 ///隐藏新闻分类菜单
 - (void)hideJFNewsClassificationViewAnimation {
     
     [self.jfNewsClassificationView hideSuspensionView];
-    [UIView animateWithDuration:0.15 animations:^{
-        [UIView animateWithDuration:0.15 animations:^{
-            [self jfNewsClassificationViewOffsetX:JFSCREEN_WIDTH];
-        }];
-    } completion:^(BOOL finished) {
-        
-        [UIView animateWithDuration:0.15 animations:^{
-            
-            [self menuTableViewOffsetX:10];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^{
-                [self menuTableViewOffsetX:-5];
-            } completion:^(BOOL finished) {
-                [UIView animateWithDuration:0.1 animations:^{
-                    [self menuTableViewOffsetX:0];
-                }];
-            }];
-        }];
-    }];
+    [UIView animateWithDuration:0.15
+                     animations:^{
+                         [UIView animateWithDuration:0.15
+                                          animations:^{
+                                              [self jfNewsClassificationViewOffsetX:JFSCREEN_WIDTH];
+                                          }];
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:0.15
+                                          animations:^{
+                                              [self menuTableViewOffsetX:10];
+                                          } completion:^(BOOL finished)
+                         {[UIView animateWithDuration:0.15
+                                           animations:^{
+                                               [self menuTableViewOffsetX:-5];
+                                           } completion:^(BOOL finished) {
+                                               
+                                               [UIView animateWithDuration:0.1
+                                                                animations:^{
+                                                                    [self menuTableViewOffsetX:0];}];
+                                           }];
+                         }];
+                     }];
 }
 
 /// 改变menuTableView的X值
