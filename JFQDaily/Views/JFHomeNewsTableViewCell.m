@@ -122,7 +122,24 @@
 - (void)setNewsImageName:(NSString *)newsImageName {
     _newsImageName = newsImageName;
     NSURL *imageUrl = [NSURL URLWithString:newsImageName];
-    [self.newsImageView sd_setImageWithURL:imageUrl placeholderImage:nil];
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    //图片渐显效果
+    [self.newsImageView sd_setImageWithURL:imageUrl
+                          placeholderImage:nil
+                                   options:SDWebImageRefreshCached
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                     if ([manager diskImageExistsForURL:imageUrl]) {
+                                         return;//缓存中有，不再加载
+                                     }else {
+                                     self.newsImageView.alpha = 0.0;
+                                     [UIView transitionWithView:self.newsImageView
+                                                       duration:0.5
+                                                        options:UIViewAnimationOptionTransitionCrossDissolve
+                                                     animations:^{
+                                                         self.newsImageView.alpha = 1.0;
+                                                     } completion:NULL];
+                                     }
+    }];
 }
 
 - (void)setNewsTitle:(NSString *)newsTitle {
