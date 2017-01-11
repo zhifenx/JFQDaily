@@ -405,7 +405,7 @@
 				TargetAttributes = {
 					1E6E21B21DCC74C7001C7F08 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = BC5HG5P377;
+						DevelopmentTeam = 7AG3K2X9HG;
 						ProvisioningStyle = Automatic;
 					};
 					1E6E21CE1DCC74C7001C7F08 = {
@@ -682,11 +682,11 @@
 			baseConfigurationReference = D9E68DBDD35E69168A6A525F /* Pods-JFQDaily.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BC5HG5P377;
+				DEVELOPMENT_TEAM = 7AG3K2X9HG;
 				INFOPLIST_FILE = JFQDaily/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhifenx.JFQDaily;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhifenx.qdaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -696,11 +696,11 @@
 			baseConfigurationReference = 0284745F6B6E8CF3B257C4DF /* Pods-JFQDaily.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BC5HG5P377;
+				DEVELOPMENT_TEAM = 7AG3K2X9HG;
 				INFOPLIST_FILE = JFQDaily/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhifenx.JFQDaily;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhifenx.qdaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
