@@ -27,9 +27,6 @@
 #import "JFCategoryModel.h"
 #import "JFBannersModel.h"
 
-
-static NSString *ID = @"newsCell";
-
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 {
     NSString *_last_key;        //上拉加载请求数据时需要拼接到URL中的last_key
@@ -222,24 +219,31 @@ static NSString *ID = @"newsCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
-    self.cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (self.cell == nil) {
-        self.cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        self.cell.cellType = feed.type;
-        self.cell.newsImageName = feed.post.image;
-        self.cell.newsTitle = feed.post.title;
-        self.cell.newsType = feed.post.category.title;
-        self.cell.time = feed.post.publish_time;
-        self.cell.commentCount = [NSString stringWithFormat:@"%ld",(long)feed.post.comment_count];
-        self.cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
+    //用数据类型给cell添加标识，一种数据类型对应一种cell模型
+    self.cell = [tableView dequeueReusableCellWithIdentifier:feed.type];
+    if (!_cell) {//cell为空新建
+        _cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:feed.type];
+        [self cellLoadData:feed];
+    }else {//从缓存池中取出cell并填充数据
+        [self cellLoadData:feed];
     }
-    self.cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    _cell.selectionStyle = UITableViewCellSelectionStyleNone;
     //不是1类型的cell才有副标题
     if (![feed.type isEqualToString:@"1"]) {
-        self.cell.subhead = feed.post.subhead;
+        _cell.subhead = feed.post.subhead;
     }
-    return self.cell;
+    return _cell;
+}
+
+/// cell加载数据
+- (void)cellLoadData:(JFFeedsModel *)feed {
+    _cell.cellType = feed.type;
+    _cell.newsImageName = feed.post.image;
+    _cell.newsTitle = feed.post.title;
+    _cell.newsType = feed.post.category.title;
+    _cell.time = feed.post.publish_time;
+    _cell.commentCount = [NSString stringWithFormat:@"%ld",(long)feed.post.comment_count];
+    _cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
 }
 
 /// 根据cell类型返回cell高度

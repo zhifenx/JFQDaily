@@ -169,12 +169,11 @@
 //    self.timeLabel.text = timeString;
 }
 
+#pragma mark --- 设置子控件的frame
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self customUI];
 }
-
-#pragma mark --- 设置子控件的frame
 
 /// 根据cellType(0、1、2)设置cell的frame
 - (void)customUI {

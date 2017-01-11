@@ -278,7 +278,6 @@ static NSString *ID = @"menuCell";
 - (UITableView *)menuTableView {
     if (!_menuTableView) {
         _menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 190, JFSCREENH_HEIGHT - KHeaderViewH - 80) style:UITableViewStylePlain];
-        [_menuTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ID];
         _menuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _menuTableView.backgroundColor = [UIColor clearColor];
         _menuTableView.delegate = self;
@@ -293,7 +292,7 @@ static NSString *ID = @"menuCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
         cell.imageView.image = [UIImage imageNamed:_imageArray[indexPath.row]];
