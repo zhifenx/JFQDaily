@@ -176,21 +176,35 @@ static NSString *ID = @"menuCell";
                                               [self jfNewsClassificationViewOffsetX:JFSCREEN_WIDTH];
                                           }];
                      } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:0.15
+//*******************************************== 老方法-实现弹簧动画效果 ==*******************************************
+//                         [UIView animateWithDuration:0.15
+//                                          animations:^{
+//                                              [self menuTableViewOffsetX:10];
+//                                          } completion:^(BOOL finished)
+//                         {[UIView animateWithDuration:0.15
+//                                           animations:^{
+//                                               [self menuTableViewOffsetX:-5];
+//                                           } completion:^(BOOL finished) {
+//                                               
+//                                               [UIView animateWithDuration:0.1
+//                                                                animations:^{
+//                                                                    [self menuTableViewOffsetX:0];}];
+//                                           }];
+//                         }];
+//*******************************************== 老方法-实现弹簧动画效果 ==*******************************************
+                         
+                         //弹簧动画效果
+                         [UIView animateWithDuration:0.5 //动画时间
+                                               delay:0   //动画延迟
+                              usingSpringWithDamping:0.5 //越接近零，震荡越大；1时为平滑的减速动画
+                               initialSpringVelocity:0.15 //弹簧的初始速度 （距离/该值）pt/s
+                                             options:UIViewAnimationOptionCurveEaseInOut
                                           animations:^{
-                                              [self menuTableViewOffsetX:10];
-                                          } completion:^(BOOL finished)
-                         {[UIView animateWithDuration:0.15
-                                           animations:^{
-                                               [self menuTableViewOffsetX:-5];
-                                           } completion:^(BOOL finished) {
-                                               
-                                               [UIView animateWithDuration:0.1
-                                                                animations:^{
-                                                                    [self menuTableViewOffsetX:0];}];
-                                           }];
-                         }];
+                                              [self menuTableViewOffsetX:0];
+                                          }
+                                          completion:nil];
                      }];
+    
 }
 
 /// 改变menuTableView的X值

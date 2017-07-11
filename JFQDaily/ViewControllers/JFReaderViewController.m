@@ -141,7 +141,7 @@
                      } completion:^(BOOL finished) {
                          [self.loadingImageView stopAnimating];
                          [self.loadingView removeFromSuperview];
-                                 self.loadingView = nil;
+                         self.loadingView = nil;
                      }];
 }
 
@@ -167,6 +167,9 @@
 /// 停止滚动时调用
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     _contentOffset_Y = scrollView.contentOffset.y;
+    
+    //滑动停止后显示悬浮按钮
+    [self showSuspenstionButton];
 }
 
 /// 显示悬浮按钮

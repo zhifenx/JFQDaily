@@ -182,6 +182,8 @@
                 //使用MJExtension讲josn数据转成数组
                 strongSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
                 
+//                NSInteger reloadIndex = strongSelf.contentMutableArray.count;
+                
                 //在contentMutableArray后面添加一个数组
                 [strongSelf.contentMutableArray addObjectsFromArray:strongSelf.feedsArray];
                 
@@ -193,7 +195,17 @@
                 [strongSelf.refreshFooter endRefreshing];
                 //添加轮播器
                 [strongSelf addLoopView];
+                
+//                NSArray *arr = [[NSArray alloc] init];
+//                NSMutableArray *mutableArr = [[NSMutableArray alloc] init];
+//                for (NSInteger index = reloadIndex; index <= strongSelf.contentMutableArray.count; index ++) {
+//                    [mutableArr addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+//                    if (index == strongSelf.contentMutableArray.count) {
+//                        arr = mutableArr;
+//                    }
+//                }
                 //刷新homeNewsTableView数据
+//                [strongSelf.homeNewsTableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
                 [strongSelf.homeNewsTableView reloadData];
             }
         }];
@@ -217,35 +229,6 @@
     return self.contentMutableArray.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
-    //用数据类型给cell添加标识，一种数据类型对应一种cell模型
-    self.cell = [tableView dequeueReusableCellWithIdentifier:feed.type];
-    if (!_cell) {//cell为空新建
-        _cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:feed.type];
-        [self cellLoadData:feed];
-    }else {//从缓存池中取出cell并填充数据
-        [self cellLoadData:feed];
-    }
-    _cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //不是1类型的cell才有副标题
-    if (![feed.type isEqualToString:@"1"]) {
-        _cell.subhead = feed.post.subhead;
-    }
-    return _cell;
-}
-
-/// cell加载数据
-- (void)cellLoadData:(JFFeedsModel *)feed {
-    _cell.cellType = feed.type;
-    _cell.newsImageName = feed.post.image;
-    _cell.newsTitle = feed.post.title;
-    _cell.newsType = feed.post.category.title;
-    _cell.time = feed.post.publish_time;
-    _cell.commentCount = [NSString stringWithFormat:@"%ld",(long)feed.post.comment_count];
-    _cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
-}
-
 /// 根据cell类型返回cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     JFHomeNewsTableViewCell *cell = self.cell;
@@ -256,6 +239,39 @@
     }else {
         return 130;
     }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
+    //用数据类型给cell添加标识，一种数据类型对应一种cell模型
+    self.cell = [tableView dequeueReusableCellWithIdentifier:feed.type];
+    if (!_cell) {//cell为空新建
+        _cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:feed.type];
+//        [self cellLoadData:feed];
+    }else {//从缓存池中取出cell并填充数据
+//        [self cellLoadData:feed];
+    }
+    _cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //不是1类型的cell才有副标题
+    if (![feed.type isEqualToString:@"1"]) {
+        _cell.subhead = feed.post.subhead;
+    }
+    return _cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
+    [self cellLoadData:feed];
+}
+/// cell加载数据
+- (void)cellLoadData:(JFFeedsModel *)feed {
+    _cell.cellType = feed.type;
+    _cell.newsImageName = feed.post.image;
+    _cell.newsTitle = feed.post.title;
+    _cell.newsType = feed.post.category.title;
+    _cell.time = feed.post.publish_time;
+    _cell.commentCount = [NSString stringWithFormat:@"%ld",(long)feed.post.comment_count];
+    _cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -287,6 +303,8 @@
 /// 停止滚动时调用
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     _contentOffset_Y = scrollView.contentOffset.y;
+    //停止后显示悬浮按钮
+    [self suspensionWithAlpha:1];
 }
 
 /// 设置悬浮按钮view透明度，以此显示和隐藏悬浮按钮
@@ -314,23 +332,36 @@
         }];
         
         [_menuView hideNewsClassificationViewBlock:^{
-            
             //隐藏新闻分类菜单
-            [weakSelf.menuView hideJFNewsClassificationViewAnimation];
-                [UIView animateWithDuration:0.3
-                                 animations:^{
-                                     [self suspensionViewOffsetX:15];
-                                 }completion:^(BOOL finished) {
-                                     [UIView animateWithDuration:0.15
-                                                      animations:^{
-                                                          [self suspensionViewOffsetX:5];
-                                                      }completion:^(BOOL finished) {
-                                                          [UIView animateWithDuration:0.1
-                                                                           animations:^{
-                                                                               [self suspensionViewOffsetX:10];
-                                                                           }];
-                                                      }];
-                                 }];
+        [weakSelf.menuView hideJFNewsClassificationViewAnimation];
+/*
+*******************************************== 老方法-实现弹簧动画效果 ==*******************************************
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self suspensionViewOffsetX:15];
+                         }completion:^(BOOL finished) {
+                             [UIView animateWithDuration:0.15
+                                              animations:^{
+                                                  [self suspensionViewOffsetX:5];
+                                              }completion:^(BOOL finished) {
+                                                  [UIView animateWithDuration:0.1
+                                                                   animations:^{
+                                                                       [self suspensionViewOffsetX:10];
+                                                                   }];
+                                              }];
+                         }];
+*******************************************== 老方法-实现弹簧动画效果 ==*******************************************
+*/
+            //弹簧效果动画
+            [UIView animateWithDuration:0.7 //动画时间
+                                  delay:0   //动画延迟
+                 usingSpringWithDamping:0.5 //越接近零，震荡越大；1时为平滑的减速动画
+                  initialSpringVelocity:0.15 //弹簧的初始速度 （距离/该值）pt/s
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 [self suspensionViewOffsetX:10];
+                             }
+                             completion:nil];
         }];
     }
     return _menuView;
