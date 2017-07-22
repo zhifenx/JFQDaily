@@ -6,4 +6,5 @@ pod 'SDWebImage'
 pod 'MJExtension'
 pod 'MBProgressHUD'
 pod 'pop'
+pod 'YYKit'
 end

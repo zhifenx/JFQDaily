@@ -9,17 +9,25 @@
 
 #import "JFHomeViewController.h"
 
+//工具类
 #import "JFConfigFile.h"
+#import "JFLoopView.h"
+#import "YYFPSLabel.h"
+
+//第三方开源框架
 #import <Masonry.h>
 #import <MJRefresh.h>
 #import "MJExtension.h"
+#import "UITableView+FDTemplateLayoutCell.h"
+
+//
 #import "MBProgressHUD+JFProgressHUD.h"
 #import "JFSuspensionView.h"
 #import "JFHomeNewsDataManager.h"
 #import "JFHomeNewsTableViewCell.h"
-#import "JFLoopView.h"
 #import "JFReaderViewController.h"
 #import "JFMenuView.h"
+
 //新闻数据模型相关
 #import "JFResponseModel.h"
 #import "JFFeedsModel.h"
@@ -37,6 +45,7 @@
 @property (nonatomic, strong) UITableView *homeNewsTableView;
 @property (nonatomic, strong) JFHomeNewsTableViewCell *cell;
 @property (nonatomic, strong) JFMenuView *menuView;
+@property (nonatomic, strong) YYFPSLabel *fpsLabel;
 /** 悬浮按钮view*/
 @property (nonatomic, strong) JFSuspensionView *jfSuspensionView;
 @property (nonatomic, strong) JFHomeNewsDataManager *manager;
@@ -77,12 +86,18 @@
     [self.refreshFooter setTitle:@"没有更多内容了" forState:MJRefreshStateNoMoreData];
     self.homeNewsTableView.mj_footer = self.refreshFooter;
     
+    //FPS Label
+    _fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(20, 44, 100, 30)];
+    [_fpsLabel sizeToFit];
+//    _fpsLabel.alpha = 0;
+    [self.view addSubview:_fpsLabel];
+    
 }
 
 /// 下拉刷新数据
 - (void)refreshData {
     //下拉刷新时清空数据
-    self.contentMutableArray = [[NSMutableArray alloc] init];
+    [self.contentMutableArray removeAllObjects];
 //    self.homeNewsTableView.tableHeaderView = nil;
     [self.manager requestHomeNewsDataWithLastKey:@"0"];
 }
@@ -181,9 +196,7 @@
                 
                 //使用MJExtension讲josn数据转成数组
                 strongSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
-                
-//                NSInteger reloadIndex = strongSelf.contentMutableArray.count;
-                
+            
                 //在contentMutableArray后面添加一个数组
                 [strongSelf.contentMutableArray addObjectsFromArray:strongSelf.feedsArray];
                 
@@ -193,19 +206,8 @@
                 //停止刷新
                 [strongSelf.refreshHeader endRefreshing];
                 [strongSelf.refreshFooter endRefreshing];
-                //添加轮播器
+                //添加轮播器(方法内部有判断轮播器是否已加载)
                 [strongSelf addLoopView];
-                
-//                NSArray *arr = [[NSArray alloc] init];
-//                NSMutableArray *mutableArr = [[NSMutableArray alloc] init];
-//                for (NSInteger index = reloadIndex; index <= strongSelf.contentMutableArray.count; index ++) {
-//                    [mutableArr addObject:[NSIndexPath indexPathForRow:index inSection:0]];
-//                    if (index == strongSelf.contentMutableArray.count) {
-//                        arr = mutableArr;
-//                    }
-//                }
-                //刷新homeNewsTableView数据
-//                [strongSelf.homeNewsTableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
                 [strongSelf.homeNewsTableView reloadData];
             }
         }];
@@ -218,6 +220,7 @@
 - (UITableView *)homeNewsTableView {
     if (!_homeNewsTableView) {
         _homeNewsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
+//        [_homeNewsTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"newsCell"];
         _homeNewsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _homeNewsTableView.delegate = self;
         _homeNewsTableView.dataSource = self;
@@ -239,6 +242,9 @@
     }else {
         return 130;
     }
+//    return [tableView fd_heightForCellWithIdentifier:@"newsCell" cacheByKey:indexPath configuration:^(JFHomeNewsTableViewCell *cell) {
+//        
+//    }];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -247,22 +253,21 @@
     self.cell = [tableView dequeueReusableCellWithIdentifier:feed.type];
     if (!_cell) {//cell为空新建
         _cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:feed.type];
-//        [self cellLoadData:feed];
-    }else {//从缓存池中取出cell并填充数据
-//        [self cellLoadData:feed];
     }
     _cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //不是1类型的cell才有副标题
-    if (![feed.type isEqualToString:@"1"]) {
-        _cell.subhead = feed.post.subhead;
-    }
     return _cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
     [self cellLoadData:feed];
+    
+    //不是1类型的cell才有副标题
+    if (![feed.type isEqualToString:@"1"]) {
+        _cell.subhead = feed.post.subhead;
+    }
 }
+
 /// cell加载数据
 - (void)cellLoadData:(JFFeedsModel *)feed {
     _cell.cellType = feed.type;
