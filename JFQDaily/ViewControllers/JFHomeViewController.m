@@ -18,7 +18,6 @@
 #import <Masonry.h>
 #import <MJRefresh.h>
 #import "MJExtension.h"
-#import "UITableView+FDTemplateLayoutCell.h"
 
 //
 #import "MBProgressHUD+JFProgressHUD.h"
@@ -30,10 +29,6 @@
 
 //新闻数据模型相关
 #import "JFResponseModel.h"
-#import "JFFeedsModel.h"
-#import "JFPostModel.h"
-#import "JFCategoryModel.h"
-#import "JFBannersModel.h"
 
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 {
@@ -65,13 +60,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self.view addSubview:self.homeNewsTableView];
+    [self.view addSubview:self.jfSuspensionView];
+    
     self.contentMutableArray = [[NSMutableArray alloc] init];
     self.imageArray = [[NSArray alloc] init];
+    //请求数据
     [self.manager requestHomeNewsDataWithLastKey:@"0"];
     
     //设置下拉刷新
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         [self refreshData];
     }];
     self.refreshHeader.lastUpdatedTimeLabel.hidden = YES;
@@ -91,14 +90,18 @@
     [_fpsLabel sizeToFit];
 //    _fpsLabel.alpha = 0;
     [self.view addSubview:_fpsLabel];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 /// 下拉刷新数据
 - (void)refreshData {
     //下拉刷新时清空数据
     [self.contentMutableArray removeAllObjects];
-//    self.homeNewsTableView.tableHeaderView = nil;
     [self.manager requestHomeNewsDataWithLastKey:@"0"];
 }
 
@@ -110,19 +113,6 @@
     }else if ([_has_more isEqualToString:@"0"]) {
     [self.refreshFooter setState:MJRefreshStateNoMoreData];
     }
-}
-
-- (void)loadView {
-    [super loadView];
-    
-    [self.view addSubview:self.homeNewsTableView];
-    [self.view addSubview:self.jfSuspensionView];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 /// 悬浮按钮view
@@ -211,7 +201,6 @@
                 [strongSelf.homeNewsTableView reloadData];
             }
         }];
-        
     }
     return _manager;
 }
@@ -220,7 +209,6 @@
 - (UITableView *)homeNewsTableView {
     if (!_homeNewsTableView) {
         _homeNewsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
-//        [_homeNewsTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"newsCell"];
         _homeNewsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _homeNewsTableView.delegate = self;
         _homeNewsTableView.dataSource = self;
@@ -242,9 +230,6 @@
     }else {
         return 130;
     }
-//    return [tableView fd_heightForCellWithIdentifier:@"newsCell" cacheByKey:indexPath configuration:^(JFHomeNewsTableViewCell *cell) {
-//        
-//    }];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

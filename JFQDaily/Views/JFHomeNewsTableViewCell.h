@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JFNewsCellLayout.h"
 
 @interface JFHomeNewsTableViewCell : UITableViewCell
 

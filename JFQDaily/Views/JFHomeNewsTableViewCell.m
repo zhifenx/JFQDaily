@@ -41,6 +41,8 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self addChildControls];
+        
+//        JFNewsCellLayout *layout = [[JFNewsCellLayout alloc] initWithStyle:0];
     }
     return self;
 }
