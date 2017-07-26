@@ -29,6 +29,7 @@
 
 //新闻数据模型相关
 #import "JFResponseModel.h"
+#import "JFNewsCellLayout.h"
 
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 {
@@ -38,6 +39,8 @@
 }
 
 @property (nonatomic, strong) UITableView *homeNewsTableView;
+@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
+@property (nonatomic, strong) MJRefreshAutoNormalFooter *refreshFooter;
 @property (nonatomic, strong) JFHomeNewsTableViewCell *cell;
 @property (nonatomic, strong) JFMenuView *menuView;
 @property (nonatomic, strong) YYFPSLabel *fpsLabel;
@@ -50,8 +53,7 @@
 @property (nonatomic, strong) NSArray *imageArray;
 /** 主要内容数组*/
 @property (nonatomic, strong) NSMutableArray *contentMutableArray;
-@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
-@property (nonatomic, strong) MJRefreshAutoNormalFooter *refreshFooter;
+@property (nonatomic, strong) NSMutableArray <JFNewsCellLayout *> *layouts;
 
 @end
 
@@ -65,7 +67,9 @@
     [self.view addSubview:self.jfSuspensionView];
     
     self.contentMutableArray = [[NSMutableArray alloc] init];
+    self.layouts = [[NSMutableArray alloc] init];
     self.imageArray = [[NSArray alloc] init];
+    
     //请求数据
     [self.manager requestHomeNewsDataWithLastKey:@"0"];
     
@@ -88,7 +92,6 @@
     //FPS Label
     _fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(20, 44, 100, 30)];
     [_fpsLabel sizeToFit];
-//    _fpsLabel.alpha = 0;
     [self.view addSubview:_fpsLabel];
 }
 
@@ -101,7 +104,7 @@
 /// 下拉刷新数据
 - (void)refreshData {
     //下拉刷新时清空数据
-    [self.contentMutableArray removeAllObjects];
+    [_layouts removeAllObjects];
     [self.manager requestHomeNewsDataWithLastKey:@"0"];
 }
 
@@ -184,21 +187,25 @@
                 _last_key = strongSelf.response.last_key;
                 _has_more = strongSelf.response.has_more;
                 
-                //使用MJExtension讲josn数据转成数组
-                strongSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
-            
-                //在contentMutableArray后面添加一个数组
-                [strongSelf.contentMutableArray addObjectsFromArray:strongSelf.feedsArray];
-                
-                //使用MJExtension讲josn数据转成数组
-                strongSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
-                
-                //停止刷新
-                [strongSelf.refreshHeader endRefreshing];
-                [strongSelf.refreshFooter endRefreshing];
-                //添加轮播器(方法内部有判断轮播器是否已加载)
-                [strongSelf addLoopView];
-                [strongSelf.homeNewsTableView reloadData];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    //使用MJExtension讲josn数据转成数组
+                    strongSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
+                    //使用MJExtension讲josn数据转成数组
+                    strongSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
+                    for (JFFeedsModel *feed in strongSelf.feedsArray) {
+                        JFNewsCellLayout *layout = [[JFNewsCellLayout alloc] initWithModel:feed style:[feed.type integerValue]];
+                        [strongSelf.layouts addObject:layout];
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //停止刷新
+                        [strongSelf.refreshHeader endRefreshing];
+                        [strongSelf.refreshFooter endRefreshing];
+                        //添加轮播器(方法内部有判断轮播器是否已加载)
+                        [strongSelf addLoopView];
+                        [strongSelf.homeNewsTableView reloadData];
+                    });
+                });
             }
         }];
     }
@@ -217,57 +224,28 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.contentMutableArray.count;
+    return _layouts.count;
 }
 
-/// 根据cell类型返回cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    JFHomeNewsTableViewCell *cell = self.cell;
-    if ([cell.cellType isEqualToString:@"0"]) {
-        return 330;
-    }else if ([cell.cellType isEqualToString:@"2"]) {
-        return 360;
-    }else {
-        return 130;
-    }
+    return ((JFNewsCellLayout *)_layouts[indexPath.row]).height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
-    //用数据类型给cell添加标识，一种数据类型对应一种cell模型
-    self.cell = [tableView dequeueReusableCellWithIdentifier:feed.type];
-    if (!_cell) {//cell为空新建
-        _cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:feed.type];
+    NSString *cellID = @"newsCell";
+    self.cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (!_cell) {
+        _cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     _cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [_cell setLayout:_layouts[indexPath.row]];
     return _cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
-    [self cellLoadData:feed];
-    
-    //不是1类型的cell才有副标题
-    if (![feed.type isEqualToString:@"1"]) {
-        _cell.subhead = feed.post.subhead;
-    }
-}
-
-/// cell加载数据
-- (void)cellLoadData:(JFFeedsModel *)feed {
-    _cell.cellType = feed.type;
-    _cell.newsImageName = feed.post.image;
-    _cell.newsTitle = feed.post.title;
-    _cell.newsType = feed.post.category.title;
-    _cell.time = feed.post.publish_time;
-    _cell.commentCount = [NSString stringWithFormat:@"%ld",(long)feed.post.comment_count];
-    _cell.praiseCount = [NSString stringWithFormat:@"%ld",(long)feed.post.praise_count];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    JFFeedsModel *feed = self.contentMutableArray[indexPath.row];
-    if (![feed.type isEqualToString:@"0"]) {
-        [self pushToJFReaderViewControllerWithNewsUrl:feed.post.appview];
+    JFNewsCellLayout *layout = _layouts[indexPath.row];
+    if (![layout.model.type isEqualToString:@"0"]) {
+        [self pushToJFReaderViewControllerWithNewsUrl:layout.model.post.appview];
     }else {
         [MBProgressHUD promptHudWithShowHUDAddedTo:self.view message:@"抱歉，未抓取到相关链接！"];
     }
@@ -324,24 +302,6 @@
         [_menuView hideNewsClassificationViewBlock:^{
             //隐藏新闻分类菜单
         [weakSelf.menuView hideJFNewsClassificationViewAnimation];
-/*
-*******************************************== 老方法-实现弹簧动画效果 ==*******************************************
-        [UIView animateWithDuration:0.3
-                         animations:^{
-                             [self suspensionViewOffsetX:15];
-                         }completion:^(BOOL finished) {
-                             [UIView animateWithDuration:0.15
-                                              animations:^{
-                                                  [self suspensionViewOffsetX:5];
-                                              }completion:^(BOOL finished) {
-                                                  [UIView animateWithDuration:0.1
-                                                                   animations:^{
-                                                                       [self suspensionViewOffsetX:10];
-                                                                   }];
-                                              }];
-                         }];
-*******************************************== 老方法-实现弹簧动画效果 ==*******************************************
-*/
             //弹簧效果动画
             [UIView animateWithDuration:0.7 //动画时间
                                   delay:0   //动画延迟

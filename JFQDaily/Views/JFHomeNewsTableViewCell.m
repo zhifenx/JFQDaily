@@ -2,261 +2,184 @@
 //  JFHomeNewsTableViewCell.m
 //  JFQDaily
 //
-//  Created by 张志峰 on 2016/11/5.
-//  Copyright © 2016年 zhifenx. All rights reserved.
+//  Created by zhifenx on 2017/7/25.
+//  Copyright © 2017年 zhifenx. All rights reserved.
 //
 
 #import "JFHomeNewsTableViewCell.h"
 
-#import "Masonry.h"
-#import <UIImageView+WebCache.h>
-#import "NSString+JFString.h"
-#import "JFConfigFile.h"
+static CGFloat newsTitleLabel_x = 20;
 
-@interface JFHomeNewsTableViewCell ()
+@implementation JFBottomView
 
-/** cell分隔线*/
-@property (nonatomic, strong) UIView *cellSeparator;
-@property (nonatomic, strong) UIImageView *newsImageView;
-@property (nonatomic, strong) UILabel *newsTitleLabel;
-@property (nonatomic, strong) UILabel *subheadLabel;
-@property (nonatomic, strong) UIImageView *commentImageView;
-@property (nonatomic, strong) UIImageView *praiseImageView;
-
-/**
- *  新闻类型（设计、智能、娱乐等）
- */
-@property (nonatomic, strong) UILabel *newsTypeLabel;
-/** 该条新闻的评论数*/
-@property (nonatomic, strong) UILabel *commentlabel;
-/** 点赞数*/
-@property (nonatomic, strong) UILabel *praiseLabel;
-/** 新闻发布时间*/
-@property (nonatomic, strong) UILabel *timeLabel;
-
-@end
-
-@implementation JFHomeNewsTableViewCell
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        [self addChildControls];
-        
-//        JFNewsCellLayout *layout = [[JFNewsCellLayout alloc] initWithStyle:0];
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        _newsTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(newsTitleLabel_x, 0, 30, 21)];
+        _newsTypeLabel.font = [UIFont systemFontOfSize:12.0];
+        _newsTypeLabel.textColor = [UIColor grayColor];
+        [self addSubview:_newsTypeLabel];
+        //
+        CGFloat commentImageView_x = newsTitleLabel_x + _newsTypeLabel.frame.size.width + 3;
+        CGFloat commentImageView_y = frame.size.height / 2 - 12.5 / 2 + 1;
+        _commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(commentImageView_x, commentImageView_y, 12.5, 11.5)];
+        [self addSubview:_commentImageView];
+        //
+        CGFloat commentlabel_x = commentImageView_x + _commentImageView.frame.size.width + 3;
+        _commentlabel = [[UILabel alloc] initWithFrame:CGRectMake(commentlabel_x, 0, 30, 21)];
+        _commentlabel.font = [UIFont systemFontOfSize:13.0];
+        _commentlabel.textColor = [UIColor grayColor];
+        [self addSubview:_commentlabel];
+        //
+        CGFloat praiseImageView_x = commentlabel_x + _commentlabel.frame.size.width;
+        CGFloat praiseImageView_y = frame.size.height / 2 - 13 / 2 + 1;
+        _praiseImageView = [[UIImageView alloc] initWithFrame:CGRectMake(praiseImageView_x, praiseImageView_y, 13, 11.5)];
+        [self addSubview:_praiseImageView];
+        //
+        CGFloat praiseLabel_x = praiseImageView_x + _praiseImageView.frame.size.width + 3;
+        _praiseLabel = [[UILabel alloc] initWithFrame:CGRectMake(praiseLabel_x, 0, 30, 21)];
+        _praiseLabel.font = [UIFont systemFontOfSize:13.0];
+        _praiseLabel.textColor = [UIColor grayColor];
+        [self addSubview:_praiseLabel];
     }
     return self;
 }
 
-#pragma mark --- 添加子控件
-- (void)addChildControls {
-    UIImageView *newsImageView = [[UIImageView alloc] init];
-    [self addSubview:newsImageView];
+@end
+
+
+
+
+@implementation JFNewsView
+
+- (instancetype)initWithFrame:(CGRect)frame style:(JFNewsCellLayoutStyle)style {
+    if (self = [super initWithFrame:frame]) {
+        switch (style) {
+            case JFNewsCellLayoutStyleAbove:    //cellType = 0,图片在上，文字在下
+                [self _aboveStyle];
+                break;
+            case JFNewsCellLayoutStyleRight:    //cellType = 1,图片在右，文字在左
+                [self _rightStyle];
+                break;
+            default:                            //cellType = 2,图片在上，文字在下，下方有“评论”和“喜欢”数值
+                [self _aboveStyle];
+                break;
+        }
+    }
+    return self;
+}
+
+// Above style
+- (void)_aboveStyle {
+    CGFloat newsImageView_w = [UIScreen mainScreen].bounds.size.width;
+    CGFloat newsImageView_h = 220;
+    _newsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, newsImageView_w, 220)];
+    [self addSubview:_newsImageView];
+    //
+    CGFloat newsTitleLabel_w = newsImageView_w - newsTitleLabel_x * 2;
+    CGFloat newsTitleLabel_y = newsImageView_h + 5;
+    _newsTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(newsTitleLabel_x, newsTitleLabel_y, newsTitleLabel_w, 60)];
+    _newsTitleLabel.textColor = JFRGBAColor(42, 42, 42, 0.99);
+    _newsTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
+    _newsTitleLabel.numberOfLines = 5;
+    [self addSubview:_newsTitleLabel];
+    //
+    CGFloat subheadLabel_y = newsTitleLabel_y + 55;
+    _subheadLabel = [[UILabel alloc] initWithFrame:CGRectMake(newsTitleLabel_x, subheadLabel_y, newsTitleLabel_w, 40)];
+    _subheadLabel.font = [UIFont fontWithName:@"Helvetica" size:15.0f];
+    _subheadLabel.textColor = [UIColor grayColor];
+    _subheadLabel.numberOfLines = 3;
+    [self addSubview:_subheadLabel];
+}
+
+// Right style
+- (void)_rightStyle {
+    CGFloat newsTitleLabel_w = [UIScreen mainScreen].bounds.size.width / 2 - 40;
+    _newsTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(newsTitleLabel_x, 10, newsTitleLabel_w, 80)];
+    _newsTitleLabel.textColor = JFRGBAColor(42, 42, 42, 0.99);
+    _newsTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
+    _newsTitleLabel.numberOfLines = 5;
+    [self addSubview:_newsTitleLabel];
+    //
+    CGFloat newsImageView_x = newsTitleLabel_x + newsTitleLabel_w + 20;
+    CGFloat newsImageView_w = [UIScreen mainScreen].bounds.size.width / 2;
+    CGFloat newsImageView_h = self.frame.size.height;
+    _newsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(newsImageView_x, 0, newsImageView_w, newsImageView_h)];
+    [self addSubview:_newsImageView];
+}
+
+@end
+
+
+
+
+@implementation JFHomeNewsTableViewCell
+
+- (void)_layout {
+    if (_layout.style == JFNewsCellLayoutStyleAbove) {          //cellType = 0,图片在上，文字在下
+        [self _newsView];
+    }else if (_layout.style == JFNewsCellLayoutStyleRight) {    //cellType = 1,图片在右，文字在左
+        [self _newsView];
+        [self _bottomViewWithWidth:self.frame.size.width / 2];
+    }else if (_layout.style == JFNewsCellLayoutStyleDetails) {  //cellType = 2,图片在上，文字在下，下方有“评论”和“喜欢”数值
+        [self _newsView];
+        [self _bottomViewWithWidth:self.frame.size.width];
+    }
+}
+
+- (void)_newsView {
+    CGFloat w = [UIScreen mainScreen].bounds.size.width;
+    _newsView = [[JFNewsView alloc] initWithFrame:CGRectMake(0, 5, w, _layout.height - 5) style:_layout.style];
+    [_cellBackgroundView addSubview:_newsView];
+}
+
+- (void)_bottomViewWithWidth:(CGFloat)width {
+    _bottomView = [[JFBottomView alloc] initWithFrame:CGRectMake(0, _layout.height-5-21, width, 21)];
+    [_cellBackgroundView addSubview:_bottomView];
+}
+
+- (void)setLayout:(JFNewsCellLayout *)layout {
+    _layout = layout;
+    CGRect tempFrame = self.contentView.frame;
+    tempFrame.size.height = layout.height;
+    self.contentView.frame = tempFrame;
     
-    UILabel *newsTitleLabel = [[UILabel alloc] init];
-    newsTitleLabel.textColor = JFRGBAColor(42, 42, 42, 0.99);
-    newsTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
-    newsTitleLabel.numberOfLines = 5;
-    [self addSubview:newsTitleLabel];
-    
-    UILabel *subheadLabel = [[UILabel alloc] init];
-    subheadLabel.font = [UIFont fontWithName:@"Helvetica" size:15.0f];
-    subheadLabel.textColor = [UIColor grayColor];
-    subheadLabel.numberOfLines = 3;
-    [self addSubview:subheadLabel];
-    
-    UILabel *newsTypeLabel = [[UILabel alloc] init];
-    newsTypeLabel.font = [UIFont systemFontOfSize:12.0];
-    newsTypeLabel.textColor = [UIColor grayColor];
-    [self addSubview:newsTypeLabel];
-    
-    UILabel *commentLabel = [[UILabel alloc] init];
-    commentLabel.textAlignment = NSTextAlignmentCenter;
-    commentLabel.font = [UIFont systemFontOfSize:13.0];
-    commentLabel.textColor = [UIColor grayColor];
-    [self addSubview:commentLabel];
-    
-    UILabel *praiseLabel = [[UILabel alloc] init];
-    praiseLabel.textAlignment = NSTextAlignmentCenter;
-    praiseLabel.font = [UIFont systemFontOfSize:13.0];
-    praiseLabel.textColor = [UIColor grayColor];
-    [self addSubview:praiseLabel];
-    
-    UILabel *timeLabel = [[UILabel alloc] init];
-    timeLabel.textAlignment = NSTextAlignmentCenter;
-    timeLabel.font = [UIFont systemFontOfSize:13.0];
-    timeLabel.textColor = [UIColor grayColor];
-    [self addSubview:timeLabel];
-    
-    UIView *cellSeparator = [[UIView alloc] init];
+    [_cellBackgroundView removeFromSuperview];
+    CGFloat w = [UIScreen mainScreen].bounds.size.width;
+    _cellBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, _layout.height)];
+    UIView *cellSeparator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, 5)];
     cellSeparator.backgroundColor = JFRGBAColor(238, 238, 238, 1);
-    [self addSubview:cellSeparator];
-    
-    UIImageView *commentImageView = [[UIImageView alloc] init];
-    commentImageView.image = [UIImage imageNamed:@"feedComment"];
-    [self addSubview:commentImageView];
-    
-    UIImageView *praiseImageView = [[UIImageView alloc] init];
-    praiseImageView.image = [UIImage imageNamed:@"feedPraise"];
-    [self addSubview:praiseImageView];
-    
-    self.newsImageView = newsImageView;
-    self.newsTitleLabel = newsTitleLabel;
-    self.newsTypeLabel = newsTypeLabel;
-    self.commentlabel = commentLabel;
-    self.praiseLabel = praiseLabel;
-    self.timeLabel = timeLabel;
-    self.cellSeparator = cellSeparator;
-    self.commentImageView = commentImageView;
-    self.praiseImageView = praiseImageView;
-    self.subheadLabel = subheadLabel;
+    [_cellBackgroundView addSubview:cellSeparator];
+    [self addSubview:_cellBackgroundView];
+    [self _layout];
+    [self _data];
 }
 
-#pragma mark --- 重写各属性的set方法
-- (void)setCellType:(NSString *)cellType {
-    _cellType = cellType;
-}
-
-- (void)setSubhead:(NSString *)subhead {
-    _subhead = subhead;
-    self.subheadLabel.text = subhead;
-}
-
-- (void)setNewsImageName:(NSString *)newsImageName {
-    _newsImageName = newsImageName;
-    NSURL *imageUrl = [NSURL URLWithString:newsImageName];
+- (void)_data {
+    NSURL *imageUrl = [NSURL URLWithString:_layout.model.post.image];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     //图片渐显效果
-    [self.newsImageView sd_setImageWithURL:imageUrl
+    [_newsView.newsImageView sd_setImageWithURL:imageUrl
                           placeholderImage:nil
                                    options:SDWebImageRefreshCached
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                      if ([manager diskImageExistsForURL:imageUrl]) {
                                          return;//缓存中有，不再加载
                                      }else {
-                                     self.newsImageView.alpha = 0.0;
-                                     [UIView transitionWithView:self.newsImageView
-                                                       duration:0.5
-                                                        options:UIViewAnimationOptionTransitionCrossDissolve
-                                                     animations:^{
-                                                         self.newsImageView.alpha = 1.0;
-                                                     } completion:NULL];
+                                         _newsView.newsImageView.alpha = 0.0;
+                                         [UIView transitionWithView:_newsView.newsImageView
+                                                           duration:0.5
+                                                            options:UIViewAnimationOptionTransitionCrossDissolve
+                                                         animations:^{
+                                                             _newsView.newsImageView.alpha = 1.0;
+                                                         } completion:NULL];
                                      }
-    }];
+                                 }];
+    _newsView.newsTitleLabel.text = _layout.model.post.title;
+    _newsView.subheadLabel.text = _layout.model.post.subhead;
+    _bottomView.newsTypeLabel.text = _layout.model.post.category.title;
+    _bottomView.commentImageView.image = [UIImage imageNamed:@"feedComment"];
+    _bottomView.commentlabel.text = [NSString stringWithFormat:@"%ld",_layout.model.post.comment_count];
+    _bottomView.praiseImageView.image = [UIImage imageNamed:@"feedPraise"];
+    _bottomView.praiseLabel.text = [NSString stringWithFormat:@"%ld",_layout.model.post.praise_count];
 }
-
-- (void)setNewsTitle:(NSString *)newsTitle {
-    _newsTitle = newsTitle;
-    self.newsTitleLabel.text = newsTitle;
-}
-
-- (void)setNewsType:(NSString *)newsType {
-    _newsType = newsType;
-    self.newsTypeLabel.text = newsType;
-}
-
-- (void)setCommentCount:(NSString *)commentCount {
-    _commentCount = commentCount;
-    self.commentlabel.text = commentCount;
-}
-
-- (void)setPraiseCount:(NSString *)praiseCount {
-    _praiseCount = praiseCount;
-    self.praiseLabel.text = praiseCount;
-}
-
-- (void)setTime:(NSInteger)time {
-    _time = time;
-    //时间转换有问题
-//    NSString *timeString = [NSString getShowDateWithTime:[NSString stringWithFormat:@"%lu",time]];
-//    self.timeLabel.text = timeString;
-}
-
-#pragma mark --- 设置子控件的frame
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    [self customUI];
-}
-
-/// 根据cellType(0、1、2)设置cell的frame
-- (void)customUI {
-    [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.offset(JFSCREEN_WIDTH);
-        make.height.offset(5);
-        make.left.equalTo(self.mas_left);
-        make.top.equalTo(self.mas_top);
-    }];
-    
-    if ([_cellType isEqualToString:@"1"]) {
-        [self.newsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset((JFSCREEN_WIDTH / 2) - 40);
-            make.height.offset(80);
-            make.top.equalTo(self.mas_top).offset(20);
-            make.left.equalTo(self.mas_left).offset(20);
-        }];
-        
-        [self.newsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(JFSCREEN_WIDTH / 2);
-            make.height.offset(125);
-            make.top.equalTo(self.mas_top).offset(5);
-            make.right.equalTo(self.mas_right).offset(-1);
-        }];
-    }
-    
-    if (![_cellType isEqualToString:@"0"]) {
-        [self.newsTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(30);
-            make.height.offset(21);
-            make.left.equalTo(self.newsTitleLabel.mas_left);
-            make.bottom.equalTo(self.mas_bottom).offset(-3);
-        }];
-        
-        [self.commentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(12.5);
-            make.height.offset(11.5);
-            make.left.equalTo(self.newsTypeLabel.mas_right).offset(3);
-            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-        }];
-        
-        [self.commentlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(30);
-            make.height.offset(21);
-            make.left.equalTo(self.commentImageView.mas_right).offset(0);
-            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-        }];
-        
-        [self.praiseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(13);
-            make.height.offset(11.5);
-            make.left.equalTo(self.commentlabel.mas_right).offset(3);
-            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-        }];
-        
-        [self.praiseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(30);
-            make.height.offset(21);
-            make.left.equalTo(self.praiseImageView.mas_right).offset(0);
-            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-        }];
-        
-        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(40);
-            make.height.offset(21);
-            make.left.equalTo(self.praiseLabel.mas_right).offset(0);
-            make.centerY.equalTo(self.newsTypeLabel.mas_centerY);
-        }];
-    }
-    
-    if (![_cellType isEqualToString:@"1"]) {
-        self.newsImageView.frame = CGRectMake(0, 5, JFSCREEN_WIDTH, 220);
-        self.newsTitleLabel.frame = CGRectMake(20, 230, JFSCREEN_WIDTH - 40, 60);
-        self.subheadLabel.frame = CGRectMake(20, 290, JFSCREEN_WIDTH - 40, 40);
-    }
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 @end

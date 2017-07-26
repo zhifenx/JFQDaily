@@ -10,9 +10,9 @@
 
 @implementation JFNewsCellLayout
 
-- (instancetype)initWithStyle:(JFNewsCellLayoutStyle)style {
-    if (!style) return nil;
+- (instancetype)initWithModel:(JFFeedsModel *)model style:(JFNewsCellLayoutStyle)style {
     if (self = [super init]) {
+        _model = model;
         _style = style;
     }
     return self;
