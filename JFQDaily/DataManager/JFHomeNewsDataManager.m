@@ -43,7 +43,6 @@
         
         //  JSON数据转字典
         NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        
         if (weakSelf.newsDataBlock) {
             weakSelf.newsDataBlock([dataDictionary valueForKey:@"response"]);
         }

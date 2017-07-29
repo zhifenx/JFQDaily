@@ -31,6 +31,8 @@
 #import "JFResponseModel.h"
 #import "JFNewsCellLayout.h"
 
+#import "JFQDaily-Swift.h"
+
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 {
     NSString *_last_key;        //上拉加载请求数据时需要拼接到URL中的last_key
@@ -127,12 +129,18 @@
         
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView popupMenuBlock:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                [strongSelf.view insertSubview:strongSelf.menuView
-                                  belowSubview:strongSelf.jfSuspensionView];
-                [strongSelf.menuView popupMenuViewAnimation];
-            }
+            
+            
+#warning Swift混编测试
+            RegisterController *registerVC = [[RegisterController alloc] init];
+            [self presentViewController:registerVC animated:YES completion:nil];
+            
+//            __strong typeof(self) strongSelf = weakSelf;
+//            if (strongSelf) {
+//                [strongSelf.view insertSubview:strongSelf.menuView
+//                                  belowSubview:strongSelf.jfSuspensionView];
+//                [strongSelf.menuView popupMenuViewAnimation];
+//            }
         }];
         
         [_jfSuspensionView closeMenuBlock:^{
