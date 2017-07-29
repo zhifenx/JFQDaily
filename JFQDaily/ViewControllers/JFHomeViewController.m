@@ -38,6 +38,7 @@
     NSString *_last_key;        //上拉加载请求数据时需要拼接到URL中的last_key
     NSString *_has_more;        //是否还有未加载的文章（0：没有 1：有）
     CGFloat _contentOffset_Y;   //homeNewsTableView滑动后Y轴偏移量
+    NSInteger _row;
 }
 
 @property (nonatomic, strong) UITableView *homeNewsTableView;
@@ -85,7 +86,7 @@
     
     //设置上拉加载
     self.refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        [self loadData];
+//        [self loadData]; //已在scrollViewDidScroll里提供了加载数据
     }];
     [self.refreshFooter setTitle:@"加载更多 ..." forState:MJRefreshStateRefreshing];
     [self.refreshFooter setTitle:@"没有更多内容了" forState:MJRefreshStateNoMoreData];
@@ -273,6 +274,14 @@
         [self suspensionWithAlpha:0];
     } else if (scrollView.contentOffset.y < _contentOffset_Y) {
         [self suspensionWithAlpha:1];
+    }
+    
+    //提前加载数据，以提供更流畅的用户体验
+    NSIndexPath *indexPatch = [_homeNewsTableView indexPathForRowAtPoint:CGPointMake(40, scrollView.contentOffset.y)];
+    if (indexPatch.row == (_layouts.count - 10)) {
+        if (_row == indexPatch.row) return;//编码重复加载
+        _row = indexPatch.row;
+        [self loadData];
     }
 }
 
