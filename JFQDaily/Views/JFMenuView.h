@@ -10,6 +10,12 @@
 
 typedef void(^JFMenuViewBlock)();
 
+@protocol JFMenuViewDelegate <NSObject>
+
+- (void)clickTheSettingButtonEvent;
+
+@end
+
 @interface JFMenuView : UIView
 
 /** 弹出新闻分类界面block*/
@@ -17,16 +23,13 @@ typedef void(^JFMenuViewBlock)();
 
 /** 隐藏新闻分类界面block*/
 @property (nonatomic, copy) JFMenuViewBlock hideNewsClassificationViewBlock;
-
+@property (nonatomic, weak) id<JFMenuViewDelegate> delegate;
 /// 弹出菜单界面
 - (void)popupMenuViewAnimation;
 /// 隐藏菜单界面
 - (void)hideMenuViewAnimation;
 ///隐藏新闻分类菜单
 - (void)hideJFNewsClassificationViewAnimation;
-
 - (void)popupNewsClassificationViewBlock:(JFMenuViewBlock)block;
-
 - (void)hideNewsClassificationViewBlock:(JFMenuViewBlock)block;
-
 @end

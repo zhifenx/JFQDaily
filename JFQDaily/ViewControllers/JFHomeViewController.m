@@ -30,10 +30,9 @@
 //新闻数据模型相关
 #import "JFResponseModel.h"
 #import "JFNewsCellLayout.h"
-
 #import "JFQDaily-Swift.h"
 
-@interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource, JFMenuViewDelegate>
 {
     NSString *_last_key;        //上拉加载请求数据时需要拼接到URL中的last_key
     NSString *_has_more;        //是否还有未加载的文章（0：没有 1：有）
@@ -130,18 +129,12 @@
         
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView popupMenuBlock:^{
-            
-            
-#warning Swift混编测试
-            RegisterController *registerVC = [[RegisterController alloc] init];
-            [self presentViewController:registerVC animated:YES completion:nil];
-            
-//            __strong typeof(self) strongSelf = weakSelf;
-//            if (strongSelf) {
-//                [strongSelf.view insertSubview:strongSelf.menuView
-//                                  belowSubview:strongSelf.jfSuspensionView];
-//                [strongSelf.menuView popupMenuViewAnimation];
-//            }
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.view insertSubview:strongSelf.menuView
+                                  belowSubview:strongSelf.jfSuspensionView];
+                [strongSelf.menuView popupMenuViewAnimation];
+            }
         }];
         
         [_jfSuspensionView closeMenuBlock:^{
@@ -156,6 +149,41 @@
     CGRect tempFrame = self.jfSuspensionView.frame;
     tempFrame.origin.x = offsetX;
     self.jfSuspensionView.frame = tempFrame;
+}
+
+#pragma mark --- 菜单
+- (JFMenuView *)menuView {
+    if (!_menuView) {
+        _menuView = [[JFMenuView alloc] initWithFrame:self.view.bounds];
+        _menuView.backgroundColor = [UIColor clearColor];
+        _menuView.delegate = self;
+        
+        __weak typeof(self) weakSelf = self;
+        [_menuView popupNewsClassificationViewBlock:^{
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                //重置悬浮按钮的Tag
+                strongSelf.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
+                [strongSelf suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
+            }
+        }];
+        
+        [_menuView hideNewsClassificationViewBlock:^{
+            //隐藏新闻分类菜单
+            [weakSelf.menuView hideJFNewsClassificationViewAnimation];
+            //弹簧效果动画
+            [UIView animateWithDuration:0.7 //动画时间
+                                  delay:0   //动画延迟
+                 usingSpringWithDamping:0.5 //越接近零，震荡越大；1时为平滑的减速动画
+                  initialSpringVelocity:0.15 //弹簧的初始速度 （距离/该值）pt/s
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 [self suspensionViewOffsetX:10];
+                             }
+                             completion:nil];
+        }];
+    }
+    return _menuView;
 }
 
 #pragma mark --- 图片轮播器
@@ -300,38 +328,10 @@
                      }];
 }
 
-#pragma mark --- 菜单
-- (JFMenuView *)menuView {
-    if (!_menuView) {
-        _menuView = [[JFMenuView alloc] initWithFrame:self.view.bounds];
-        _menuView.backgroundColor = [UIColor clearColor];
-        
-        __weak typeof(self) weakSelf = self;
-        [_menuView popupNewsClassificationViewBlock:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                //重置悬浮按钮的Tag
-                strongSelf.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
-                [strongSelf suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
-            }
-        }];
-        
-        [_menuView hideNewsClassificationViewBlock:^{
-            //隐藏新闻分类菜单
-        [weakSelf.menuView hideJFNewsClassificationViewAnimation];
-            //弹簧效果动画
-            [UIView animateWithDuration:0.7 //动画时间
-                                  delay:0   //动画延迟
-                 usingSpringWithDamping:0.5 //越接近零，震荡越大；1时为平滑的减速动画
-                  initialSpringVelocity:0.15 //弹簧的初始速度 （距离/该值）pt/s
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 [self suspensionViewOffsetX:10];
-                             }
-                             completion:nil];
-        }];
-    }
-    return _menuView;
+#pragma -- JFMenuViewDelegate
+- (void)clickTheSettingButtonEvent {
+    RegisterController *registerVC = [[RegisterController alloc] init];
+    [self presentViewController:registerVC animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

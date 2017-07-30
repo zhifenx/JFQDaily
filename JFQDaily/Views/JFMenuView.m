@@ -241,7 +241,10 @@ static NSString *ID = @"menuCell";
 }
 
 - (void)headerViewButtonEvents:(UIButton *)sender {
-    [MBProgressHUD promptHudWithShowHUDAddedTo:self message:@"待完善，您的支持是我最大的动力!"];
+//    [MBProgressHUD promptHudWithShowHUDAddedTo:self message:@"待完善，您的支持是我最大的动力!"];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickTheSettingButtonEvent)]) {
+        [self.delegate clickTheSettingButtonEvent];
+    }
 }
 
 - (NSArray *)imageArray {
