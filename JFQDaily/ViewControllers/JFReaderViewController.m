@@ -50,6 +50,10 @@
     [self.view addSubview:self.jfSuspensionView];
 }
 
+- (void)next {
+    NSLog(@"测试定时器");
+}
+
 /// 懒加载，加载动画界面
 - (UIView *)loadingView {
     if (!_loadingView) {
@@ -105,15 +109,15 @@
         __weak typeof(self) weakSelf = self;
         [_jfSuspensionView backBlock:^{
             
-//            __strong typeof(self) strongSelf = weakSelf;
-//            if (strongSelf) {
-//                [strongSelf.navigationController popViewControllerAnimated:YES];
-//                [strongSelf destoryJFSuspensionView];
-//            }
+#warning 这里使用strongSelf，在iOS 9系统中进入JFReaderViewController再返回首页时会崩溃，目前不确定是否修复
+            __strong typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.navigationController popViewControllerAnimated:YES];
+                [strongSelf destoryJFSuspensionView];
+            }
             
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-#warning 这里如果使用strongSelf，在iOS 9系统中进入JFReaderViewController再返回首页时会崩溃，目前还没找到原因！
-            [self destoryJFSuspensionView];
+//            [weakSelf.navigationController popViewControllerAnimated:YES];
+//            [self destoryJFSuspensionView];
         }];
     }
     return _jfSuspensionView;
@@ -197,6 +201,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+#ifdef DEBUG
+    NSLog(@"ReaderViewController dealloc");
+#endif
 }
 
 @end

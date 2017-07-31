@@ -18,8 +18,8 @@ typedef void(^JFLoopViewBlock)(NSString *Url);
 
 @property (nonatomic, strong) NSMutableArray *newsUrlMutableArray;
 
-- (instancetype)initWithImageMutableArray:(NSMutableArray *)imageMutableArray
-                        titleMutableArray:(NSMutableArray *)titleMutableArray;
+- (void)loopViewDataWithImageMutableArray:(NSMutableArray *)imageMutableArray
+                    titleMutableArray:(NSMutableArray *)titleMutableArray;
 
 - (void)didSelectCollectionItemBlock:(JFLoopViewBlock)block;
 

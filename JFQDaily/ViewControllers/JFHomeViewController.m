@@ -45,6 +45,7 @@
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *refreshFooter;
 @property (nonatomic, strong) JFHomeNewsTableViewCell *cell;
 @property (nonatomic, strong) JFMenuView *menuView;
+@property (nonatomic, strong) JFLoopView *loopView;
 @property (nonatomic, strong) YYFPSLabel *fpsLabel;
 /** 悬浮按钮view*/
 @property (nonatomic, strong) JFSuspensionView *jfSuspensionView;
@@ -60,6 +61,9 @@
 @end
 
 @implementation JFHomeViewController
+{
+    BOOL _isLoopView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -85,7 +89,7 @@
     
     //设置上拉加载
     self.refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-//        [self loadData]; //已在scrollViewDidScroll里提供了加载数据
+        [self loadData]; //已在scrollViewDidScroll里提供了加载数据
     }];
     [self.refreshFooter setTitle:@"加载更多 ..." forState:MJRefreshStateRefreshing];
     [self.refreshFooter setTitle:@"没有更多内容了" forState:MJRefreshStateNoMoreData];
@@ -186,31 +190,6 @@
     return _menuView;
 }
 
-#pragma mark --- 图片轮播器
-- (void)addLoopView {
-    //这里做判断是避免上拉加载时出现数据错误（如果轮播器已经存在就不再添加）
-    if (!self.homeNewsTableView.tableHeaderView) {
-        NSMutableArray *imageMuatableArray = [[NSMutableArray alloc] init];
-        NSMutableArray *titleMutableArray = [[NSMutableArray alloc] init];
-        NSMutableArray *newsUrlMuatbleArray = [[NSMutableArray alloc] init];
-        for (JFBannersModel *banner in self.bannersArray) {
-            [imageMuatableArray addObject:banner.post.image];
-            [titleMutableArray addObject:banner.post.title];
-            [newsUrlMuatbleArray addObject:banner.post.appview];
-        }
-        JFLoopView *loopView = [[JFLoopView alloc] initWithImageMutableArray:imageMuatableArray titleMutableArray:titleMutableArray];
-        loopView.frame = CGRectMake(0, 0, JFSCREEN_WIDTH, 300);
-        loopView.newsUrlMutableArray = newsUrlMuatbleArray;
-        
-        __weak typeof(self) weakSelf = self;
-        [loopView didSelectCollectionItemBlock:^(NSString *Url) {
-            [weakSelf pushToJFReaderViewControllerWithNewsUrl:Url];
-        }];
-        self.homeNewsTableView.tableHeaderView = loopView;
-    }
-}
-
-
 #pragma mark --- 数据管理器
 - (JFHomeNewsDataManager *)manager {
     if (!_manager) {
@@ -239,7 +218,7 @@
                         [strongSelf.refreshHeader endRefreshing];
                         [strongSelf.refreshFooter endRefreshing];
                         //添加轮播器(方法内部有判断轮播器是否已加载)
-                        [strongSelf addLoopView];
+                        [strongSelf startLoopView];
                         [strongSelf.homeNewsTableView reloadData];
                     });
                 });
@@ -249,6 +228,31 @@
     return _manager;
 }
 
+#pragma mark --- 图片轮播器
+- (void)startLoopView {
+    //这里做判断是避免上拉加载时出现数据错误（如果轮播器已经存在就不再添加）
+//    if (!self.homeNewsTableView.tableHeaderView && _row != 10) {
+//        _isLoopView = YES;
+        NSMutableArray *imageMuatableArray = [[NSMutableArray alloc] init];
+        NSMutableArray *titleMutableArray = [[NSMutableArray alloc] init];
+        NSMutableArray *newsUrlMuatbleArray = [[NSMutableArray alloc] init];
+        for (JFBannersModel *banner in self.bannersArray) {
+            [imageMuatableArray addObject:banner.post.image];
+            [titleMutableArray addObject:banner.post.title];
+            [newsUrlMuatbleArray addObject:banner.post.appview];
+        }
+//        self.loopView = [[JFLoopView alloc] initWithImageMutableArray:imageMuatableArray titleMutableArray:titleMutableArray];
+//        _loopView.frame = CGRectMake(0, 0, JFSCREEN_WIDTH, 300);
+        [_loopView loopViewDataWithImageMutableArray:imageMuatableArray titleMutableArray:titleMutableArray];
+        _loopView.newsUrlMutableArray = newsUrlMuatbleArray;
+        
+        __weak typeof(self) weakSelf = self;
+        [_loopView didSelectCollectionItemBlock:^(NSString *Url) {
+            [weakSelf pushToJFReaderViewControllerWithNewsUrl:Url];
+        }];
+//    }
+}
+
 #pragma mark --- JFHomeNewsTableView（首页根view）
 - (UITableView *)homeNewsTableView {
     if (!_homeNewsTableView) {
@@ -256,8 +260,16 @@
         _homeNewsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _homeNewsTableView.delegate = self;
         _homeNewsTableView.dataSource = self;
+        _homeNewsTableView.tableHeaderView = self.loopView;
     }
     return _homeNewsTableView;
+}
+
+- (JFLoopView *)loopView {
+    if (!_loopView) {
+        _loopView = [[JFLoopView alloc] initWithFrame:CGRectMake(0, 0, JFSCREEN_WIDTH, 300)];
+    }
+    return _loopView;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -304,13 +316,41 @@
         [self suspensionWithAlpha:1];
     }
     
+//    if (scrollView.contentOffset.y > 400) {
+//        if (self.homeNewsTableView.tableHeaderView) {
+//            self.homeNewsTableView.tableHeaderView = nil;
+//            [_loopView removeFromSuperview];
+//            _loopView = nil;
+//            _isLoopView = NO;
+//        }
+//    }else if (scrollView.contentOffset.y < 400 && _isLoopView) {
+//        if (!self.homeNewsTableView.tableHeaderView) {
+//            _homeNewsTableView.tableHeaderView = self.loopView;
+//        }
+//    }
+    
     //提前加载数据，以提供更流畅的用户体验
     NSIndexPath *indexPatch = [_homeNewsTableView indexPathForRowAtPoint:CGPointMake(40, scrollView.contentOffset.y)];
     if (indexPatch.row == (_layouts.count - 10)) {
-        if (_row == indexPatch.row) return;//编码重复加载
+        if (_row == indexPatch.row) return;//避免重复加载
         _row = indexPatch.row;
         [self loadData];
     }
+    
+//    if (indexPatch.row == 10) {
+//        if (_row == indexPatch.row) return;
+//        _row = indexPatch.row;
+//        self.homeNewsTableView.tableHeaderView = nil;
+//        [_loopView removeFromSuperview];
+//        _loopView = nil;
+//    }
+    
+//    if (indexPatch.row == 9) {
+//        if (_row == indexPatch.row) return;
+//        _row = indexPatch.row;
+//        [self addLoopView];
+//    }
+    NSLog(@"滚动");
 }
 
 /// 停止滚动时调用
