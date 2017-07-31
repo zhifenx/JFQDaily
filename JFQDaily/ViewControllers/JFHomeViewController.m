@@ -34,10 +34,12 @@
 
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource, JFMenuViewDelegate>
 {
-    NSString *_last_key;        //上拉加载请求数据时需要拼接到URL中的last_key
-    NSString *_has_more;        //是否还有未加载的文章（0：没有 1：有）
-    CGFloat _contentOffset_Y;   //homeNewsTableView滑动后Y轴偏移量
+    NSString *_last_key;        // 上拉加载请求数据时需要拼接到URL中的last_key
+    NSString *_has_more;        // 是否还有未加载的文章（0：没有 1：有）
+    CGFloat _contentOffset_Y;   // homeNewsTableView滑动后Y轴偏移量
     NSInteger _row;
+    BOOL _isRuning;             // 定时器是否在运行
+    BOOL _isBeyondBorder;        // 轮播view是否超出显示区域
 }
 
 @property (nonatomic, strong) UITableView *homeNewsTableView;
@@ -61,9 +63,6 @@
 @end
 
 @implementation JFHomeViewController
-{
-    BOOL _isLoopView;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -105,6 +104,17 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    if (!_isBeyondBorder) {
+        [self.loopView startTimer];
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (_isRuning && !_isBeyondBorder) {
+        [self.loopView stopTimer];
+        _isRuning = NO;
+    }
 }
 
 /// 下拉刷新数据
@@ -120,7 +130,7 @@
     if ([_has_more isEqualToString:@"1"]) {
         [self.manager requestHomeNewsDataWithLastKey:_last_key];
     }else if ([_has_more isEqualToString:@"0"]) {
-    [self.refreshFooter setState:MJRefreshStateNoMoreData];
+        [self.refreshFooter setState:MJRefreshStateNoMoreData];
     }
 }
 
@@ -217,7 +227,6 @@
                         //停止刷新
                         [strongSelf.refreshHeader endRefreshing];
                         [strongSelf.refreshFooter endRefreshing];
-                        //添加轮播器(方法内部有判断轮播器是否已加载)
                         [strongSelf startLoopView];
                         [strongSelf.homeNewsTableView reloadData];
                     });
@@ -230,9 +239,9 @@
 
 #pragma mark --- 图片轮播器
 - (void)startLoopView {
-    //这里做判断是避免上拉加载时出现数据错误（如果轮播器已经存在就不再添加）
-//    if (!self.homeNewsTableView.tableHeaderView && _row != 10) {
-//        _isLoopView = YES;
+    //如果是上拉加载数据，就不再次加载轮播图
+    if (_loopView.newsUrlMutableArray.count == 0) {
+        _isRuning = YES;
         NSMutableArray *imageMuatableArray = [[NSMutableArray alloc] init];
         NSMutableArray *titleMutableArray = [[NSMutableArray alloc] init];
         NSMutableArray *newsUrlMuatbleArray = [[NSMutableArray alloc] init];
@@ -241,8 +250,6 @@
             [titleMutableArray addObject:banner.post.title];
             [newsUrlMuatbleArray addObject:banner.post.appview];
         }
-//        self.loopView = [[JFLoopView alloc] initWithImageMutableArray:imageMuatableArray titleMutableArray:titleMutableArray];
-//        _loopView.frame = CGRectMake(0, 0, JFSCREEN_WIDTH, 300);
         [_loopView loopViewDataWithImageMutableArray:imageMuatableArray titleMutableArray:titleMutableArray];
         _loopView.newsUrlMutableArray = newsUrlMuatbleArray;
         
@@ -250,7 +257,7 @@
         [_loopView didSelectCollectionItemBlock:^(NSString *Url) {
             [weakSelf pushToJFReaderViewControllerWithNewsUrl:Url];
         }];
-//    }
+    }
 }
 
 #pragma mark --- JFHomeNewsTableView（首页根view）
@@ -316,18 +323,19 @@
         [self suspensionWithAlpha:1];
     }
     
-//    if (scrollView.contentOffset.y > 400) {
-//        if (self.homeNewsTableView.tableHeaderView) {
-//            self.homeNewsTableView.tableHeaderView = nil;
-//            [_loopView removeFromSuperview];
-//            _loopView = nil;
-//            _isLoopView = NO;
-//        }
-//    }else if (scrollView.contentOffset.y < 400 && _isLoopView) {
-//        if (!self.homeNewsTableView.tableHeaderView) {
-//            _homeNewsTableView.tableHeaderView = self.loopView;
-//        }
-//    }
+    if (scrollView.contentOffset.y > 400) {         // 轮播图滑出界面时，关闭定时器
+        if (_isRuning) {
+            [self.loopView stopTimer];
+            _isBeyondBorder = YES;
+            _isRuning = NO;
+        }
+    }else if (scrollView.contentOffset.y < 400) {   // 轮播图进入界面时，打开定时器
+        if (!_isRuning) {
+            [self.loopView startTimer];
+            _isRuning = YES;
+            _isBeyondBorder = NO;
+        }
+    }
     
     //提前加载数据，以提供更流畅的用户体验
     NSIndexPath *indexPatch = [_homeNewsTableView indexPathForRowAtPoint:CGPointMake(40, scrollView.contentOffset.y)];
@@ -336,21 +344,6 @@
         _row = indexPatch.row;
         [self loadData];
     }
-    
-//    if (indexPatch.row == 10) {
-//        if (_row == indexPatch.row) return;
-//        _row = indexPatch.row;
-//        self.homeNewsTableView.tableHeaderView = nil;
-//        [_loopView removeFromSuperview];
-//        _loopView = nil;
-//    }
-    
-//    if (indexPatch.row == 9) {
-//        if (_row == indexPatch.row) return;
-//        _row = indexPatch.row;
-//        [self addLoopView];
-//    }
-    NSLog(@"滚动");
 }
 
 /// 停止滚动时调用

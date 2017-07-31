@@ -11,7 +11,6 @@
 
 #import "JFLoopViewLayout.h"
 #import "JFLoopViewCell.h"
-//#import "JFWeakTimerTargetObject.h"
 #import "NSTimer+JFBlocksTimer.h"
 #import "JFReaderViewController.h"
 
@@ -31,27 +30,33 @@ static NSString *ID = @"loopViewCell";
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.imageMutableArray = [NSMutableArray new];
+        self.titleMutableArray = [NSMutableArray new];
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[JFLoopViewLayout alloc] init]];
         [collectionView registerClass:[JFLoopViewCell class] forCellWithReuseIdentifier:ID];
         collectionView.dataSource = self;
         collectionView.delegate = self;
         [self addSubview:collectionView];
         self.collectionView = collectionView;
-        //添加分页器
-        [self addSubview:self.pageControl];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.collectionView.frame = self.bounds;
 }
 
 - (void)loopViewDataWithImageMutableArray:(NSMutableArray *)imageMutableArray
                         titleMutableArray:(NSMutableArray *)titleMutableArray {
     self.imageMutableArray = imageMutableArray;
     self.titleMutableArray = titleMutableArray;
+    //添加分页器
+    [self addSubview:self.pageControl];
     //回到主线程刷新UI
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"imageMutableArray %ld",self.imageMutableArray.count);
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.imageMutableArray.count inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-        
+//        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.imageMutableArray.count inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    [self.collectionView reloadData];
         //添加定时器
         [self addTimer];
     });
@@ -60,7 +65,7 @@ static NSString *ID = @"loopViewCell";
 /// 懒加载pageControl
 - (UIPageControl *)pageControl {
     if (!_pageControl) {
-        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 270, 0, 30)];
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 270, self.frame.size.width, 30)];
         _pageControl.numberOfPages = self.imageMutableArray.count;
         _pageControl.pageIndicatorTintColor = [UIColor grayColor];
         _pageControl.currentPageIndicatorTintColor = [UIColor orangeColor];
@@ -145,20 +150,21 @@ static NSString *ID = @"loopViewCell";
 - (void)removeTimer {
     [self.timer invalidate];
     self.timer = nil;
-    NSLog(@"定时器已销毁");
 }
 
 /// 切换到下一张图片
 - (void)nextImage {
-    NSLog(@"下一张图片");
     CGFloat offsetX = self.collectionView.contentOffset.x;
     NSInteger page = offsetX / self.collectionView.bounds.size.width;
     [self.collectionView setContentOffset:CGPointMake((page + 1) * self.collectionView.bounds.size.width, 0) animated:YES];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.collectionView.frame = self.bounds;
+- (void)startTimer {
+    [self.timer setFireDate:[NSDate distantPast]];
+}
+
+- (void)stopTimer {
+    [self.timer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)dealloc {

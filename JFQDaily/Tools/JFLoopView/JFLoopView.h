@@ -23,4 +23,7 @@ typedef void(^JFLoopViewBlock)(NSString *Url);
 
 - (void)didSelectCollectionItemBlock:(JFLoopViewBlock)block;
 
+- (void)startTimer;
+- (void)stopTimer;
+
 @end
