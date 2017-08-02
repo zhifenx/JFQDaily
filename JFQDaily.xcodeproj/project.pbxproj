@@ -33,6 +33,7 @@
 		1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACA1DD04EBF00CBB13F /* JFLoopView.m */; };
 		1EA75AD01DD04EBF00CBB13F /* JFLoopViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */; };
 		1EA75AD11DD04EBF00CBB13F /* JFLoopViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */; };
+		1EB8A2241F31CC2F004CBC56 /* ReaderToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB8A2231F31CC2F004CBC56 /* ReaderToolbarView.swift */; };
 		F17B9E662B1C074520693AB2 /* libPods-JFQDaily.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2329A90CAC7783881895F31 /* libPods-JFQDaily.a */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +107,7 @@
 		1EA75ACC1DD04EBF00CBB13F /* JFLoopViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFLoopViewCell.m; sourceTree = "<group>"; };
 		1EA75ACD1DD04EBF00CBB13F /* JFLoopViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFLoopViewLayout.h; sourceTree = "<group>"; };
 		1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFLoopViewLayout.m; sourceTree = "<group>"; };
+		1EB8A2231F31CC2F004CBC56 /* ReaderToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderToolbarView.swift; sourceTree = "<group>"; };
 		D2329A90CAC7783881895F31 /* libPods-JFQDaily.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JFQDaily.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E68DBDD35E69168A6A525F /* Pods-JFQDaily.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JFQDaily.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JFQDaily/Pods-JFQDaily.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -295,6 +297,7 @@
 				1E7FAB0A1F2A3A5B00182D8B /* JFNewsClassificationView.m */,
 				1E7FAB0B1F2A3A5B00182D8B /* JFSuspensionView.h */,
 				1E7FAB0C1F2A3A5B00182D8B /* JFSuspensionView.m */,
+				1EB8A2231F31CC2F004CBC56 /* ReaderToolbarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				1E7FAAE81F27897400182D8B /* JFNewsCellLayout.m in Sources */,
 				1EA75ACF1DD04EBF00CBB13F /* JFLoopView.m in Sources */,
 				1E7FAB0D1F2A3A5B00182D8B /* JFHomeNewsTableViewCell.m in Sources */,
+				1EB8A2241F31CC2F004CBC56 /* ReaderToolbarView.swift in Sources */,
 				1E5DED1F1DCEE814002BFDE8 /* JFHomeNewsDataManager.m in Sources */,
 				1E6E21F31DCC7BA3001C7F08 /* AppDelegate.m in Sources */,
 			);

@@ -15,8 +15,9 @@
 #import "Masonry.h"
 #import "JFSuspensionView.h"
 #import "MBProgressHUD+JFProgressHUD.h"
+#import "JFQDaily-Swift.h"
 
-@interface JFReaderViewController ()<WKNavigationDelegate, UIScrollViewDelegate, JFSuspensionViewDelegate>
+@interface JFReaderViewController ()<WKNavigationDelegate, UIScrollViewDelegate, ReaderToolbarViewDelegate>
 {
     CGFloat _contentOffset_Y;   //WKWebView滑动后Y轴偏移量
 }
@@ -24,8 +25,7 @@
 /** 加载动画view*/
 @property (nonatomic, strong) UIView *loadingView;
 @property (nonatomic, strong) UIImageView *loadingImageView;
-/** 悬浮按钮父view*/
-@property (nonatomic, strong) JFSuspensionView *jfSuspensionView;
+@property (nonatomic, strong) ReaderToolbarView *toolbarView;
 
 @end
 
@@ -47,7 +47,8 @@
     [self.loadingView addSubview:self.loadingImageView];
     [self customUI];
     
-    [self.view addSubview:self.jfSuspensionView];
+//    [self.view addSubview:self.jfSuspensionView];
+    [self.view addSubview:self.toolbarView];
 }
 
 /// 懒加载，加载动画界面
@@ -96,21 +97,18 @@
     _newsUrl = newsUrl;
 }
 
-/// 悬浮按钮父view
-- (JFSuspensionView *)jfSuspensionView {
-    if (!_jfSuspensionView) {
-        _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 60, 61, 61)];
-        _jfSuspensionView.delegate = self;
-        //设置按钮样式（tag）
-        _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType;
+- (ReaderToolbarView *)toolbarView {
+    if (!_toolbarView) {
+        _toolbarView = [[ReaderToolbarView alloc] initWithFrame:CGRectMake(0, JFSCREENH_HEIGHT - 55, JFSCREEN_WIDTH, 55)];
+        _toolbarView.delegate = self;
     }
-    return _jfSuspensionView;
+    return _toolbarView;
 }
 
-/// 销毁JFSuspensionView
-- (void)destoryJFSuspensionView {
-    self.jfSuspensionView.hidden = YES;
-    self.jfSuspensionView = nil;
+/// 销毁toolbarView
+- (void)destoryToolbarView {
+    _toolbarView.hidden = YES;
+    _toolbarView = nil;
 }
 
 #pragma mark --- WKNavigationDelegate
@@ -155,30 +153,32 @@
 /// 停止滚动时调用
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     _contentOffset_Y = scrollView.contentOffset.y;
-    
-    //滑动停止后显示悬浮按钮
-    [self showSuspenstionButton];
+    //滑动到底部时显示悬浮按钮
+    CGFloat screen_h = [UIScreen mainScreen].bounds.size.height;
+    if ((_contentOffset_Y + screen_h) == scrollView.contentSize.height) {
+        [self showSuspenstionButton];
+    }
 }
 
 /// 显示悬浮按钮
 - (void)showSuspenstionButton {
-    if (self.jfSuspensionView.layer.frame.origin.y == JFSCREENH_HEIGHT - 60) return;
+    if (_toolbarView.layer.frame.origin.y == JFSCREENH_HEIGHT - 55) return;
     [UIView animateWithDuration:0.2
                      animations:^{
-                         CGRect tempFrame = self.jfSuspensionView.layer.frame;
-                         tempFrame.origin.y -= 60;
-                         self.jfSuspensionView.layer.frame = tempFrame;
+                         CGRect tempFrame = _toolbarView.layer.frame;
+                         tempFrame.origin.y -= 55;
+                         _toolbarView.layer.frame = tempFrame;
                      }];
 }
 
 /// 隐藏悬浮按钮
 - (void)hideSuspenstionButton {
-    if (self.jfSuspensionView.layer.frame.origin.y == JFSCREENH_HEIGHT) return;
+    if (_toolbarView.layer.frame.origin.y == JFSCREENH_HEIGHT) return;
     [UIView animateWithDuration:0.2
                      animations:^{
-                         CGRect tempFrame = self.jfSuspensionView.layer.frame;
-                         tempFrame.origin.y += 60;
-                         self.jfSuspensionView.layer.frame = tempFrame;
+                         CGRect tempFrame = _toolbarView.layer.frame;
+                         tempFrame.origin.y += 55;
+                         _toolbarView.layer.frame = tempFrame;
                      }];
 }
 
@@ -195,6 +195,6 @@
 
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
-    [self destoryJFSuspensionView];
+    [self destoryToolbarView];
 }
 @end
