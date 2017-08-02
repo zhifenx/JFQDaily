@@ -51,6 +51,8 @@
     [super layoutSubviews];
     self.iconView.frame = self.bounds;
     self.titlelabel.frame = CGRectMake(20, self.bounds.size.height - 110, self.bounds.size.width - 40, 110);
+    self.titlelabel.shadowColor = [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1];
+    self.titlelabel.shadowOffset = CGSizeMake(0.3, 0.3);
 }
 
 @end

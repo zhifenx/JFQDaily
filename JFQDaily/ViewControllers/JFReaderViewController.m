@@ -16,7 +16,7 @@
 #import "JFSuspensionView.h"
 #import "MBProgressHUD+JFProgressHUD.h"
 
-@interface JFReaderViewController ()<WKNavigationDelegate, UIScrollViewDelegate>
+@interface JFReaderViewController ()<WKNavigationDelegate, UIScrollViewDelegate, JFSuspensionViewDelegate>
 {
     CGFloat _contentOffset_Y;   //WKWebView滑动后Y轴偏移量
 }
@@ -48,10 +48,6 @@
     [self customUI];
     
     [self.view addSubview:self.jfSuspensionView];
-}
-
-- (void)next {
-    NSLog(@"测试定时器");
 }
 
 /// 懒加载，加载动画界面
@@ -104,21 +100,9 @@
 - (JFSuspensionView *)jfSuspensionView {
     if (!_jfSuspensionView) {
         _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(20, JFSCREENH_HEIGHT - 60, 61, 61)];
+        _jfSuspensionView.delegate = self;
         //设置按钮样式（tag）
         _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType;
-        __weak typeof(self) weakSelf = self;
-        [_jfSuspensionView backBlock:^{
-            
-#warning 这里使用strongSelf，在iOS 9系统中进入JFReaderViewController再返回首页时会崩溃，目前不确定是否修复
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                [strongSelf.navigationController popViewControllerAnimated:YES];
-                [strongSelf destoryJFSuspensionView];
-            }
-            
-//            [weakSelf.navigationController popViewControllerAnimated:YES];
-//            [self destoryJFSuspensionView];
-        }];
     }
     return _jfSuspensionView;
 }
@@ -204,9 +188,13 @@
 }
 
 - (void)dealloc {
-#ifdef DEBUG
     NSLog(@"ReaderViewController dealloc");
-#endif
 }
 
+#pragma mark - JFSuspensionViewDelegate
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
+    [self destoryJFSuspensionView];
+}
 @end

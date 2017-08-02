@@ -10,10 +10,6 @@
 
 @interface JFLoopViewCell : UICollectionViewCell
 
-/** 轮播图片url字符串 （需要转换成URL）*/
-@property (nonatomic, copy) NSString *imageName;
-
-/** 轮播新闻标题*/
-@property (nonatomic, copy) NSString *title;
-
+@property (nonatomic, copy) NSString *imageName;    // 轮播图片url字符串 （需要转换成URL）
+@property (nonatomic, copy) NSString *title;        // 轮播新闻标题
 @end

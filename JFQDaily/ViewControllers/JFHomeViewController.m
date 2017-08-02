@@ -32,7 +32,7 @@
 #import "JFNewsCellLayout.h"
 #import "JFQDaily-Swift.h"
 
-@interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource, JFMenuViewDelegate>
+@interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource, JFMenuViewDelegate, JFSuspensionViewDelegate>
 {
     NSString *_last_key;        // 上拉加载请求数据时需要拼接到URL中的last_key
     NSString *_has_more;        // 是否还有未加载的文章（0：没有 1：有）
@@ -138,22 +138,9 @@
 - (JFSuspensionView *)jfSuspensionView {
     if (!_jfSuspensionView) {
         _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(10, JFSCREENH_HEIGHT - 70, 54, 54)];
+        _jfSuspensionView.delegate = self;
         //设置按钮样式（tag）
         _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleQType;
-        
-        __weak typeof(self) weakSelf = self;
-        [_jfSuspensionView popupMenuBlock:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                [strongSelf.view insertSubview:strongSelf.menuView
-                                  belowSubview:strongSelf.jfSuspensionView];
-                [strongSelf.menuView popupMenuViewAnimation];
-            }
-        }];
-        
-        [_jfSuspensionView closeMenuBlock:^{
-            [weakSelf.menuView hideMenuViewAnimation];
-        }];
     }
     return _jfSuspensionView;
 }
@@ -171,31 +158,6 @@
         _menuView = [[JFMenuView alloc] initWithFrame:self.view.bounds];
         _menuView.backgroundColor = [UIColor clearColor];
         _menuView.delegate = self;
-        
-        __weak typeof(self) weakSelf = self;
-        [_menuView popupNewsClassificationViewBlock:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                //重置悬浮按钮的Tag
-                strongSelf.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
-                [strongSelf suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
-            }
-        }];
-        
-        [_menuView hideNewsClassificationViewBlock:^{
-            //隐藏新闻分类菜单
-            [weakSelf.menuView hideJFNewsClassificationViewAnimation];
-            //弹簧效果动画
-            [UIView animateWithDuration:0.7 //动画时间
-                                  delay:0   //动画延迟
-                 usingSpringWithDamping:0.5 //越接近零，震荡越大；1时为平滑的减速动画
-                  initialSpringVelocity:0.15 //弹簧的初始速度 （距离/该值）pt/s
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 [self suspensionViewOffsetX:10];
-                             }
-                             completion:nil];
-        }];
     }
     return _menuView;
 }
@@ -361,10 +323,43 @@
                      }];
 }
 
-#pragma -- JFMenuViewDelegate
+#pragma mark - JFMenuViewDelegate
 - (void)clickTheSettingButtonEvent {
     RegisterController *registerVC = [[RegisterController alloc] init];
     [self presentViewController:registerVC animated:YES completion:nil];
+}
+
+- (void)popupNewsClassificationView {
+    //重置悬浮按钮的Tag
+    self.jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
+    [self suspensionViewOffsetX:-JFSCREEN_WIDTH - 100];
+}
+
+- (void)hideNewsClassificationView {
+    //隐藏新闻分类菜单
+    [self.menuView hideJFNewsClassificationViewAnimation];
+    //弹簧效果动画
+    [UIView animateWithDuration:0.7 //动画时间
+                          delay:0   //动画延迟
+         usingSpringWithDamping:0.5 //越接近零，震荡越大；1时为平滑的减速动画
+          initialSpringVelocity:0.15 //弹簧的初始速度 （距离/该值）pt/s
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         [self suspensionViewOffsetX:10];
+                     }
+                     completion:nil];
+}
+
+#pragma mark - JFSuspensionViewDelegate
+
+- (void)popupMenuView {
+    [self.view insertSubview:self.menuView
+                      belowSubview:self.jfSuspensionView];
+    [self.menuView popupMenuViewAnimation];
+}
+
+- (void)closeMenuView {
+    [_menuView hideMenuViewAnimation];
 }
 
 - (void)didReceiveMemoryWarning {

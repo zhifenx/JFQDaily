@@ -18,7 +18,7 @@
 
 static NSString *ID = @"menuCell";
 
-@interface JFMenuView ()<UITableViewDelegate, UITableViewDataSource>
+@interface JFMenuView ()<UITableViewDelegate, UITableViewDataSource, JFNewsClassificationViewDelegate>
 
 /** 模糊效果层*/
 @property (nonatomic, strong) UIVisualEffectView *blurEffectView;
@@ -135,17 +135,7 @@ static NSString *ID = @"menuCell";
 - (JFNewsClassificationView *)jfNewsClassificationView {
     if (!_jfNewsClassificationView) {
         _jfNewsClassificationView = [[JFNewsClassificationView alloc] initWithFrame:CGRectMake(JFSCREEN_WIDTH, KHeaderViewH, JFSCREEN_WIDTH, JFSCREENH_HEIGHT - KHeaderViewH)];
-        
-        //隐藏自己，返回到menuView
-        __weak typeof(self) weakSelf = self;
-        [_jfNewsClassificationView backBlock:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                if (strongSelf.hideNewsClassificationViewBlock) {
-                    strongSelf.hideNewsClassificationViewBlock();
-                }
-            }
-        }];
+        _jfNewsClassificationView.delegate = self;
     }
     return _jfNewsClassificationView;
 }
@@ -313,9 +303,10 @@ static NSString *ID = @"menuCell";
     if ([cell.textLabel.text isEqualToString:@"新闻分类"]) {
         [self popupJFNewsClassificationViewAnimation];
         [self.jfNewsClassificationView popupSuspensionView];
-        if (self.popupNewsClassificationViewBlock) {
-            self.popupNewsClassificationViewBlock();
+        if (self.delegate && [self.delegate respondsToSelector:@selector(popupNewsClassificationView)]) {
+            [self.delegate popupNewsClassificationView];
         }
+
     }else {
         [MBProgressHUD promptHudWithShowHUDAddedTo:self message:@"待完善，您的支持是我最大的动力！"];
     }
@@ -325,12 +316,14 @@ static NSString *ID = @"menuCell";
     return (JFSCREENH_HEIGHT - KHeaderViewH - 80) / _imageArray.count;
 }
 
-- (void)popupNewsClassificationViewBlock:(JFMenuViewBlock)block {
-    self.popupNewsClassificationViewBlock = block;
-}
+#pragma mark - JFNewsClassificationViewDelegate
 
-- (void)hideNewsClassificationViewBlock:(JFMenuViewBlock)block {
-    self.hideNewsClassificationViewBlock = block;
+- (void)back {
+    //隐藏自己，返回到menuView
+    if (self.delegate && [self.delegate respondsToSelector:@selector(hideNewsClassificationView)]) {
+        [self.delegate hideNewsClassificationView];
+    }
+
 }
 
 @end

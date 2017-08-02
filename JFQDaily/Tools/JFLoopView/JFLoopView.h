@@ -13,17 +13,14 @@ typedef void(^JFLoopViewBlock)(NSString *Url);
 
 @interface JFLoopView : UIView
 
-/** 点击collectionView的item跳转Block*/
+// 点击collectionView的item跳转Block
 @property (nonatomic, copy) JFLoopViewBlock didSelectCollectionItemBlock;
 
 @property (nonatomic, strong) NSMutableArray *newsUrlMutableArray;
 
 - (void)loopViewDataWithImageMutableArray:(NSMutableArray *)imageMutableArray
                     titleMutableArray:(NSMutableArray *)titleMutableArray;
-
 - (void)didSelectCollectionItemBlock:(JFLoopViewBlock)block;
-
 - (void)startTimer;
 - (void)stopTimer;
-
 @end

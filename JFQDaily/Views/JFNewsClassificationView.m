@@ -15,7 +15,7 @@
 
 static NSString *ID = @"nwesClassificationCell";
 
-@interface JFNewsClassificationView ()<UITableViewDelegate, UITableViewDataSource>
+@interface JFNewsClassificationView ()<UITableViewDelegate, UITableViewDataSource, JFSuspensionViewDelegate>
 
 /** 新闻分类菜单*/
 @property (nonatomic, strong) UITableView *newsClassificationTableView;
@@ -38,24 +38,10 @@ static NSString *ID = @"nwesClassificationCell";
 - (JFSuspensionView *)jfSuspensionView {
     if (!_jfSuspensionView) {
         _jfSuspensionView = [[JFSuspensionView alloc] initWithFrame:CGRectMake(JFSCREEN_WIDTH, self.frame.size.height - 70, 54, 54)];
+        _jfSuspensionView.delegate = self;
         _jfSuspensionView.JFSuspensionButtonStyle = JFSuspensionButtonStyleBackType2;
-        
-        ///返回到nenuViewBlock回调
-        __weak typeof(self) weakSelf = self;
-        [_jfSuspensionView backToMenuViewBlock:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                if (strongSelf.backBlock) {
-                    strongSelf.backBlock();
-                }
-            }
-        }];
     }
     return _jfSuspensionView;
-}
-
-- (void)backBlock:(JFNewsClassificationViewBlock)block {
-    self.backBlock = block;
 }
 
 - (UITableView *)newsClassificationTableView {
@@ -156,6 +142,15 @@ static NSString *ID = @"nwesClassificationCell";
     CGRect tempFrame = self.jfSuspensionView.frame;
     tempFrame.origin.x = offsetX;
     self.jfSuspensionView.frame = tempFrame;
+}
+
+#pragma mark - JFSuspensionViewDelegate
+
+- (void)backToMenuView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(back)]) {
+        [self.delegate back];
+    }
+
 }
 
 @end

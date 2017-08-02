@@ -16,31 +16,17 @@ typedef NS_ENUM(NSInteger, JFSuspensionButtonStyle) {
     JFSuspensionButtonStyleBackType2    //  返回样式2（返回到JFMenuView）
 };
 
-typedef void(^JFSuspensionViewBlock)();
+@protocol JFSuspensionViewDelegate <NSObject>
+
+@optional
+- (void)popupMenuView;
+- (void)closeMenuView;
+- (void)back;
+- (void)backToMenuView;
+@end
 
 @interface JFSuspensionView : UIView
 
-/** 悬浮按钮，设置按钮样式（tag）*/
-@property (nonatomic, assign) NSInteger JFSuspensionButtonStyle;
-
-/** 弹出菜单界面*/
-@property (nonatomic, copy) JFSuspensionViewBlock popupMenuBlock;
-
-/** 关闭菜单界面*/
-@property (nonatomic, copy) JFSuspensionViewBlock closeMenuBlock;
-
-/** 返回到homeNewsViewController*/
-@property (nonatomic, copy) JFSuspensionViewBlock backBlock;
-
-/** 返回到JFMenuView*/
-@property (nonatomic, copy) JFSuspensionViewBlock backToMenuViewBlock;
-
-- (void)popupMenuBlock:(JFSuspensionViewBlock)block;
-
-- (void)closeMenuBlock:(JFSuspensionViewBlock)block;
-
-- (void)backBlock:(JFSuspensionViewBlock)block;
-
-- (void)backToMenuViewBlock:(JFSuspensionViewBlock)block;
-
+@property (nonatomic, assign) NSInteger JFSuspensionButtonStyle;    // 悬浮按钮样式
+@property (nonatomic, weak) id<JFSuspensionViewDelegate> delegate;
 @end

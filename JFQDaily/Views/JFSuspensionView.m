@@ -75,21 +75,20 @@
                                 [sender setImage:[UIImage imageNamed:@"c_close button_54x54_"] forState:UIControlStateNormal];
                                 //重新设置悬浮按钮的tag
                                 self.suspensionButton.tag = JFSuspensionButtonStyleCloseType;
-                                if (self.popupMenuBlock) {
-                                    self.popupMenuBlock();
+                                if (self.delegate && [self.delegate respondsToSelector:@selector(popupMenuView)]) {
+                                    [self.delegate popupMenuView];
                                 }
                                 return;//因为上面已经对点击事件做处理了，且更改了suspensionButton的tag，此处如果return就会继续执行下面的方法，导致逻辑错误。
                             }
                 
                             //关闭菜单界面
-
                              if (_suspensionButton.tag == JFSuspensionButtonStyleCloseType) {
                                 [sender setImage:[UIImage imageNamed:@"c_Qdaily button_54x54_"] forState:UIControlStateNormal];
                                     //重新设置悬浮按钮的tag
                                     self.suspensionButton.tag = JFSuspensionButtonStyleQType;
-                                    if (self.closeMenuBlock) {
-                                        self.closeMenuBlock();
-                                    }
+                                 if (self.delegate && [self.delegate respondsToSelector:@selector(closeMenuView)]) {
+                                     [self.delegate closeMenuView];
+                                 }
                                     return;//作用同上
                                 }
                                     }];
@@ -100,34 +99,19 @@
     if (_suspensionButton.tag == JFSuspensionButtonStyleBackType) {
         //重新设置悬浮按钮的tag
         self.suspensionButton.tag = JFSuspensionButtonStyleQType;
-        if (self.backBlock) {
-            self.backBlock();
+        if (self.delegate && [self.delegate respondsToSelector:@selector(back)]) {
+            [self.delegate back];
         }
+
         return;//作用同上
     }
     
     //返回到JFMenuView
     if (_suspensionButton.tag == JFSuspensionButtonStyleBackType2) {
-        if (self.backToMenuViewBlock) {
-            self.backToMenuViewBlock();
+        if (self.delegate && [self.delegate respondsToSelector:@selector(backToMenuView)]) {
+            [self.delegate backToMenuView];
         }
     }
-}
-
-- (void)popupMenuBlock:(JFSuspensionViewBlock)block {
-    self.popupMenuBlock = block;
-}
-
-- (void)closeMenuBlock:(JFSuspensionViewBlock)block {
-    self.closeMenuBlock = block;
-}
-
-- (void)backBlock:(JFSuspensionViewBlock)block {
-    self.backBlock = block;
-}
-
-- (void)backToMenuViewBlock:(JFSuspensionViewBlock)block {
-    self.backToMenuViewBlock = block;
 }
 
 /** pop动画

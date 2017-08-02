@@ -11,7 +11,7 @@
 
 @interface MBProgressHUD (JFProgressHUD)
 
-/// MBProgressHUD提示信息,1秒后自动隐藏
+// MBProgressHUD提示信息,1秒后自动隐藏
 + (void)promptHudWithShowHUDAddedTo:(UIView *)promptView message:(NSString *)message;
 
 @end

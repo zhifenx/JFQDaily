@@ -8,17 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^JFNewsClassificationViewBlock)();
+@protocol JFNewsClassificationViewDelegate <NSObject>
+
+- (void)back;
+@end
 
 @interface JFNewsClassificationView : UIView
 
-@property (nonatomic, copy) JFNewsClassificationViewBlock backBlock;
+@property (nonatomic, weak) id<JFNewsClassificationViewDelegate> delegate;
 
-- (void)backBlock:(JFNewsClassificationViewBlock)block;
-
-///弹出悬浮按钮
-- (void)popupSuspensionView;
-///隐藏悬浮按钮
-- (void)hideSuspensionView;
-
+- (void)popupSuspensionView;    // 弹出悬浮按钮
+- (void)hideSuspensionView;     // 隐藏悬浮按钮
 @end
