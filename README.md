@@ -4,7 +4,8 @@
 
 ### JFQDaily效果展示：
 
-![JFQDaily效果展示.gif](http://upload-images.jianshu.io/upload_images/1707533-06c280dcc56b36ac.gif?imageMogr2/auto-orient/strip)
+![JFQDaily效果展示.gif](http://upload-images.jianshu.io/upload_images/1707533-1219311c2100a4e7.gif?imageMogr2/auto-orient/strip)
+
 
 ### Blog:[zhifenx](http://www.jianshu.com/users/aef0f8eebe6d/latest_articles)
 
