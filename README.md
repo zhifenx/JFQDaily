@@ -1,8 +1,10 @@
 # JFQDaily
 ## JF好奇心日报
 
+**编译运行项目之前请：**pod install
 
-### JFQDaily效果展示：
+
+**JFQDaily效果展示：**
 
 ![JFQDaily效果展示.gif](http://upload-images.jianshu.io/upload_images/1707533-1219311c2100a4e7.gif?imageMogr2/auto-orient/strip)
 

@@ -39,7 +39,7 @@
     CGFloat _contentOffset_Y;   // homeNewsTableView滑动后Y轴偏移量
     NSInteger _row;
     BOOL _isRuning;             // 定时器是否在运行
-    BOOL _isBeyondBorder;        // 轮播view是否超出显示区域
+    BOOL _isBeyondBorder;       // 轮播view是否超出显示区域
 }
 
 @property (nonatomic, strong) UITableView *homeNewsTableView;
