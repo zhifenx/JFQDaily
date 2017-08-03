@@ -1,7 +1,7 @@
 # JFQDaily
 ## JF好奇心日报
 
-**编译运行项目之前请：**pod install
+###编译运行项目之前请:pod install
 
 
 **JFQDaily效果展示：**
