@@ -20,7 +20,7 @@
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) NSMutableArray *imageMutableArray;
 @property (nonatomic, strong) NSMutableArray *titleMutableArray;
-@property (nonatomic, weak) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timer;
 
 @end
 

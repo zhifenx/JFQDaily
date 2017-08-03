@@ -255,7 +255,6 @@
     if (!_cell) {
         _cell = [[JFHomeNewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    _cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [_cell setLayout:_layouts[indexPath.row]];
     return _cell;
 }

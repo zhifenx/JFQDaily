@@ -114,6 +114,13 @@ static CGFloat newsTitleLabel_x = 20;
 
 @implementation JFHomeNewsTableViewCell
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    return self;
+}
+
 - (void)_layout {
     if (_layout.style == JFNewsCellLayoutStyleAbove) {          //cellType = 0,图片在上，文字在下
         [self _newsView];
@@ -149,7 +156,7 @@ static CGFloat newsTitleLabel_x = 20;
     UIView *cellSeparator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, 5)];
     cellSeparator.backgroundColor = JFRGBAColor(238, 238, 238, 1);
     [_cellBackgroundView addSubview:cellSeparator];
-    [self addSubview:_cellBackgroundView];
+    [self.contentView addSubview:_cellBackgroundView];
     [self _layout];
     [self _data];
 }
