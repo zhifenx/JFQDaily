@@ -13,6 +13,7 @@
 #import "Masonry.h"
 #import "MBProgressHUD+JFProgressHUD.h"
 #import <pop/POP.h>
+#import <UIImageView+WebCache.h>
 
 #define KHeaderViewH 200
 
@@ -231,9 +232,16 @@ static NSString *ID = @"menuCell";
 }
 
 - (void)headerViewButtonEvents:(UIButton *)sender {
-//    [MBProgressHUD promptHudWithShowHUDAddedTo:self message:@"待完善，您的支持是我最大的动力!"];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(clickTheSettingButtonEvent)]) {
-        [self.delegate clickTheSettingButtonEvent];
+    if (sender.tag == 3) {
+        SDImageCache *imageCache = [SDImageCache sharedImageCache];
+        [imageCache clearMemory];
+        [imageCache cleanDiskWithCompletionBlock:^{
+            [MBProgressHUD promptHudWithShowHUDAddedTo:self message:@"已经清除内存和磁盘缓存!"];
+        }];
+    }else {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(clickTheSettingButtonEvent)]) {
+            [self.delegate clickTheSettingButtonEvent];
+        }
     }
 }
 

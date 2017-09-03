@@ -27,8 +27,8 @@ class ReaderToolbarView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .white
         
-        separator = UIView.init(frame: CGRect.init(x: 0, y: 0, width: frame.size.width, height: 0.5))
-        separator.backgroundColor = UIColor.init(white: 0.9, alpha: 0.7)
+        separator = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 0.5))
+        separator.backgroundColor = UIColor(white: 0.9, alpha: 0.7)
         self.addSubview(separator)
         
         addChildControls()
@@ -49,30 +49,30 @@ class ReaderToolbarView: UIView {
     }
     
     func addBackButton() {
-        backButton = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: 70, height: self.frame.size.height))
-        backButton.setImage(UIImage.init(named: "toolbarBack"), for: .normal)
+        backButton = UIButton(frame: CGRect(x: 0, y: 0, width: 70, height: self.frame.size.height))
+        backButton.setImage(UIImage(named: "toolbarBack"), for: .normal)
         backButton.addTarget(self, action: #selector(touchUpBackButton), for: .touchUpInside)
         self.addSubview(backButton)
     }
     
     func addShareButton(x: CGFloat) {
         let shareButton_y: CGFloat = self.frame.size.height / 2 - 18 / 2 - 5
-        shareButton = UIButton.init(frame: CGRect.init(x: x, y: shareButton_y, width: 17, height: 22))
-        shareButton.setImage(UIImage.init(named: "toolbarShare"), for: .normal)
+        shareButton = UIButton(frame: CGRect(x: x, y: shareButton_y, width: 17, height: 22))
+        shareButton.setImage(UIImage(named: "toolbarShare"), for: .normal)
         self.addSubview(shareButton)
     }
     
     func addLikeButton(x: CGFloat) {
         let likeButton_y: CGFloat = self.frame.size.height / 2 - 18 / 2
-        likeButton = UIButton.init(frame: CGRect.init(x: x, y: likeButton_y, width: 20, height: 17))
-        likeButton.setImage(UIImage.init(named: "toolbarLike"), for: .normal)
+        likeButton = UIButton(frame: CGRect(x: x, y: likeButton_y, width: 20, height: 17))
+        likeButton.setImage(UIImage(named: "toolbarLike"), for: .normal)
         self.addSubview(likeButton)
     }
     
     func addCommentButton(x: CGFloat) {
         let commentButton_y: CGFloat = self.frame.size.height / 2 - 18 / 2
-        commentButton = UIButton.init(frame: CGRect.init(x: x, y: commentButton_y, width: 20, height: 18))
-        commentButton.setImage(UIImage.init(named: "toolbarComment"), for: .normal)
+        commentButton = UIButton(frame: CGRect(x: x, y: commentButton_y, width: 20, height: 18))
+        commentButton.setImage(UIImage(named: "toolbarComment"), for: .normal)
         self.addSubview(commentButton)
     }
     

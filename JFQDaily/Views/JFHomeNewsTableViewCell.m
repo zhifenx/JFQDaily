@@ -170,11 +170,11 @@ static CGFloat newsTitleLabel_x = 20;
                                    options:SDWebImageRefreshCached
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                      if ([manager diskImageExistsForURL:imageUrl]) {
-                                         return;//缓存中有，不再加载
+                                         return;//缓存中有，就不再渐显
                                      }else {
                                          _newsView.newsImageView.alpha = 0.0;
                                          [UIView transitionWithView:_newsView.newsImageView
-                                                           duration:0.5
+                                                           duration:0.3
                                                             options:UIViewAnimationOptionTransitionCrossDissolve
                                                          animations:^{
                                                              _newsView.newsImageView.alpha = 1.0;
