@@ -32,12 +32,6 @@
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
     
-    
-    //向微信注册
-//    [WXApi registerApp:@"wx3562cd97937cf691" withDescription:@"01d3a6398bef6fad305ce18eb4d6c740"];
-    [WXApi registerApp:@"wx3562cd97937cf691"];
-//    [self performSelector:@selector(testLog) withObject:nil afterDelay:3];
-    
     return YES;
 }
 

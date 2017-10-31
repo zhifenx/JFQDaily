@@ -78,7 +78,7 @@
     self.imageArray = [[NSArray alloc] init];
     
     //请求数据
-    [self.manager requestHomeNewsDataWithLastKey:@"0"];
+    [self requestDataWith:@"0"];
     
     //设置下拉刷新
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -123,14 +123,14 @@
 - (void)refreshData {
     //下拉刷新时清空数据
     [_layouts removeAllObjects];
-    [self.manager requestHomeNewsDataWithLastKey:@"0"];
+    [self requestDataWith:@"0"];
 }
 
 /// 上拉加载数据
 - (void)loadData {
     //判断是否还有更多数据
     if ([_has_more isEqualToString:@"1"]) {
-        [self.manager requestHomeNewsDataWithLastKey:_last_key];
+        [self requestDataWith:_last_key];
     }else if ([_has_more isEqualToString:@"0"]) {
         [self.refreshFooter setState:MJRefreshStateNoMoreData];
     }
@@ -168,37 +168,35 @@
 - (JFHomeNewsDataManager *)manager {
     if (!_manager) {
         _manager = [[JFHomeNewsDataManager alloc] init];
-        __weak typeof(self) weakSelf = self;
-        [_manager newsDataBlock:^(id data) {
-            __strong typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                
-                strongSelf.response = [JFResponseModel mj_objectWithKeyValues:data];
-                _last_key = strongSelf.response.last_key;
-                _has_more = strongSelf.response.has_more;
-                
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    //使用MJExtension讲josn数据转成数组
-                    strongSelf.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
-                    //使用MJExtension讲josn数据转成数组
-                    strongSelf.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
-                    for (JFFeedsModel *feed in strongSelf.feedsArray) {
-                        JFNewsCellLayout *layout = [[JFNewsCellLayout alloc] initWithModel:feed style:[feed.type integerValue]];
-                        [strongSelf.layouts addObject:layout];
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        //停止刷新
-                        [strongSelf.refreshHeader endRefreshing];
-                        [strongSelf.refreshFooter endRefreshing];
-                        [strongSelf startLoopView];
-                        [strongSelf.homeNewsTableView reloadData];
-                    });
-                });
-            }
-        }];
     }
     return _manager;
+}
+
+- (void)requestDataWith:(NSString *)key {
+    [self.manager requestHomeNewsDataWithLastKey:key
+                                          result:^(id data) {
+                                              self.response = [JFResponseModel mj_objectWithKeyValues:data];
+                                              _last_key = self.response.last_key;
+                                              _has_more = self.response.has_more;
+                                              
+                                              //使用MJExtension讲josn数据转成数组
+                                              self.bannersArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"banners"]];
+                                              //使用MJExtension讲josn数据转成数组
+                                              self.feedsArray = [JFFeedsModel mj_objectArrayWithKeyValuesArray:[data valueForKey:@"feeds"]];
+                                              for (JFFeedsModel *feed in self.feedsArray) {
+                                                  JFNewsCellLayout *layout = [[JFNewsCellLayout alloc] initWithModel:feed style:[feed.type integerValue]];
+                                                  [self.layouts addObject:layout];
+                                                  
+                                                  //停止刷新
+                                                  [self.refreshHeader endRefreshing];
+                                                  [self.refreshFooter endRefreshing];
+                                                  [self startLoopView];
+                                                  [self.homeNewsTableView reloadData];
+                                              }
+                                          }
+                                         failure:^(id message) {
+                                             [MBProgressHUD promptHudWithShowHUDAddedTo:self.view message:@"网络异常！"];
+                                         }];
 }
 
 #pragma mark --- 图片轮播器
@@ -326,29 +324,8 @@
 
 #pragma mark - JFMenuViewDelegate
 - (void)clickTheSettingButtonEvent {
-//    RegisterController *registerVC = [[RegisterController alloc] init];
-//    [self presentViewController:registerVC animated:YES completion:nil];
-    
-//    OpenWebviewReq *req = [[OpenWebviewReq alloc] init];
-//    req.url = @"http://url.cn/5GKj3a7";
-//    [WXApi sendReq:req];
-    
-    WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"专访张小龙：产品之上的世界观";
-    message.description = @"微信的平台化发展方向是否真的会让这个原本简洁的产品变得臃肿？在国际化发展方向上，微信面临的问题真的是文化差异壁垒吗？腾讯高级副总裁、微信产品负责人张小龙给出了自己的回复。";
-    [message setThumbImage:[UIImage imageNamed:@"res2.png"]];
-    
-    WXWebpageObject *ext = [WXWebpageObject object];
-    ext.webpageUrl = @"http://tech.qq.com/zt2012/tmtdecode/252.htm";
-    
-    message.mediaObject = ext;
-    
-    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-    req.bText = NO;
-    req.message = message;
-//    req.scene = _scene;
-    
-    [WXApi sendReq:req];
+    RegisterController *registerVC = [[RegisterController alloc] init];
+    [self presentViewController:registerVC animated:YES completion:nil];
 }
 
 - (void)popupNewsClassificationView {

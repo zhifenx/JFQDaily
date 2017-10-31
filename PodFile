@@ -7,5 +7,4 @@ target 'JFQDaily' do
     pod 'MBProgressHUD'
     pod 'pop'
     pod 'YYKit'
-    pod 'WechatOpenSDK'
 end

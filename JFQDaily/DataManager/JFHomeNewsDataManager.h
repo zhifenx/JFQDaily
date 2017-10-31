@@ -8,21 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^JFHomeNewsDataManagerBlock)(id data);
-
 @interface JFHomeNewsDataManager : NSObject
-
-//  请求数据成功后返回新闻数据回调的block
-@property (nonatomic, copy) JFHomeNewsDataManagerBlock newsDataBlock;
-
 
 /**
  请求新闻数据
-
- @param lastKey 加载新数据的key
+ 
+ @param lastKey 加载新闻的key
+ @param result 请求成功返回的结果
+ @param failure 请求失败返回的信息
  */
-- (void)requestHomeNewsDataWithLastKey:(NSString *)lastKey;
-
-- (void)newsDataBlock:(JFHomeNewsDataManagerBlock)block;
+- (void)requestHomeNewsDataWithLastKey:(NSString *)lastKey result:(void(^)(id data))result failure:(void(^)(id message))failure;
 
 @end
