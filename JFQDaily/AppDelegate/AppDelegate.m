@@ -11,9 +11,7 @@
 
 #import "JFHomeViewController.h"
 
-#import "WXApi.h"
-
-@interface AppDelegate ()<WXApiDelegate>
+@interface AppDelegate ()
 
 @end
 
@@ -33,14 +31,6 @@
     [self.window makeKeyAndVisible];
     
     return YES;
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return [WXApi handleOpenURL:url delegate:self];
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [WXApi handleOpenURL:url delegate:self];
 }
 
 //- (void) testLog

@@ -32,8 +32,6 @@
 #import "JFNewsCellLayout.h"
 #import "JFQDaily-Swift.h"
 
-#import "WXApi.h"
-
 @interface JFHomeViewController ()<UITableViewDelegate, UITableViewDataSource, JFMenuViewDelegate, JFSuspensionViewDelegate>
 {
     NSString *_last_key;        // 上拉加载请求数据时需要拼接到URL中的last_key
