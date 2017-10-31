@@ -422,7 +422,7 @@
 				TargetAttributes = {
 					1E6E21B21DCC74C7001C7F08 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 7AG3K2X9HG;
+						DevelopmentTeam = S3PV43RY42;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -703,7 +703,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 7AG3K2X9HG;
+				DEVELOPMENT_TEAM = S3PV43RY42;
 				INFOPLIST_FILE = JFQDaily/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -723,7 +723,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 7AG3K2X9HG;
+				DEVELOPMENT_TEAM = S3PV43RY42;
 				INFOPLIST_FILE = JFQDaily/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

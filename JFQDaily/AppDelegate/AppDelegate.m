@@ -11,7 +11,9 @@
 
 #import "JFHomeViewController.h"
 
-@interface AppDelegate ()
+#import "WXApi.h"
+
+@interface AppDelegate ()<WXApiDelegate>
 
 @end
 
@@ -29,9 +31,33 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
+    
+    
+    //向微信注册
+//    [WXApi registerApp:@"wx3562cd97937cf691" withDescription:@"01d3a6398bef6fad305ce18eb4d6c740"];
+    [WXApi registerApp:@"wx3562cd97937cf691"];
+//    [self performSelector:@selector(testLog) withObject:nil afterDelay:3];
+    
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+//- (void) testLog
+//{
+//    NSLog(@"startstart");
+//    for (int i = 0; i < 1; i++)
+//    {
+//        [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:[NSString stringWithFormat:@"wx3562cd97937cf691%d://",i]]];
+//    }
+//    NSLog(@"endend");
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
