@@ -211,6 +211,7 @@
 		1E6E21B51DCC74C7001C7F08 /* JFQDaily */ = {
 			isa = PBXGroup;
 			children = (
+				1EC9069D1FD7D452002F3604 /* Test */,
 				1E6E21EC1DCC7B8C001C7F08 /* AppDelegate */,
 				1E6E21EE1DCC7B8C001C7F08 /* Tools */,
 				1E7FAB171F2A3B9700182D8B /* Account */,
@@ -256,6 +257,7 @@
 		1E6E21EC1DCC7B8C001C7F08 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
+				1EC9069E1FD7D45F002F3604 /* Test */,
 				1E6E21F11DCC7BA3001C7F08 /* AppDelegate.h */,
 				1E6E21F21DCC7BA3001C7F08 /* AppDelegate.m */,
 			);
@@ -332,6 +334,20 @@
 				1EA75ACE1DD04EBF00CBB13F /* JFLoopViewLayout.m */,
 			);
 			path = JFLoopView;
+			sourceTree = "<group>";
+		};
+		1EC9069D1FD7D452002F3604 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		1EC9069E1FD7D45F002F3604 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 		3484371A9F29223CE5FA34FE /* Pods */ = {

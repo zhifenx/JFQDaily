@@ -146,6 +146,10 @@ static NSString *ID = @"loopViewCell";
                                                     repeats:YES];
 }
 
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [[touches anyObject] locationInView:<#(nullable UIView *)#>];
+}
+
 /// 移除定时器
 - (void)removeTimer {
     [self.timer invalidate];
